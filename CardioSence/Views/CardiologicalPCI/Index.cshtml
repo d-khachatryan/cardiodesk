@@ -1,0 +1,275 @@
+﻿@model CardioSence.Models.CardiologicalPCIItem
+
+@{
+    ViewBag.Title = "Percutaneous Coronary Intervention";
+}
+
+<script type="text/javascript">
+
+    function Search() {
+        $("#CardiologicalPCI").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function Clear() {
+        // Էստեղ կավելացնենք ֆիլտրի դաշտերը
+        $("#CardiologicalPCI").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function getParameter() {
+        return {
+            patientId: $("#prmPatientId").val(),
+            // մյուս դաշտերը
+        };
+    }
+
+</script>
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Template("<a title=\"New PCI\" class=\"ToolbarIcon\" onclick=\"return Create(); \"><img src=\"../img/icons/operating-room-plus.png\" width=\"35\"/></a>");
+        items.Add().Template("<a title=\"Details\" class=\"ToolbarIcon\" onclick=\"return Detail(); \"><img src=\"../img/icons/list-button.png\" width=\"35\"/></a>");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Create").Id("btnCreate").Click("Create");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Detail").Id("btnDetail").Click("Detail");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>Search fields</h4>
+                <div class="form-group margin-5-0">
+                    <input type="text" value="" class="input-item k-textbox" placeholder="First Name" />
+                </div>
+                <div class="form-group margin-5-0">
+                    <input type="text" value="" class="input-item k-textbox" placeholder="Last Name" />
+                </div>
+                <div class="form-group margin-10-0 align-right">
+                    <button id="rtSearch" class="k-button">Search</button>
+                    <button id="rtClear" class="k-button">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    @(Html.Kendo().Grid<CardioSence.Models.CardiologicalPCIItem>()
+                      .Name("CardiologicalPCI")
+                      .Events(e => e.DataBound("showCommandIcons"))
+                      .Columns(columns =>
+                      {
+                          columns.Bound(model => model.CardiologicalPCIId).Hidden();
+                          columns.Bound(model => model.PatientId).Width(120);
+                          columns.Bound(model => model.ResidentName);
+                          columns.Bound(model => model.CardiologicalPCIDate).Width(182);
+                          columns.Bound(model => model.PhysicianName);
+                          columns.Command(commands =>
+                          {
+                              commands.Custom("cmdUpdateCardiologicalPCI").Text(" ").Click("Update").HtmlAttributes(new { @class = "Update_Icon" });
+                              commands.Custom("cmdDeleteCardiologicalPCI").Text(" ").Click("Delete").HtmlAttributes(new { @class = "Delete_Icon" });
+                          }).Title("Commands").Width(130);
+                      })
+                      .Selectable(s => s.Mode(GridSelectionMode.Single))
+                      .Pageable()
+                      .Filterable()
+                      .Scrollable()
+                      .Groupable()
+                      .Sortable()
+                      .ClientDetailTemplateId("template")
+                      .Resizable(resize => resize.Columns(true))
+                      .Reorderable(reorder => reorder.Columns(true))
+                      .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .Read(read => read.Action("ReadCardiologicalPCIItem", "CardiologicalPCI").Data("getParameter"))
+                      .PageSize(15)
+                      .Sort(sort => sort.Add("CardiologicalPCIId").Descending())
+                      .Model(model =>
+                      {
+                          model.Id(p => p.CardiologicalPCIId);
+                      }
+                      )
+)
+    )
+
+@(Html.Kendo().Window().Name("wCardiologicalPCI")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalPCI")
+              .Open("onOpenCardiologicalPCI")
+              .Refresh("onRefreshCardiologicalPCI"))
+)
+
+
+    @*@(Html.Kendo().Window().Name("wCardiologicalPCIDetail")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalPCI")
+              .Open("onOpenCardiologicalPCI")
+              .Refresh("onRefreshCardiologicalPCI"))
+    )*@
+
+    <script>
+
+        //$("#wCardiologicalPCI, #wCardiologicalPCIDetail").kendoWindow({
+        //    width: "95%",
+        //    height: "85%"
+        //});
+
+        function Create() {
+            var window = $("#wCardiologicalPCI").data("kendoWindow");
+            window.content("");
+            window.title("New Cardiological PCI");
+            window.refresh({
+                url: "@Url.Action("Create", "CardiologicalPCI")"
+            });
+        window.center();
+        window.maximize().open();
+        return false;
+        }
+
+        function Update(e) {
+            var row = $(e.target).closest("tr");
+            var grid = $("#CardiologicalPCI").data("kendoGrid");
+            var dataItem = grid.dataItem(row);
+            var window = $("#wCardiologicalPCI").data("kendoWindow");
+            window.content("");
+            window.title("Edit Cardiological PCI");
+            window.refresh({
+                url: "@Url.Action("Update", "CardiologicalPCI")" + "/" + dataItem.CardiologicalPCIId
+            });
+        window.center();
+        window.maximize().open();
+        return false;
+        }
+
+        function Delete(e) {
+            var row = $(e.target).closest("tr");
+            var grid = $("#CardiologicalPCI").data("kendoGrid");
+            var dataItem = grid.dataItem(row);
+            var r = confirm("Are you sure to remove the record?");
+            if (r == false) {
+                return false;
+            }
+            var rt = false;
+            var dt;
+            var q = $.ajax({
+                url: '@Url.Action("DeleteCardiologicalPCI", "CardiologicalPCI")',
+                dataType: "json",
+                type: "GET",
+                data: { id: dataItem.CardiologicalPCIId },
+                async: false,
+                success: function (data) { dt = data; rt = true; },
+                error: function (xhr) { dt = xhr; rt = false; }
+            });
+            if (rt == true) {
+                if (dt != "1") {
+                    alert(JSON.stringify(dt));
+                }
+                else {
+                    $("#CardiologicalPCI").data("kendoGrid").dataSource.read();
+                }
+            }
+            else {
+                alert(dt);
+                return false;
+            }
+            return false;
+        }
+
+
+        function Detail() {
+            // Ավելացնել կոդ
+            return false;
+        }
+
+        function onOpenCardiologicalPCI(e) {
+            kendo.ui.progress(e.sender.element, true);
+        }
+        function onCloseCardiologicalPCI(e) {
+            $("#CardiologicalPCI").data("kendoGrid").dataSource.read();
+            $(".k-overlay").css("display", "none");
+        }
+        function onRefreshCardiologicalPCI(e) {
+            kendo.ui.progress(e.sender.element, false);
+        }
+
+    </script>
+
+    <script id="template" type="text/kendo-tmpl">
+        @(Html.Kendo().TabStrip()
+          .Name("tabStrip_#=CardiologicalPCIId#")
+          .SelectedIndex(0)
+          .Animation(animation => animation.Open(open => open.Fade(FadeDirection.In)))
+          .Items(items =>
+          {
+          items.Add().Text("Segments").Content(@<text>
+        @(Html.Kendo().Grid<CardioSence.Models.CardiologicalPCISegmentItem>()
+              .Name("Segment_#=CardiologicalPCIId#")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.CardiologicalPCISegmentId).Hidden();
+                  columns.Bound(product => product.StentName).Width(105);
+                  columns.Bound(product => product.SegmentName).Width(108);
+                  columns.Bound(product => product.LesionTypeName).Width(127);
+                  columns.Bound(product => product.Restenosis).HtmlAttributes(new { style = "text-align: center;" })
+                        .ClientTemplate(
+                                "\\#if(Restenosis){\\#" +
+                                "<i class=\"ion-checkmark-round\"></i>" +
+                                "\\#} else {\\#" +
+                                "<i class=\"ion-minus-round\"></i>" +
+                                "\\# } \\#"
+                            ).Width(82);
+                  columns.Bound(product => product.Bifurcation).HtmlAttributes(new { style = "text-align: center;" })
+                        .ClientTemplate(
+                                "\\#if(Bifurcation){\\#" +
+                                "<i class=\"ion-checkmark-round\"></i>" +
+                                "\\#} else {\\#" +
+                                "<i class=\"ion-minus-round\"></i>" +
+                                "\\# } \\#"
+                            ).Width(85);
+                  columns.Bound(product => product.TimiBName).Width(93);
+                  columns.Bound(product => product.TimiAName).Width(93);
+                  columns.Bound(product => product.StenosisPercentage).Width(137);
+                  columns.Bound(product => product.StentTypeName).Width(120);
+                  columns.Bound(product => product.DirectStent).HtmlAttributes(new { style = "text-align: center;" })
+                        .ClientTemplate(
+                                "\\#if(DirectStent){\\#" +
+                                "<i class=\"ion-checkmark-round\"></i>" +
+                                "\\#} else {\\#" +
+                                "<i class=\"ion-minus-round\"></i>" +
+                                "\\# } \\#"
+                            ).Width(90);
+                  columns.Bound(product => product.DrugElutionTypeName).Width(160);
+                  columns.Bound(product => product.StentBallonSize).Width(120);
+                  columns.Bound(product => product.Stentlength).Width(120);
+              })
+             .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(5)
+                      .Read(read => read.Action("ReadCardiologicalPCISegmentItems", "CardiologicalPCISegment", new { id = "#=CardiologicalPCIId#" }))
+                      .Model(model =>
+                      {
+                          model.Id(p => p.CardiologicalPCISegmentId);
+                      }
+                      )
+                  )
+                  .Scrollable()
+                  .Resizable(resize => resize.Columns(true))
+                  .Reorderable(reorder => reorder.Columns(true))
+                  .Pageable()
+                  .Groupable()
+                  .Sortable()
+                  .ToClientTemplate()
+        )
+        </text>);
+          })
+            .ToClientTemplate())
+    </script>
+
+

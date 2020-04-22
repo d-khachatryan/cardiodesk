@@ -1,0 +1,13 @@
+﻿@{
+    Layout = null;
+}
+
+
+@(Html.Kendo().ComboBox()
+                    .Name("DrugFrequencyId")
+                    .DataTextField("Text")
+                    .DataValueField("Value")
+                    .Filter(FilterType.StartsWith)
+                    .BindTo(ViewBag.vbDrugFrequencies)
+                    .HtmlAttributes(new { data_value_primitive = true })
+)

@@ -1,0 +1,504 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AdditionalHoursVentilated" xml:space="preserve">
+    <value>Ventilated Hours (additional)</value>
+  </data>
+  <data name="AnesthesiaTime" xml:space="preserve">
+    <value>Time of Anaesthezia</value>
+  </data>
+  <data name="APTT" xml:space="preserve">
+    <value>APTT</value>
+  </data>
+  <data name="B1BypassName" xml:space="preserve">
+    <value>Bypass (B1)</value>
+  </data>
+  <data name="B1SegmentName" xml:space="preserve">
+    <value>Segment (B1)</value>
+  </data>
+  <data name="B2BypassName" xml:space="preserve">
+    <value>Bypass (B2)</value>
+  </data>
+  <data name="B2SegmentName" xml:space="preserve">
+    <value>Segment (B2)</value>
+  </data>
+  <data name="B3BypasstName" xml:space="preserve">
+    <value>Bypass (B3)</value>
+  </data>
+  <data name="B3SegmentName" xml:space="preserve">
+    <value>Segment (B3)</value>
+  </data>
+  <data name="BicarbonateTypeId" xml:space="preserve">
+    <value>Bicarbonate</value>
+  </data>
+  <data name="BicarbonateTypeName" xml:space="preserve">
+    <value>Bicarbonate</value>
+  </data>
+  <data name="BloodLossVolume" xml:space="preserve">
+    <value>Hemorrhage Degree</value>
+  </data>
+  <data name="BypassB1Id" xml:space="preserve">
+    <value>Bypass (B1)</value>
+  </data>
+  <data name="BypassB2Id" xml:space="preserve">
+    <value>Bypass (B2)</value>
+  </data>
+  <data name="BypassB3Id" xml:space="preserve">
+    <value>Bypass (B3)</value>
+  </data>
+  <data name="BypassC1Id" xml:space="preserve">
+    <value>Bypass (C1)</value>
+  </data>
+  <data name="BypassC2Id" xml:space="preserve">
+    <value>Bypass (C2)</value>
+  </data>
+  <data name="BypassC3Id" xml:space="preserve">
+    <value>Bypass (C3)</value>
+  </data>
+  <data name="BypassTime" xml:space="preserve">
+    <value>Bypass Time</value>
+  </data>
+  <data name="C1BypasstName" xml:space="preserve">
+    <value>Bypass (C1)</value>
+  </data>
+  <data name="C1SegmentName" xml:space="preserve">
+    <value>Segment (C1)</value>
+  </data>
+  <data name="C2BypasstName" xml:space="preserve">
+    <value>Bypass (C2)</value>
+  </data>
+  <data name="C2SegmentName" xml:space="preserve">
+    <value>Segment (C2)</value>
+  </data>
+  <data name="C3BypasstName" xml:space="preserve">
+    <value>Bypass (C3)</value>
+  </data>
+  <data name="C3SegmentName" xml:space="preserve">
+    <value>Segment (C1)</value>
+  </data>
+  <data name="CABGX" xml:space="preserve">
+    <value>CABGX</value>
+  </data>
+  <data name="CaCl" xml:space="preserve">
+    <value>CaCl</value>
+  </data>
+  <data name="CaCl2" xml:space="preserve">
+    <value>CaCl2</value>
+  </data>
+  <data name="CardiologicalSurgeryComplicationId" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="CardiologicalSurgeryDate" xml:space="preserve">
+    <value>Surgery Date</value>
+  </data>
+  <data name="CardiologicalSurgeryDrugId" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="CardiologicalSurgeryId" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="CardiologicalSurgeryProcedureId" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="CardiologicalSurgeryValveId" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="CardioplegiaTypeId" xml:space="preserve">
+    <value>Cardioplegia</value>
+  </data>
+  <data name="CardioplegiaTypeName" xml:space="preserve">
+    <value>Cardioplegia</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="ComplicationId" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="ComplicationName" xml:space="preserve">
+    <value>Complication</value>
+  </data>
+  <data name="CPB" xml:space="preserve">
+    <value>CPB</value>
+  </data>
+  <data name="Creatinine" xml:space="preserve">
+    <value>Creatinine</value>
+  </data>
+  <data name="CrossClampTime" xml:space="preserve">
+    <value>Cross ClampTime</value>
+  </data>
+  <data name="CSDLength" xml:space="preserve">
+    <value>CSD Length</value>
+  </data>
+  <data name="D1SegmentName" xml:space="preserve">
+    <value>Segment (D1)</value>
+  </data>
+  <data name="D2SegmentName" xml:space="preserve">
+    <value>Segment (D2)</value>
+  </data>
+  <data name="D3SegmentName" xml:space="preserve">
+    <value>Segment (D3)</value>
+  </data>
+  <data name="DeathCauseId" xml:space="preserve">
+    <value>Cause of Death</value>
+  </data>
+  <data name="DeathCauseName" xml:space="preserve">
+    <value>Cause of Death</value>
+  </data>
+  <data name="DeathDate" xml:space="preserve">
+    <value>Date of Death</value>
+  </data>
+  <data name="DischargeDate" xml:space="preserve">
+    <value>Discharge Date</value>
+  </data>
+  <data name="DiseaseStatusId" xml:space="preserve">
+    <value>Disease Type</value>
+  </data>
+  <data name="DiseaseStatusName" xml:space="preserve">
+    <value>Disease Type</value>
+  </data>
+  <data name="DrugFrequencyId" xml:space="preserve">
+    <value>Drug Frequency</value>
+  </data>
+  <data name="DrugFrequencyName" xml:space="preserve">
+    <value>Drug Frequency</value>
+  </data>
+  <data name="DrugId" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="DrugName" xml:space="preserve">
+    <value>Drug</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="EuroSCORE" xml:space="preserve">
+    <value>Euro SCORE</value>
+  </data>
+  <data name="ExtubatedPOD" xml:space="preserve">
+    <value>Extubated POD</value>
+  </data>
+  <data name="F" xml:space="preserve">
+    <value>F</value>
+  </data>
+  <data name="FFPBloodProductName" xml:space="preserve">
+    <value>FFP Blood Product</value>
+  </data>
+  <data name="FFPCPB" xml:space="preserve">
+    <value>FFP CPB</value>
+  </data>
+  <data name="FFPId" xml:space="preserve">
+    <value>FFP</value>
+  </data>
+  <data name="GEL" xml:space="preserve">
+    <value>GEL</value>
+  </data>
+  <data name="Gelofusin" xml:space="preserve">
+    <value>Gelofusin</value>
+  </data>
+  <data name="Hb" xml:space="preserve">
+    <value>Hb</value>
+  </data>
+  <data name="Hct" xml:space="preserve">
+    <value>Hct</value>
+  </data>
+  <data name="Heparin1" xml:space="preserve">
+    <value>Heparin</value>
+  </data>
+  <data name="Heparin2" xml:space="preserve">
+    <value>Heparin</value>
+  </data>
+  <data name="HFL" xml:space="preserve">
+    <value>HFL</value>
+  </data>
+  <data name="ICULength" xml:space="preserve">
+    <value>ICU Length</value>
+  </data>
+  <data name="ImplantId" xml:space="preserve">
+    <value>Implant</value>
+  </data>
+  <data name="ImplantName" xml:space="preserve">
+    <value>Implant</value>
+  </data>
+  <data name="ImplantSizeId" xml:space="preserve">
+    <value>Implant Size</value>
+  </data>
+  <data name="ImplantSizeName" xml:space="preserve">
+    <value>Implant Size</value>
+  </data>
+  <data name="InitialHoursVentilated" xml:space="preserve">
+    <value>Ventilated Hours (initial)</value>
+  </data>
+  <data name="InotropicSupportId" xml:space="preserve">
+    <value>Inotropic Support</value>
+  </data>
+  <data name="InotropicSupportName" xml:space="preserve">
+    <value>Inotropic Support</value>
+  </data>
+  <data name="InPatientVolume" xml:space="preserve">
+    <value>In Patient Volume</value>
+  </data>
+  <data name="LFL" xml:space="preserve">
+    <value>LFL</value>
+  </data>
+  <data name="LiquidId" xml:space="preserve">
+    <value>Liquid</value>
+  </data>
+  <data name="Man" xml:space="preserve">
+    <value>Man</value>
+  </data>
+  <data name="Mannitol" xml:space="preserve">
+    <value>Mannitol</value>
+  </data>
+  <data name="MedicalProcedureId" xml:space="preserve">
+    <value>Medical Procedure</value>
+  </data>
+  <data name="MedicalProcedureName" xml:space="preserve">
+    <value>Medical Procedure</value>
+  </data>
+  <data name="Mortality" xml:space="preserve">
+    <value>Mortality</value>
+  </data>
+  <data name="Na" xml:space="preserve">
+    <value>Na</value>
+  </data>
+  <data name="NaCl" xml:space="preserve">
+    <value>NaCl</value>
+  </data>
+  <data name="NaHCO" xml:space="preserve">
+    <value>NaHCO</value>
+  </data>
+  <data name="NaHCO3" xml:space="preserve">
+    <value>NaHCO3</value>
+  </data>
+  <data name="Other1" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="Other2" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="PaCO2" xml:space="preserve">
+    <value>PaCO2</value>
+  </data>
+  <data name="PaO2" xml:space="preserve">
+    <value>PaO2</value>
+  </data>
+  <data name="PH" xml:space="preserve">
+    <value>PH</value>
+  </data>
+  <data name="Platelet" xml:space="preserve">
+    <value>Platelet</value>
+  </data>
+  <data name="PLTBloodProductName" xml:space="preserve">
+    <value>PLT Blood Product</value>
+  </data>
+  <data name="PLTId" xml:space="preserve">
+    <value>PLT</value>
+  </data>
+  <data name="Potassium" xml:space="preserve">
+    <value>Potassium</value>
+  </data>
+  <data name="PrimaryVolume" xml:space="preserve">
+    <value>Primary Volume</value>
+  </data>
+  <data name="ProthesisId" xml:space="preserve">
+    <value>Prothesis</value>
+  </data>
+  <data name="ProthesisName" xml:space="preserve">
+    <value>Prothesis</value>
+  </data>
+  <data name="R" xml:space="preserve">
+    <value>R</value>
+  </data>
+  <data name="RBCBloodProductName" xml:space="preserve">
+    <value>RBC Blood Product</value>
+  </data>
+  <data name="RBCCPB" xml:space="preserve">
+    <value>RBC CPB</value>
+  </data>
+  <data name="RBCId" xml:space="preserve">
+    <value>RBC</value>
+  </data>
+  <data name="ReIntubation" xml:space="preserve">
+    <value>ReIntubation</value>
+  </data>
+  <data name="ResidualVolume" xml:space="preserve">
+    <value>Residual Volume</value>
+  </data>
+  <data name="SegmentB1Id" xml:space="preserve">
+    <value>Segment (B1)</value>
+  </data>
+  <data name="SegmentB2Id" xml:space="preserve">
+    <value>Segment (B2)</value>
+  </data>
+  <data name="SegmentB3Id" xml:space="preserve">
+    <value>Segment (B3)</value>
+  </data>
+  <data name="SegmentC1Id" xml:space="preserve">
+    <value>Segment (C1)</value>
+  </data>
+  <data name="SegmentC2Id" xml:space="preserve">
+    <value>Segment (C2)</value>
+  </data>
+  <data name="SegmentC3Id" xml:space="preserve">
+    <value>Segment (C3)</value>
+  </data>
+  <data name="SegmentD1Id" xml:space="preserve">
+    <value>Segment (D1)</value>
+  </data>
+  <data name="SegmentD2Id" xml:space="preserve">
+    <value>Segment (D2)</value>
+  </data>
+  <data name="SegmentD3Id" xml:space="preserve">
+    <value>Segment (D3)</value>
+  </data>
+  <data name="SkinIncisionCloseTime" xml:space="preserve">
+    <value>Skin Incision Close Time</value>
+  </data>
+  <data name="SkinIncisionStartTime" xml:space="preserve">
+    <value>Skin Incision Start Time</value>
+  </data>
+  <data name="SkinTemperature" xml:space="preserve">
+    <value>Skin Temperature</value>
+  </data>
+  <data name="Sodium" xml:space="preserve">
+    <value>Sodium</value>
+  </data>
+  <data name="TotalHoursVentilated" xml:space="preserve">
+    <value>Ventilated Hours (total)</value>
+  </data>
+  <data name="TotalOperationTime" xml:space="preserve">
+    <value>Total Operation Time</value>
+  </data>
+  <data name="TotalVolume" xml:space="preserve">
+    <value>Total Volume</value>
+  </data>
+  <data name="ValveSurgeryTypeId" xml:space="preserve">
+    <value>Valve Surgery Type</value>
+  </data>
+  <data name="ValveSurgeryTypeName" xml:space="preserve">
+    <value>Valve Surgery Type</value>
+  </data>
+  <data name="ValveTypeId" xml:space="preserve">
+    <value>Valve Type</value>
+  </data>
+  <data name="ValveTypeName" xml:space="preserve">
+    <value>Valve Type</value>
+  </data>
+</root>

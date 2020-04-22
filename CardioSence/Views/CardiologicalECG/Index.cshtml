@@ -1,0 +1,208 @@
+﻿@model CardioSence.Models.CardiologicalECGItem
+
+@{
+    ViewBag.Title = "Electrocardiogram";
+}
+
+<script type="text/javascript">
+
+    function Search() {
+        $("#CardiologicalECG").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function Clear() {
+        // Էստեղ կավելացնենք ֆիլտրի դաշտերը
+        $("#CardiologicalECG").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function getParameter() {
+        return {
+            patientId: $("#prmPatientId").val(),
+            // մյուս դաշտերը
+        };
+    }
+
+</script>
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Template("<a title=\"New Electrocardiogram\" class=\"ToolbarIcon\" onclick=\"return Create(); \"><img src=\"../img/icons/cardiogram-plus.png\" width=\"35\"/></a>");
+        items.Add().Template("<a title=\"Details\" class=\"ToolbarIcon\" onclick=\"return Detail(); \"><img src=\"../img/icons/list-button.png\" width=\"35\"/></a>");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Create").Id("btnCreate").Click("Create");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Detail").Id("btnDetail").Click("Detail");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>Search fields</h4>
+                <div class="form-group margin-5-0">
+                    <input type="text" value="" class="input-item k-textbox" placeholder="First Name" />
+                </div>
+                <div class="form-group margin-5-0">
+                    <input type="text" value="" class="input-item k-textbox" placeholder="Last Name" />
+                </div>
+                <div class="form-group margin-10-0 align-right">
+                    <button id="rtSearch" class="k-button">Search</button>
+                    <button id="rtClear" class="k-button">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    @(Html.Kendo().Grid<CardioSence.Models.CardiologicalECGItem>()
+                      .Name("CardiologicalECG")
+                      .Events(e => e.DataBound("showCommandIcons"))
+                      .Columns(columns =>
+                      {
+                          columns.Bound(model => model.CardiologicalECGId).Hidden();
+                          columns.Bound(model => model.PatientId);
+                          columns.Bound(model => model.ResidentName);
+                          columns.Bound(model => model.CardiologicalECGDate);
+                          columns.Command(commands =>
+                          {
+                              commands.Custom("cmdUpdateCardiologicalECG").Text(" ").Click("Update").HtmlAttributes(new { @class = "Update_Icon" });
+                              commands.Custom("cmdDeleteCardiologicalECG").Text(" ").Click("Delete").HtmlAttributes(new { @class = "Delete_Icon" });
+                          }).Title("Commands").Width(130);
+                      })
+                      .Selectable(s => s.Mode(GridSelectionMode.Single))
+                      .Pageable()
+                      .Filterable()
+                      .Scrollable()
+                      .Groupable()
+                      .Sortable()
+                      .Resizable(resize => resize.Columns(true))
+                      .Reorderable(reorder => reorder.Columns(true))
+                      .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .Read(read => read.Action("ReadCardiologicalECGItem", "CardiologicalECG").Data("getParameter"))
+                      .PageSize(15)
+                      .Sort(sort => sort.Add("CardiologicalECGId").Descending())
+                      .Model(model =>
+                      {
+                          model.Id(p => p.CardiologicalECGId);
+                      }
+                      )
+)
+    )
+
+@(Html.Kendo().Window().Name("wCardiologicalECG")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalECG")
+              .Open("onOpenCardiologicalECG")
+              .Refresh("onRefreshCardiologicalECG"))
+)
+
+    @(Html.Kendo().Window().Name("wCardiologicalECGDetail")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalECG")
+              .Open("onOpenCardiologicalECG")
+              .Refresh("onRefreshCardiologicalECG"))
+    )
+
+    <script>
+
+        //if (screen.width < 920) {
+        //    $("#wCardiologicalECG, #wCardiologicalECGDetail").kendoWindow({
+        //        width: "95%",
+        //        height: "85%"
+        //    });
+        //}
+        //else {
+        //    $("#wCardiologicalECG, #wCardiologicalECGDetail").kendoWindow({
+        //        width: "900",
+        //        height: "505"
+        //    });
+        //}
+
+
+        function Create() {
+            var window = $("#wCardiologicalECG").data("kendoWindow");
+            window.content("");
+            window.title("New Cardiological ECG");
+            window.refresh({
+                url: "@Url.Action("Create", "CardiologicalECG")"
+            });
+        window.center();
+        window.maximize().open();
+        return false;
+        }
+
+        function Update(e) {
+            var row = $(e.target).closest("tr");
+            var grid = $("#CardiologicalECG").data("kendoGrid");
+            var dataItem = grid.dataItem(row);
+            var window = $("#wCardiologicalECG").data("kendoWindow");
+            window.content("");
+            window.title("Edit Cardiological ECG");
+            window.refresh({
+                url: "@Url.Action("Update", "CardiologicalECG")" + "/" + dataItem.CardiologicalECGId
+            });
+        window.center();
+        window.maximize().open();
+        return false;
+        }
+
+        function Delete(e) {
+            var row = $(e.target).closest("tr");
+            var grid = $("#CardiologicalECG").data("kendoGrid");
+            var dataItem = grid.dataItem(row);
+            var r = confirm("Are you sure to remove the record?");
+            if (r == false) {
+                return false;
+            }
+            var rt = false;
+            var dt;
+            var q = $.ajax({
+                url: '@Url.Action("DeleteCardiologicalECG", "CardiologicalECG")',
+                dataType: "json",
+                type: "GET",
+                data: { id: dataItem.CardiologicalECGId },
+                async: false,
+                success: function (data) { dt = data; rt = true; },
+                error: function (xhr) { dt = xhr; rt = false; }
+            });
+            if (rt == true) {
+                if (dt != "1") {
+                    alert(JSON.stringify(dt));
+                }
+                else {
+                    $("#CardiologicalECG").data("kendoGrid").dataSource.read();
+                }
+            }
+            else {
+                alert(dt);
+                return false;
+            }
+            return false;
+        }
+
+        function Detail() {
+            // Ավելացնել կոդ
+            return false;
+        }
+
+        function onOpenCardiologicalECG(e) {
+            kendo.ui.progress(e.sender.element, true);
+        }
+        function onCloseCardiologicalECG(e) {
+            $("#CardiologicalECG").data("kendoGrid").dataSource.read();
+            $(".k-overlay").css("display", "none");
+        }
+        function onRefreshCardiologicalECG(e) {
+            kendo.ui.progress(e.sender.element, false);
+        }
+    </script>
+
+   

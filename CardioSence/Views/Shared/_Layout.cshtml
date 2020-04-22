@@ -1,0 +1,313 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>@ViewBag.Title</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    @Styles.Render("~/Content/bootstrap")
+    @Styles.Render("~/fonts/font-awesome/css/font-awesome")
+    @Styles.Render("~/fonts/Ionicons/css/ionicons")
+    @Styles.Render("~/Content/kendo/2017.1.118/kendo")
+    @Styles.Render("~/Content/AdminLTE")
+    @Styles.Render("~/Content/css")
+    @RenderSection("Styles", false)
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    @*jQuery v2.2.3*@
+    @Scripts.Render("~/bundles/jquery")
+    @*Modernizr*@
+    @Scripts.Render("~/bundles/modernizr")
+
+    <!--This bundle was moved by the Telerik VS Extensions for compatibility reasons-->
+
+    @Scripts.Render("~/bundles/kendo")
+    <script>
+        $(window).load(function () {
+            $('.loader').fadeOut(250);
+
+            var container = $('#itemCatalogs'),
+                scrollTo = $('#itemCatalogs li.active');
+
+            container.animate({
+                scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
+            }, 1500);
+        });
+    </script>
+    @*<script src="@Url.Content("~/Scripts/kendo/2016.3.1028/jszip.min.js")"></script>*@
+</head>
+<body class="hold-transition skin-yellow-light sidebar-mini">
+    <div class="loader"><p>Please wait...</p></div>
+    <div class="wrapper">
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="@Url.Action("Index", "Home")" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>C</b>S</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>Cardio</b>Sense</span>
+            </a>
+
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <span class="Title">@ViewBag.Title</span>
+                <!-- Navbar Right Menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- Messages: style can be found in dropdown.less-->
+                        <!-- Tasks: style can be found in dropdown.less -->
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu">
+                            @Html.Partial("_LoginPartial")
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- sidebar menu: : style can be found in sidebar.less ------------------------------Main operations-->
+                <ul class="sidebar-menu">
+                    <li class="header">Main operations</li>
+                    <li class="treeview @ViewBag.activeRec">
+                        <a href="#">
+                            <i class="fa fa-pencil-square-o"></i> <span>Reception</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="@ViewBag.activePat"><a href="@Url.Action("Index","Resident")" class="forLoad">Patient</a></li>
+                            <li class="@ViewBag.activeHis"><a href="@Url.Action("Index","CardiologicalCase")" class="forLoad">History</a></li>
+                            <li class="@ViewBag.activeObs"><a href="@Url.Action("Index","CardiologicalObjective")" class="forLoad">Observation</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview @ViewBag.activeExm">
+                        <a href="#">
+                            <i class="fa fa-stethoscope"></i>
+                            <span>Examination</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="@ViewBag.activeTrd"><a href="@Url.Action("Index","CardiologicalTreadmil")" class="forLoad">Treadmil</a></li>
+                            <li class="@ViewBag.activeLab"><a href="@Url.Action("Index","CardiologicalExamination")" class="forLoad">Laboratory</a></li>
+                            <li class="@ViewBag.activeElcCrd"><a href="@Url.Action("Index","CardiologicalECG")" class="forLoad">Electrocardiogram</a></li>
+                            <li class="@ViewBag.activeEchoCrd"><a href="@Url.Action("Index","CardiologicalEchoCG")" class="forLoad">Echocardiography</a></li>
+                            <li class="@ViewBag.activeDup"><a href="@Url.Action("Index","CardiologicalDuplexScan")" class="forLoad">Duplex</a></li>
+                        </ul>
+                    </li>
+                    <li class="treeview @ViewBag.activeInv">
+                        <a href="#">
+                            <i class="fa fa-heartbeat"></i>
+                            <span>Invasion</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="@ViewBag.activeCPB"><a href="@Url.Action("Index","CardiologicalCPB")" class="forLoad">Cardiopulmonary Bypass</a></li>
+                            <li class="@ViewBag.activePCI"><a href="@Url.Action("Index","CardiologicalPCI")" class="forLoad">PCI</a></li>
+                            <li class="@ViewBag.activeSurg"><a href="@Url.Action("Index","CardiologicalSurgery")" class="forLoad">Surgery</a></li>
+                            <li class="@ViewBag.activeCath"><a href="@Url.Action("Index","CardiologicalCatheterization")" class="forLoad">Coronary Angiography</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview underline @ViewBag.activeRep">
+                        <a href="#">
+                            <i class="fa fa-line-chart"></i> <span>Report</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="@ViewBag.activeStdRep"><a href="@Url.Action("UnderConstruction","Home")" class="forLoad">Standard Reports</a></li>
+                            <li class="@ViewBag.activeCustRep"><a href="@Url.Action("UnderConstruction","Home")" class="forLoad">Custom Reports</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- sidebar menu: : style can be found in sidebar.less ----------------------Management -->
+                    <li class="header">Management</li>
+                    <li class="treeview underline @ViewBag.activeSys">
+                        <a href="#">
+                            <i class="fa fa-cog"></i>
+                            <span>System</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="@ViewBag.activeCatalogs">
+                                <a href="#" id="catalogs">
+                                    Catalogs
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu" id="itemCatalogs" style="height: 183px; overflow: auto; margin-bottom:10px;">
+                                    <li class="@ViewBag.activeAbdominalStatus"><a href="@Url.Action("AbdominalStatus","Catalog")" class="forLoad">Abdominal Status</a></li>
+                                    <li class="@ViewBag.activeAlcoholUsage"><a href="@Url.Action("AlcoholUsage","Catalog")" class="forLoad">Alcohol Usage</a></li>
+                                    <li class="@ViewBag.activeArteriaStatus"><a href="@Url.Action("ArteriaStatus","Catalog")" class="forLoad">Arteria Status</a></li>
+                                    <li class="@ViewBag.activeBBB"><a href="@Url.Action("BBB","Catalog")" class="forLoad">BBB</a></li>
+                                    <li class="@ViewBag.activeBicarbonateType"><a href="@Url.Action("BicarbonateType","Catalog")" class="forLoad">Bicarbonate Type</a></li>
+                                    <li class="@ViewBag.activeBloodCholesterol"><a href="@Url.Action("BloodCholesterol","Catalog")" class="forLoad">Blood Cholesterol</a></li>
+                                    <li class="@ViewBag.activeBloodGroup"><a href="@Url.Action("BloodGroup","Catalog")" class="forLoad">Blood Group</a></li>
+                                    <li class="@ViewBag.activeBloodProduct"><a href="@Url.Action("BloodProduct","Catalog")" class="forLoad">Blood Product</a></li>
+                                    <li class="@ViewBag.activeBRUStatus"><a href="@Url.Action("BRUStatus","Catalog")" class="forLoad">BRU Status</a></li>
+                                    <li class="@ViewBag.activeBypass"><a href="@Url.Action("Bypass","Catalog")" class="forLoad">Bypass</a></li>
+                                    <li class="@ViewBag.activeCadiomyopathy"><a href="@Url.Action("Cadiomyopathy","Catalog")" class="forLoad">Cadiomyopathy</a></li>
+                                    <li class="@ViewBag.activeCardioplegiaType"><a href="@Url.Action("CardioplegiaType","Catalog")" class="forLoad">Cardioplegia Type</a></li>
+                                    <li class="@ViewBag.activeCaroticBruit"><a href="@Url.Action("CaroticBruit","Catalog")" class="forLoad">Carotic Bruit</a></li>
+                                    <li class="@ViewBag.activeCATD"><a href="@Url.Action("CATD","Catalog")" class="forLoad">CATD</a></li>
+                                    <li class="@ViewBag.activeCCS"><a href="@Url.Action("CCS","Catalog")" class="forLoad">CCS</a></li>
+                                    <li class="@ViewBag.activeCHD"><a href="@Url.Action("CHD","Catalog")" class="forLoad">CHD</a></li>
+                                    <li class="@ViewBag.activeClimaxStatus"><a href="@Url.Action("ClimaxStatus","Catalog")" class="forLoad">Climax Status</a></li>
+                                    <li class="@ViewBag.activeCommunity"><a href="@Url.Action("Community","Catalog")" class="forLoad">Community</a></li>
+                                    <li class="@ViewBag.activeComplian"><a href="@Url.Action("Complian","Catalog")" class="forLoad">Complian</a></li>
+                                    <li class="@ViewBag.activeComplication"><a href="@Url.Action("Complication","Catalog")" class="forLoad">Complication</a></li>
+                                    <li class="@ViewBag.activeConductionDisturbance"><a href="@Url.Action("ConductionDisturbance","Catalog")" class="forLoad">Conduction Disturbance</a></li>
+                                    <li class="@ViewBag.activeContractility"><a href="@Url.Action("Contractility","Catalog")" class="forLoad">Contractility</a></li>
+                                    <li class="@ViewBag.activeCOPD"><a href="@Url.Action("COPD","Catalog")" class="forLoad">COPD</a></li>
+                                    <li class="@ViewBag.activeCountry"><a href="@Url.Action("Country","Catalog")" class="forLoad">Country</a></li>
+                                    <li class="@ViewBag.activeDeathCause"><a href="@Url.Action("DeathCause","Catalog")" class="forLoad">Death Cause</a></li>
+                                    <li class="@ViewBag.activeDeathOrganization"><a href="@Url.Action("DeathOrganization","Catalog")" class="forLoad">Death Organization</a></li>
+                                    <li class="@ViewBag.activeDentalDisease"><a href="@Url.Action("DentalDisease","Catalog")" class="forLoad">Dental Disease</a></li>
+                                    <li class="@ViewBag.activeDisease"><a href="@Url.Action("Disease","Catalog")" class="forLoad">Disease</a></li>
+                                    <li class="@ViewBag.activeDiseaseStatus"><a href="@Url.Action("DiseaseStatus","Catalog")" class="forLoad">Disease Status</a></li>
+                                    <li class="@ViewBag.activeDominanceType"><a href="@Url.Action("DominanceType","Catalog")" class="forLoad">Dominance Type</a></li>
+                                    <li class="@ViewBag.activeDrug"><a href="@Url.Action("Drug","Catalog")" class="forLoad">Drug</a></li>
+                                    <li class="@ViewBag.activeDrugElutionType"><a href="@Url.Action("DrugElutionType","Catalog")" class="forLoad">Drug Elution Type</a></li>
+                                    <li class="@ViewBag.activeDrugFrequency"><a href="@Url.Action("DrugFrequency","Catalog")" class="forLoad">Drug Frequency</a></li>
+                                    <li class="@ViewBag.activeDuplexStenosis"><a href="@Url.Action("DuplexStenosis","Catalog")" class="forLoad">Duplex Stenosis</a></li>
+                                    <li class="@ViewBag.activeECGZone"><a href="@Url.Action("ECGZone","Catalog")" class="forLoad">ECG Zone</a></li>
+                                    <li class="@ViewBag.activeEchoCGZone"><a href="@Url.Action("EchoCGZone","Catalog")" class="forLoad">EchoCG Zone</a></li>
+                                    <li class="@ViewBag.activeGastrointestinalDisease"><a href="@Url.Action("GastrointestinalDisease","Catalog")" class="forLoad">Gastrointestinal Disease</a></li>
+                                    <li class="@ViewBag.activeGender"><a href="@Url.Action("Gender","Catalog")" class="forLoad">Gender</a></li>
+                                    <li class="@ViewBag.activeHBCriteria"><a href="@Url.Action("HBCriteria","Catalog")" class="forLoad">HB Criteria</a></li>
+                                    <li class="@ViewBag.activeHBSStatus"><a href="@Url.Action("HBSStatus","Catalog")" class="forLoad">HBS Status</a></li>
+                                    <li class="@ViewBag.activeHCVStatus"><a href="@Url.Action("HCVStatus","Catalog")" class="forLoad">HCV Status</a></li>
+                                    <li class="@ViewBag.activeHeartMurmurType"><a href="@Url.Action("HeartMurmurType","Catalog")" class="forLoad">Heart Murmur Type</a></li>
+                                    <li class="@ViewBag.activeHeartSoundType"><a href="@Url.Action("HeartSoundType","Catalog")" class="forLoad">Heart Sound Type</a></li>
+                                    <li class="@ViewBag.activeHIT"><a href="@Url.Action("HIT","Catalog")" class="forLoad">HIT</a></li>
+                                    <li class="@ViewBag.activeHIVStatus"><a href="@Url.Action("HIVStatus","Catalog")" class="forLoad">HIV Status</a></li>
+                                    <li class="@ViewBag.activeHVD"><a href="@Url.Action("HVD","Catalog")" class="forLoad">HVD</a></li>
+                                    <li class="@ViewBag.activeHypertensionDuration"><a href="@Url.Action("HypertensionDuration","Catalog")" class="forLoad">Hypertension Duration</a></li>
+                                    <li class="@ViewBag.activeImmunologicalStatus"><a href="@Url.Action("ImmunologicalStatus","Catalog")" class="forLoad">Immunological Status</a></li>
+                                    <li class="@ViewBag.activeImplant"><a href="@Url.Action("Implant","Catalog")" class="forLoad">Implant</a></li>
+                                    <li class="@ViewBag.activeImplantSize"><a href="@Url.Action("ImplantSize","Catalog")" class="forLoad">Implant Size</a></li>
+                                    <li class="@ViewBag.activeInfectiousEndocarditis"><a href="@Url.Action("InfectiousEndocarditis","Catalog")" class="forLoad">Infectious Endocarditis</a></li>
+                                    <li class="@ViewBag.activeInotropicSupport"><a href="@Url.Action("InotropicSupport","Catalog")" class="forLoad">Inotropic Support</a></li>
+                                    <li class="@ViewBag.activeInsufficiency"><a href="@Url.Action("Insufficiency","Catalog")" class="forLoad">Insufficiency</a></li>
+                                    <li class="@ViewBag.activeInvasion"><a href="@Url.Action("Invasion","Catalog")" class="forLoad">Invasion</a></li>
+                                    <li class="@ViewBag.activeLaun"><a href="@Url.Action("Laun","Catalog")" class="forLoad">Laun</a></li>
+                                    <li class="@ViewBag.activeLesionType"><a href="@Url.Action("LesionType","Catalog")" class="forLoad">Lesion Type</a></li>
+                                    <li class="@ViewBag.activeLiquid"><a href="@Url.Action("Liquid","Catalog")" class="forLoad">Liquid</a></li>
+                                    <li class="@ViewBag.activeLiver"><a href="@Url.Action("Liver","Catalog")" class="forLoad">Liver</a></li>
+                                    <li class="@ViewBag.activeLung"><a href="@Url.Action("Lung","Catalog")" class="forLoad">Lung</a></li>
+                                    <li class="@ViewBag.activeMedicalProcedure"><a href="@Url.Action("MedicalProcedure","Catalog")" class="forLoad">Medical Procedure</a></li>
+                                    <li class="@ViewBag.activeMortalityType"><a href="@Url.Action("MortalityType","Catalog")" class="forLoad">Mortality Type</a></li>
+                                    <li class="@ViewBag.activeMovementStatus"><a href="@Url.Action("MovementStatus","Catalog")" class="forLoad">Movement Status</a></li>
+                                    <li class="@ViewBag.activeNYHA"><a href="@Url.Action("NYHA","Catalog")" class="forLoad">NYHA</a></li>
+                                    <li class="@ViewBag.activeOrganization"><a href="@Url.Action("Organization","Catalog")" class="forLoad">Organization</a></li>
+                                    <li class="@ViewBag.activeOtherDisease"><a href="@Url.Action("OtherDisease","Catalog")" class="forLoad">Other Disease</a></li>
+                                    <li class="@ViewBag.activePeripherialStatus"><a href="@Url.Action("PeripherialStatus","Catalog")" class="forLoad">Peripherial Status</a></li>
+                                    <li class="@ViewBag.activePhysician"><a href="@Url.Action("Physician","Catalog")" class="forLoad">Physician</a></li>
+                                    <li class="@ViewBag.activeProfession"><a href="@Url.Action("Profession","Catalog")" class="forLoad">Profession</a></li>
+                                    <li class="@ViewBag.activeProthesis"><a href="@Url.Action("Prothesis","Catalog")" class="forLoad">Prothesis</a></li>
+                                    <li class="@ViewBag.activePulmonaryDisease"><a href="@Url.Action("PulmonaryDisease","Catalog")" class="forLoad">Pulmonary Disease</a></li>
+                                    <li class="@ViewBag.activePVDT"><a href="@Url.Action("PVDT","Catalog")" class="forLoad">PVDT</a></li>
+                                    <li class="@ViewBag.activeReferralOrganization"><a href="@Url.Action("ReferralOrganization","Catalog")" class="forLoad">Referral Organization</a></li>
+                                    <li class="@ViewBag.activeReferralPhysician"><a href="@Url.Action("ReferralPhysician","Catalog")" class="forLoad">Referral Physician</a></li>
+                                    <li class="@ViewBag.activeRegion"><a href="@Url.Action("Region","Catalog")" class="forLoad">Region</a></li>
+                                    <li class="@ViewBag.activeRelativeStatus"><a href="@Url.Action("RelativeStatus","Catalog")" class="forLoad">Relative Status</a></li>
+                                    <li class="@ViewBag.activeRheumatizmDuration"><a href="@Url.Action("RheumatizmDuration","Catalog")" class="forLoad">Rheumatizm Duration</a></li>
+                                    <li class="@ViewBag.activeRhFactor"><a href="@Url.Action("RhFactor","Catalog")" class="forLoad">Rh Factor</a></li>
+                                    <li class="@ViewBag.activeRhythmType"><a href="@Url.Action("RhythmType","Catalog")" class="forLoad">Rhythm Type</a></li>
+                                    <li class="@ViewBag.activeSegment"><a href="@Url.Action("Segment","Catalog")" class="forLoad">Segment</a></li>
+                                    <li class="@ViewBag.activeShockType"><a href="@Url.Action("ShockType","Catalog")" class="forLoad">Shock Type</a></li>
+                                    <li class="@ViewBag.activeStenosis"><a href="@Url.Action("Stenosis","Catalog")" class="forLoad">Stenosis</a></li>
+                                    <li class="@ViewBag.activeStent"><a href="@Url.Action("Stent","Catalog")" class="forLoad">Stent</a></li>
+                                    <li class="@ViewBag.activeStentType"><a href="@Url.Action("StentType","Catalog")" class="forLoad">Stent Type</a></li>
+                                    <li class="@ViewBag.activeStrokeType"><a href="@Url.Action("StrokeType","Catalog")" class="forLoad">Stroke Type</a></li>
+                                    <li class="@ViewBag.activeTIMI"><a href="@Url.Action("TIMI","Catalog")" class="forLoad">TIMI</a></li>
+                                    <li class="@ViewBag.activeTPHAStatus"><a href="@Url.Action("TPHAStatus","Catalog")" class="forLoad">TPHA Status</a></li>
+                                    <li class="@ViewBag.activeTreadmilProtocol"><a href="@Url.Action("TreadmilProtocol","Catalog")" class="forLoad">Treadmil Protocol</a></li>
+                                    <li class="@ViewBag.activeTreadmilResult"><a href="@Url.Action("TreadmilResult","Catalog")" class="forLoad">Treadmil Result</a></li>
+                                    <li class="@ViewBag.activeTreatmentType"><a href="@Url.Action("TreatmentType","Catalog")" class="forLoad">Treatment Type</a></li>
+                                    <li class="@ViewBag.activeTroponinStatus"><a href="@Url.Action("TroponinStatus","Catalog")" class="forLoad">Troponin Status</a></li>
+                                    <li class="@ViewBag.activeUrineCylinderStatus"><a href="@Url.Action("UrineCylinderStatus","Catalog")" class="forLoad">Urine Cylinder Status</a></li>
+                                    <li class="@ViewBag.activeUrineMicroorganismStatus"><a href="@Url.Action("UrineMicroorganismStatus","Catalog")" class="forLoad">Urine Microorganism Status</a></li>
+                                    <li class="@ViewBag.activeUrogenitalicDisease"><a href="@Url.Action("UrogenitalicDisease","Catalog")" class="forLoad">Urogenitalic Disease</a></li>
+                                    <li class="@ViewBag.activeValve"><a href="@Url.Action("Valve","Catalog")" class="forLoad">Valve</a></li>
+                                    <li class="@ViewBag.activeValveSurgeryType"><a href="@Url.Action("ValveSurgeryType","Catalog")" class="forLoad">Valve Surgery Type</a></li>
+                                    <li class="@ViewBag.activeValveType"><a href="@Url.Action("ValveType","Catalog")" class="forLoad">Valve Type</a></li>
+                                    <li class="@ViewBag.activeVH"><a href="@Url.Action("VH","Catalog")" class="forLoad">VH</a></li>
+                                </ul>
+                            </li>
+                            <li class="@ViewBag.activeUsers"><a href="@Url.Action("Index","User")" class="forLoad">Users</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- sidebar menu: : style can be found in sidebar.less ----------------------------- Support -->
+                    <li class="header">Support</li>
+                    <li class="treeview underline @ViewBag.activeHelp">
+                        <a href="#">
+                            <i class="fa fa-question-circle-o"></i> <span>Help</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="@ViewBag.activeHelp"><a href="@Url.Action("UnderConstruction","Home")" class="forLoad">CardioSense Help</a></li>
+                            <li class="@ViewBag.activeAbout"><a href="@Url.Action("UnderConstruction","Home")" class="forLoad">About CardioSense</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content">
+                @RenderBody()
+            </section>
+        </div>
+
+        <footer class="main-footer align-center">
+            <div class="pull-right hidden-xs">
+                <b>Version&nbsp;</b>@System.Configuration.ConfigurationManager.AppSettings["Version"]
+            </div>
+            <span class="orange"><b>Cardio</b>Sense</span>
+            @*<strong>Copyright &copy; @DateTime.Now.Year <a>DV-Solutions</a></strong> All rights
+                reserved.*@
+        </footer>
+
+        <div class="control-sidebar-bg"></div>
+
+    </div>
+    <!-- ./wrapper -->
+    @Scripts.Render("~/bundles/bootstrap")
+    @*@Scripts.Render("~/bundles/plugins")*@
+    @Scripts.Render("~/bundles/app")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    @Scripts.Render("~/bundles/site")
+    @RenderSection("Scripts", required: false)
+</body>
+
+
+</html>

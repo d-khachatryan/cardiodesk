@@ -1,0 +1,46 @@
+﻿@using System.Runtime.InteropServices.ComTypes
+@using Microsoft.AspNet.Identity
+
+    @if (Request.IsAuthenticated)
+    {
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <img src='@Url.Content("~/img/users/user-default.png")' class="user-image" alt="User Image">
+            <span class="hidden-xs">@User.Identity.GetUserName()</span>
+        </a>
+        <ul class="dropdown-menu">
+            <!-- User image -->
+            <li class="user-header">
+                <img src='@Url.Content("~/img/users/user-default.png")' class="img-circle" alt="User Image">
+                <p>
+                    @User.Identity.GetUserName() 
+                </p>
+            </li>
+            <!-- Menu Body -->
+           
+            <!-- Menu Footer-->
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+            {
+                <li class="user-footer">
+                    @Html.AntiForgeryToken()
+                    <div class="pull-right">
+                        <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-default btn-flat">Sign out</a>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="ion-log-in"></i> Sign in
+        </a>
+        <ul class="dropdown-menu">
+            <li class="user-footer">
+               
+                <div class="pull-right">
+                    <a id="loginLink" href="@Url.Action("Login", "Account")">Log in <i class="ion-log-in"></i></a>
+                </div>
+            </li>
+        </ul>
+            }
+

@@ -1,0 +1,35 @@
+﻿@(Html.Kendo().Grid<CardioSence.Models.ReferralOrganization>()
+              .Name("ReferralOrganization")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.ReferralOrganizationId).Width(70);
+                  columns.Bound(product => product.ReferralOrganizationName);
+                  columns.Command(commands =>
+                  {
+                      commands.Destroy().Text("Delete").HtmlAttributes(new { @class = "Cat_Delete_Icon" });
+                  }).Title("Commands").Width(110);
+              })
+              .ToolBar(toolbar =>
+              {
+                  toolbar.Create().Text("New");
+                  toolbar.Save().SaveText("Save").CancelText("Cancel");
+              })
+              .Editable(editable => editable.Mode(GridEditMode.InCell))
+              .DataSource(dataSource =>
+                  dataSource.Ajax()
+                    .Batch(true)
+                    .Model(model =>
+                    {
+                        model.Id(product => product.ReferralOrganizationId);
+                        model.Field(product => product.ReferralOrganizationId).Editable(false);
+                    })
+                    .Create(create => create.Action("ReferralOrganizationCreate", "Catalog"))
+                    .Read(read => read.Action("ReferralOrganizationRead", "Catalog"))
+                    .Update(update => update.Action("ReferralOrganizationUpdate", "Catalog"))
+                    .Destroy(destroy => destroy.Action("ReferralOrganizationDestroy", "Catalog"))
+              )
+              .Pageable()
+              .HtmlAttributes(new { @class = "catalog-grid" })
+              .Scrollable()
+)
+

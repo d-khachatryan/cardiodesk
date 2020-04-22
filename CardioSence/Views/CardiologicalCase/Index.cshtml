@@ -1,0 +1,351 @@
+﻿@model CardioSence.Models.CardiologicalCaseItem
+
+@{
+    ViewBag.Title = "History";
+}
+
+<script type="text/javascript">
+
+    function Search() {
+        $("#CardiologicalCase").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function Clear() {
+        // Էստեղ կավելացնենք ֆիլտրի դաշտերը
+        $("#CardiologicalCase").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function getParameter() {
+        return {
+            patientId: $("#prmPatientId").val(),
+            // մյուս դաշտերը
+        };
+    }
+
+</script>
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Template("<a title=\"Out Patient\" class=\"ToolbarIcon\" onclick=\"return CreateOutPatientCase(); \"><img src=\"../img/icons/first-aid-kit.png\" width=\"35\"/></a>");
+        items.Add().Template("<a title=\"In Hospital\" class=\"ToolbarIcon\" onclick=\"return CreateInHospitalCase(); \"><img src=\"../img/icons/hospital.png\" width=\"35\"/></a>");
+        items.Add().Template("<a title=\"Details\" class=\"ToolbarIcon\" onclick=\"return Detail(); \"><img src=\"../img/icons/list-button.png\" width=\"35\"/></a>");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("CreateOutPatientCase").Id("btnCreateOutPatientCase").Click("CreateOutPatientCase");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("CreateInHospitalCase").Id("btnCreateInHospitalCase").Click("CreateInHospitalCase");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Detail").Id("btnDetail").Click("Detail");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>Search fields</h4>
+                <div class="form-group margin-5-0">
+                    <input type="text" value="" class="input-item k-textbox" placeholder="First Name" />
+                </div>
+                <div class="form-group margin-5-0">
+                    <input type="text" value="" class="input-item k-textbox" placeholder="Last Name" />
+                </div>
+                <div class="form-group margin-10-0 align-right">
+                    <button id="rtSearch" class="k-button">Search</button>
+                    <button id="rtClear" class="k-button">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@(Html.Kendo().Grid<CardioSence.Models.CardiologicalCaseItem>()
+                      .Name("CardiologicalCase")
+                      .Events(e => e.DataBound("showCommandIcons"))
+                      .Columns(columns =>
+                      {
+                          columns.Bound(model => model.CardiologicalCaseId).Hidden();
+                          columns.Bound(model => model.PatientId).Width(110);
+                          columns.Bound(model => model.ResidentName);
+                          columns.Bound(model => model.BirthDate).Width(105);
+                          columns.Bound(model => model.OutPatient).HtmlAttributes(new { style = "text-align: center;" })
+                          .ClientTemplate("#if(OutPatient){#" +
+                                               "<i class=\"ion-checkmark-round\"></i>" +
+                                               "#} else {#" +
+                                               "<i class=\"ion-minus-round\"></i>" +
+                                               "# } #");
+                          columns.Bound(model => model.ConsultationDate);
+                          columns.Bound(model => model.InHospital).HtmlAttributes(new { style = "text-align: center;" })
+                          .ClientTemplate("#if(InHospital){#" +
+                                               "<i class=\"ion-checkmark-round\"></i>" +
+                                               "#} else {#" +
+                                               "<i class=\"ion-minus-round\"></i>" +
+                                               "# } #");
+                          columns.Bound(model => model.StartDate);
+                          columns.Bound(model => model.DischargeDate);
+                          columns.Bound(model => model.TreatmentTypeName);
+                          columns.Command(commands =>
+                          {
+                              commands.Custom("cmdUpdateCardiologicalCase").Text(" ").Click("Update").HtmlAttributes(new { @class = "Update_Icon" });
+                              commands.Custom("cmdDeleteCardiologicalCase").Text(" ").Click("Delete").HtmlAttributes(new { @class = "Delete_Icon" });
+                          }).Title("Commands").Width(130);
+                      })
+                      .Selectable(s => s.Mode(GridSelectionMode.Single))
+                      //.Pageable(pager => pager.PageSizes(new List<object> { 10, 15, 25, 50, 100, "all" }).Refresh(true))
+                      .Pageable(pager => pager.PageSizes(new[] { 10, 15, 25, 50, 100 }))
+                      .Filterable()
+                      .Scrollable()
+                      .Groupable()
+                      .Sortable()
+                      .ClientDetailTemplateId("template")
+                      .Resizable(resize => resize.Columns(true))
+                      .Reorderable(reorder => reorder.Columns(true))
+                      .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Read(read => read.Action("ReadCardiologicalCasesItem", "CardiologicalCase").Data("getParameter"))
+                        .PageSize(15)
+                        .Sort(sort => sort.Add("CardiologicalCaseId").Descending())
+                      .Model(model =>
+                      {
+                          model.Id(p => p.CardiologicalCaseId);
+                      }
+                      )
+)
+)
+
+@(Html.Kendo().Window().Name("wCardiologicalCase")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalCase")
+              .Open("onOpenCardiologicalCase")
+              .Refresh("onRefreshCardiologicalCase"))
+)
+
+@(Html.Kendo().Window().Name("wCardiologicalCaseDetail")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalCase")
+              .Open("onOpenCardiologicalCase")
+              .Refresh("onRefreshCardiologicalCase"))
+)
+
+<script>
+
+    function CreateOutPatientCase() {
+        var window = $("#wCardiologicalCase").data("kendoWindow");
+        window.content("");
+        window.title("New Cardiological Case");
+        window.refresh({
+            url: "@Url.Action("CreateOutPatientCase", "CardiologicalCase")"
+        });
+        window.center();
+        window.maximize().open();
+        return false;
+    }
+
+    function CreateInHospitalCase() {
+        var window = $("#wCardiologicalCase").data("kendoWindow");
+        window.content("");
+        window.title("New Cardiological Case");
+        window.refresh({
+            url: "@Url.Action("CreateInHospitalCase", "CardiologicalCase")"
+        });
+        window.center();
+        window.maximize().open();
+        return false;
+    }
+
+    function Update(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#CardiologicalCase").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var window = $("#wCardiologicalCase").data("kendoWindow");
+        window.content("");
+        window.title("Edit Cardiological Case");
+        window.refresh({
+            url: "@Url.Action("Update", "CardiologicalCase")" + "/" + dataItem.CardiologicalCaseId
+        });
+        window.center();
+        window.maximize().open();
+        return false;
+    }
+
+    function Delete(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#CardiologicalCase").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var r = confirm("Are you sure to remove the record?");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("DeleteCardiologicalCase", "CardiologicalCase")',
+            dataType: "json",
+            type: "GET",
+            data: { id: dataItem.CardiologicalCaseId },
+            async: false,
+            success: function (data) { dt = data; rt = true; },
+            error: function (xhr) { dt = xhr; rt = false; }
+        });
+        if (rt == true) {
+            if (dt != "1") {
+                alert(JSON.stringify(dt));
+            }
+            else {
+                $("#CardiologicalCase").data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(dt);
+            return false;
+        }
+        return false;
+    }
+
+
+    function Detail() {
+        // Ավելացնել կոդ
+        return false;
+    }
+
+
+    function onOpenCardiologicalCase(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseCardiologicalCase(e) {
+        $("#CardiologicalCase").data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefreshCardiologicalCase(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+</script>
+
+<script id="template" type="text/kendo-tmpl">
+    @(Html.Kendo().TabStrip()
+          .Name("tabStrip_#=CardiologicalCaseId#")
+          .SelectedIndex(0)
+          .Animation(animation => animation.Open(open => open.Fade(FadeDirection.In)))
+          .Items(items =>
+          {
+          items.Add().Text("Complians").Content(@<text>
+        @(Html.Kendo().Grid<CardioSence.Models.CardiologicalCaseComplianItem>()
+              .Name("Complian_#=CardiologicalCaseId#")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.CardiologicalCaseComplianId).Hidden();
+                  columns.Bound(product => product.ComplianName);
+              })
+             .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(5)
+                      .Read(read => read.Action("ReadCardiologicalCaseComplianItems", "CardiologicalCaseComplian", new { id = "#=CardiologicalCaseId#" }))
+                      .Model(model =>
+                      {
+                          model.Id(p => p.CardiologicalCaseComplianId);
+                      }
+                      )
+                  )
+                  .Scrollable()
+                  .Resizable(resize => resize.Columns(true))
+                  .Reorderable(reorder => reorder.Columns(true))
+                  .Pageable()
+                  .Sortable()
+                  .ToClientTemplate()
+        )
+        </text>);
+          items.Add().Text("Diseases").Content(@<text>
+        @(Html.Kendo().Grid<CardioSence.Models.CardiologicalCaseDiseaseItem>()
+              .Name("Disease_#=CardiologicalCaseId#")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.CardiologicalCaseDiseaseId).Hidden();
+                  columns.Bound(product => product.DiseaseDate);
+                  columns.Bound(product => product.DiseaseName);
+                  columns.Bound(product => product.OrganizationName);
+              })
+             .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(5)
+                      .Read(read => read.Action("ReadCardiologicalCaseDiseaseItems", "CardiologicalCaseDisease", new { id = "#=CardiologicalCaseId#" }))
+                      .Model(model =>
+                      {
+                          model.Id(p => p.CardiologicalCaseDiseaseId);
+                      }
+                      )
+                  )
+                  .Scrollable()
+                  .Resizable(resize => resize.Columns(true))
+                  .Reorderable(reorder => reorder.Columns(true))
+                  .Pageable()
+                  .Sortable()
+                  .ToClientTemplate()
+        )
+        </text>);
+          items.Add().Text("Drugs").Content(@<text>
+        @(Html.Kendo().Grid<CardioSence.Models.CardiologicalCaseDrugItem>()
+              .Name("Drug_#=CardiologicalCaseId#")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.CardiologicalCaseDrugId).Hidden();
+                  columns.Bound(product => product.DrugName);
+                  columns.Bound(product => product.DrugFrequencyName);
+                  columns.Bound(product => product.Duration);
+              })
+             .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(5)
+                      .Read(read => read.Action("ReadCardiologicalCaseDrugItems", "CardiologicalCaseDrug", new { id = "#=CardiologicalCaseId#" }))
+                      .Model(model =>
+                      {
+                          model.Id(p => p.CardiologicalCaseDrugId);
+                      }
+                      )
+                  )
+                  .Scrollable()
+                  .Resizable(resize => resize.Columns(true))
+                  .Reorderable(reorder => reorder.Columns(true))
+                  .Pageable()
+                  .Sortable()
+                  .ToClientTemplate()
+        )
+        </text>);
+
+              items.Add().Text("Invasions").Content(@<text>
+        @(Html.Kendo().Grid<CardioSence.Models.CardiologicalCaseInvasionItem>()
+              .Name("Invasion_#=CardiologicalCaseId#")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.CardiologicalCaseInvasionId).Hidden();
+                  columns.Bound(product => product.InvasionDate);
+                  columns.Bound(product => product.InvasionName);
+                  columns.Bound(product => product.OrganizationName);
+              })
+             .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(5)
+                      .Read(read => read.Action("ReadCardiologicalCaseInvasionItems", "CardiologicalCaseInvasion", new { id = "#=CardiologicalCaseId#" }))
+                      .Model(model =>
+                      {
+                          model.Id(p => p.CardiologicalCaseInvasionId);
+                      }
+                      )
+                  )
+                  .Scrollable()
+                  .Resizable(resize => resize.Columns(true))
+                  .Reorderable(reorder => reorder.Columns(true))
+                  .Pageable()
+                  .Sortable()
+                  .ToClientTemplate()
+        )
+            </text>);
+          })
+            .ToClientTemplate())
+</script>
+
+

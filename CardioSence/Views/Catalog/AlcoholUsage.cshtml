@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Alcohol Usage";
+}
+
+@(Html.Kendo().Grid<CardioSence.Models.AlcoholUsage>()
+              .Name("AlcoholUsage")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.AlcoholUsageId).Width(70);
+                  columns.Bound(product => product.AlcoholUsageName);
+                  columns.Command(commands =>
+                  {
+                      commands.Destroy().Text("Delete").HtmlAttributes(new { @class = "Cat_Delete_Icon" });
+                  }).Title("Commands").Width(110);
+              })
+              .ToolBar(toolbar =>
+              {
+                  toolbar.Create().Text("New");
+                  toolbar.Save().SaveText("Save").CancelText("Cancel");
+              })
+              .Editable(editable => editable.Mode(GridEditMode.InCell))
+              .DataSource(dataSource =>
+                  dataSource.Ajax()
+                    .Batch(true)
+                    .Model(model =>
+                    {
+                        model.Id(product => product.AlcoholUsageId);
+                        model.Field(product => product.AlcoholUsageId).Editable(false);
+                    })
+                    .Create(create => create.Action("AlcoholUsageCreate", "Catalog"))
+                    .Read(read => read.Action("AlcoholUsageRead", "Catalog"))
+                    .Update(update => update.Action("AlcoholUsageUpdate", "Catalog"))
+                    .Destroy(destroy => destroy.Action("AlcoholUsageDestroy", "Catalog"))
+                    .PageSize(15)
+              )
+              .Pageable(pager => pager.PageSizes(new[] { 10, 15, 25, 50, 100 }))
+              .HtmlAttributes(new { @class = "catalog-grid" })
+              .Scrollable()
+)
+

@@ -1,0 +1,79 @@
+/*Theme*/
+.clear {
+    clear: both
+}
+
+.align-right {
+    text-align: right;
+}
+
+.border-box {
+    box-sizing:border-box !important;
+}
+
+.margin-5-0 {
+    margin: 5px 0;
+}
+
+.margin-10-0 {
+    margin: 10px 0;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.container-maxwidth1170 {
+    max-width:1170px;
+    margin:0 auto;
+}
+
+.container-maxwidth720 {
+    max-width:720px;
+    margin:0 auto;
+}
+
+.display-block {
+    display:block
+}
+
+.transparent {
+    color: transparent
+}
+
+.create-item .k-autocomplete, 
+.create-item .k-colorpicker, 
+.create-item .k-combobox, 
+.create-item .k-datepicker, 
+.create-item .k-datetimepicker, 
+.create-item .k-dropdown, 
+.create-item .k-numerictextbox, 
+.create-item .k-selectbox, 
+.create-item .k-textbox, 
+.create-item .k-timepicker, 
+.create-item .k-toolbar, 
+.create-item .k-split-button,
+.create-item .k-grid{
+    width:100%;
+}
+
+.underline {
+    border-bottom:1px solid #F39C12;
+}
+a.k-button:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+.inputNameLable {
+    font-size: 16px;
+    color: #808080;
+}
+
+#errormssg {
+    color:brown
+}

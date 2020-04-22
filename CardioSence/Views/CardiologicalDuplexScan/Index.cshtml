@@ -1,0 +1,199 @@
+﻿@model CardioSence.Models.CardiologicalDuplexScanItem
+
+@{
+    ViewBag.Title = "Duplex";
+}
+
+<script type="text/javascript">
+
+    function Search() {
+        $("#CardiologicalDuplexScan").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function Clear() {
+        // Էստեղ կավելացնենք ֆիլտրի դաշտերը
+        $("#CardiologicalDuplexScan").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function getParameter() {
+        return {
+            patientId: $("#prmPatientId").val(),
+            // մյուս դաշտերը
+        };
+    }
+
+</script>
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Template("<a title=\"New Duplex Scan\" class=\"ToolbarIcon\" onclick=\"return Create(); \"><img src=\"../img/icons/ultrasound-plus.png\" width=\"35\"/></a>");
+        items.Add().Template("<a title=\"Details\" class=\"ToolbarIcon\" onclick=\"return Detail(); \"><img src=\"../img/icons/list-button.png\" width=\"35\"/></a>");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Create").Id("btnCreate").Click("Create");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Detail").Id("btnDetail").Click("Detail");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>Search fields</h4>
+                <div class="form-group margin-5-0">
+                    <input type="text" value="" class="input-item k-textbox" placeholder="First Name" />
+                </div>
+                <div class="form-group margin-5-0">
+                    <input type="text" value="" class="input-item k-textbox" placeholder="Last Name" />
+                </div>
+                <div class="form-group margin-10-0 align-right">
+                    <button id="rtSearch" class="k-button">Search</button>
+                    <button id="rtClear" class="k-button">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    @(Html.Kendo().Grid<CardioSence.Models.CardiologicalDuplexScanItem>()
+                      .Name("CardiologicalDuplexScan")
+                      .Events(e => e.DataBound("showCommandIcons"))
+                      .Columns(columns =>
+                      {
+                          columns.Bound(model => model.CardiologicalDuplexScanId).Hidden();
+                          columns.Bound(model => model.PatientId);
+                          columns.Bound(model => model.ResidentName);
+                          columns.Bound(model => model.CardiologicalDuplexScanDate);
+                          columns.Command(commands =>
+                          {
+                              commands.Custom("cmdUpdateCardiologicalDuplexScan").Text(" ").Click("Update").HtmlAttributes(new { @class = "Update_Icon" });
+                              commands.Custom("cmdDeleteCardiologicalDuplexScan").Text(" ").Click("Delete").HtmlAttributes(new { @class = "Delete_Icon" });
+                          }).Title("Commands").Width(130);
+                      })
+                      .Selectable(s => s.Mode(GridSelectionMode.Single))
+                      .Pageable()
+                      .Filterable()
+                      .Scrollable()
+                      .Groupable()
+                      .Sortable()
+                      .Resizable(resize => resize.Columns(true))
+                      .Reorderable(reorder => reorder.Columns(true))
+                      .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .Read(read => read.Action("ReadCardiologicalDuplexScanItem", "CardiologicalDuplexScan").Data("getParameter"))
+                      .PageSize(15)
+                      .Sort(sort => sort.Add("CardiologicalDuplexScanId").Descending())
+                      .Model(model =>
+                      {
+                          model.Id(p => p.CardiologicalDuplexScanId);
+                      }
+                      )
+)
+    )
+
+@(Html.Kendo().Window().Name("wCardiologicalDuplexScan")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalDuplexScan")
+              .Open("onOpenCardiologicalDuplexScan")
+              .Refresh("onRefreshCardiologicalDuplexScan"))
+)
+
+    @(Html.Kendo().Window().Name("wCardiologicalDuplexScanDetail")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalDuplexScan")
+              .Open("onOpenCardiologicalDuplexScan")
+              .Refresh("onRefreshCardiologicalDuplexScan"))
+    )
+
+    <script>
+
+        //$("#wCardiologicalDuplexScan, #wCardiologicalDuplexScanDetail").kendoWindow({
+        //    width: "95%",
+        //    height: "85%"
+        //});
+
+        function Create() {
+            var window = $("#wCardiologicalDuplexScan").data("kendoWindow");
+            window.content("");
+            window.title("New Cardiological DuplexScan");
+            window.refresh({
+                url: "@Url.Action("Create", "CardiologicalDuplexScan")"
+            });
+        window.center();
+        window.maximize().open();
+        return false;
+        }
+
+        function Update(e) {
+            var row = $(e.target).closest("tr");
+            var grid = $("#CardiologicalDuplexScan").data("kendoGrid");
+            var dataItem = grid.dataItem(row);
+            var window = $("#wCardiologicalDuplexScan").data("kendoWindow");
+            window.content("");
+            window.title("Edit Cardiological DuplexScan");
+            window.refresh({
+                url: "@Url.Action("Update", "CardiologicalDuplexScan")" + "/" + dataItem.CardiologicalDuplexScanId
+            });
+        window.center();
+        window.maximize().open();
+        return false;
+        }
+
+        function Delete(e) {
+            var row = $(e.target).closest("tr");
+            var grid = $("#CardiologicalDuplexScan").data("kendoGrid");
+            var dataItem = grid.dataItem(row);
+            var r = confirm("Are you sure to remove the record?");
+            if (r == false) {
+                return false;
+            }
+            var rt = false;
+            var dt;
+            var q = $.ajax({
+                url: '@Url.Action("DeleteCardiologicalDuplexScan", "CardiologicalDuplexScan")',
+                dataType: "json",
+                type: "GET",
+                data: { id: dataItem.CardiologicalDuplexScanId },
+                async: false,
+                success: function (data) { dt = data; rt = true; },
+                error: function (xhr) { dt = xhr; rt = false; }
+            });
+            if (rt == true) {
+                if (dt != "1") {
+                    alert(JSON.stringify(dt));
+                }
+                else {
+                    $("#CardiologicalDuplexScan").data("kendoGrid").dataSource.read();
+                }
+            }
+            else {
+                alert(dt);
+                return false;
+            }
+            return false;
+        }
+
+
+
+        function Detail() {
+            // Ավելացնել կոդ
+            return false;
+        }
+
+        function onOpenCardiologicalDuplexScan(e) {
+            kendo.ui.progress(e.sender.element, true);
+        }
+        function onCloseCardiologicalDuplexScan(e) {
+            $("#CardiologicalDuplexScan").data("kendoGrid").dataSource.read();
+            $(".k-overlay").css("display", "none");
+        }
+        function onRefreshCardiologicalDuplexScan(e) {
+            kendo.ui.progress(e.sender.element, false);
+        }
+    </script>

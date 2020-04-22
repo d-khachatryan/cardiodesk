@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<div class="homePage">
+    <div class="homePage_back catalog-grid">
+        <div class="homePage_text">
+            <p>
+                The internet based <span class="orange"><b>Cardio</b>Sense</span> Solution supports clinical,
+                administrative and outcomes information needs of cardiology and cardiovascular surgery.
+                This scalable and flexible suite is available both as Software-as-a-Service (SaaS) and installable software.
+                Its workflow-centered approach improves data management practices, supporting quality improvement,
+                patient safety, and regulatory compliance for organizations of any size.
+            </p>
+
+            <p style="margin-top:20px">
+                <span class="orange"><b>Cardio</b>Sense</span> captures, reports, tracks, and integrates key clinical information such as diagnoses, procedures,
+                Admission/Discharge/Transfers (ADT), medications, labs and notes. It allows physicians to track credible,
+                risk-adjusted performance indicators. A single, comprehensive patient record is used across all encounters and
+                modalities to reduce data entry and increase accuracy. Because it enables physicians to take ownership over their
+                own continuous quality improvement, it plays an important role in improving the quality/cost equation for cardiac care.
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        var textHeight = $(".homePage_back").height()-60;
+        $(".homePage_text").css({
+            "max-height": textHeight
+        });
+    </script>
+}

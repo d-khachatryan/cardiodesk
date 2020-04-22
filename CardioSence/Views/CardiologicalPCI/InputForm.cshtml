@@ -1,0 +1,376 @@
+﻿@model CardioSence.Models.CardiologicalPCIItem
+
+@{
+    Layout = null;
+}
+
+<div class="container-maxwidth720 create-item">
+    @using (Html.BeginForm("Save", "CardiologicalPCI", FormMethod.Post, new { id = "frmCardiologicalPCI" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.CardiologicalPCIId)
+        <fieldset class="create-fieldset">
+            <legend>Patient</legend>
+
+            @if (@Model.CardiologicalPCIId == 0 && @Model.ResidentId == null)
+                {
+                <div class="col-sm-12 border-box">
+                    <span style="color:#808080; font-style:italic">Please, enter the patient id or name or birth date here for find the patient</span>
+                </div>
+                    <div class="col-sm-12 border-box">
+                        @(Html.Kendo().ComboBoxFor(model => model.ResidentId)
+                    .Name("ResidentId")
+                    .Placeholder("Select")
+                    .DataTextField("ResidentName")
+                    .DataValueField("ResidentId")
+                    .HtmlAttributes(new { style = "width:100%;" })
+                    .Filter(FilterType.Contains)
+                    .AutoBind(false)
+                    .MinLength(5)
+                    .DataSource(source =>
+                    {
+                        source.Read(read =>
+                        {
+                            read.Action("ResidentInfo", "Resident");
+                        })
+                        .ServerFiltering(true);
+                    })
+                        )
+                    </div>
+            }
+            else
+            {
+                @Html.HiddenFor(model => model.ResidentId)
+                <div class="form-group">
+                    <div class="col-md-2 col-sm-3 col-xs-4 border-box align-right inputNameLable" style="color:#000">Patient Id:</div>
+                    <div class="col-md-10 col-sm-9 col-xs-8 border-box inputNameLable">@Html.DisplayFor(model => model.PatientId)</div>
+                </div>
+                    <div class="clear"></div>
+                        <hr style="margin:5px" />
+                        <div class="form-group">
+                            <div class="col-md-2 col-sm-3  col-xs-4 border-box align-right inputNameLable" style="color:#000">Name:</div>
+                            <div class="col-md-10 col-sm-9 col-xs-8 border-box inputNameLable">
+                                @Html.DisplayFor(model => model.ResidentFirstName)
+                                @Html.DisplayFor(model => model.ResidentLastName)
+                                @Html.DisplayFor(model => model.ResidentPatronymicName)
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <hr style="margin:5px" />
+                        <div class="form-group">
+                            <div class="col-md-2 col-sm-3  col-xs-4 border-box align-right inputNameLable" style="color:#000">Birth Date:</div>
+                            <div class="col-md-10 col-sm-9 col-xs-8 border-box inputNameLable">@Html.DisplayFor(model => model.BirthDate)</div>
+                        </div>
+            }
+        </fieldset>
+
+        <fieldset class="create-fieldset">
+            <legend>Percutaneous Coronary Intervention</legend>
+            
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CardiologicalPCIDate, new { @class = "control-label" })
+                    @Html.Kendo().DatePickerFor(model => model.CardiologicalPCIDate)
+                    @Html.ValidationMessageFor(model => model.CardiologicalPCIDate)
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="col-sm-12 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PhysicianId, htmlAttributes: new { @class = "control-label" })
+                    @(Html.Kendo().ComboBoxFor(model => model.PhysicianId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbPhysicians)
+                                .HtmlAttributes(new { @class = "input-item" })
+                    )
+                    @Html.ValidationMessageFor(model => model.PhysicianId)
+                </div>
+            </div>
+            
+            @*<div class="col-sm-12 col-md-4 col-lg-2 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PCIMovieURL, new { @class = "control-label" })
+                        @Html.Kendo().TextBoxFor(model => model.PCIMovieURL)
+                        @Html.ValidationMessageFor(model => model.PCIMovieURL)
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-2 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PCIImageURL, new { @class = "control-label" })
+                        @Html.Kendo().TextBoxFor(model => model.PCIImageURL)
+                        @Html.ValidationMessageFor(model => model.PCIImageURL)
+                    </div>
+                </div>*@
+
+            <div class="clear"></div>
+
+            <div class="col-sm-12 border-box" style="margin-top:15px;">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a data-toggle="tab" href="#tabFor_CardiologicalPCISegments">Segments</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tabFor_CardiologicalPCISegments" class="tab-pane fade in active">
+                        @(Html.Kendo().Grid<CardioSence.Models.CardiologicalPCISegment>()
+                              .Name("CardiologicalPCISegment")
+                              .Columns(columns =>
+                              {
+                                  columns.Bound(model => model.CardiologicalPCISegmentId).Hidden();
+                                  columns.Bound(model => model.CardiologicalPCIId).Hidden();
+                                  columns.ForeignKey(model => model.StentId, (List<SelectListItem>)ViewBag.vbStents, "Value", "Text").EditorTemplateName("Stent").Width(154);
+                                  columns.ForeignKey(model => model.SegmentId, (List<SelectListItem>)ViewBag.vbSegments, "Value", "Text").EditorTemplateName("Segment").Width(130);
+                                  columns.ForeignKey(model => model.LesionTypeId, (List<SelectListItem>)ViewBag.vbLesionTypes, "Value", "Text").EditorTemplateName("LesionType").Width(130);
+                                  columns.Bound(model => model.Restenosis).HtmlAttributes(new { style = "text-align: center;" }).ClientTemplate("#if(Restenosis){#" +
+                                               "<i class=\"ion-checkmark-round\"></i>" +
+                                               "#} else {#" +
+                                               "<i class=\"ion-minus-round\"></i>" +
+                                               "# } #").Width(88);
+                                  columns.Bound(model => model.Bifurcation).HtmlAttributes(new { style = "text-align: center;" }).ClientTemplate("#if(Bifurcation){#" +
+                                               "<i class=\"ion-checkmark-round\"></i>" +
+                                               "#} else {#" +
+                                               "<i class=\"ion-minus-round\"></i>" +
+                                               "# } #").Width(88);
+                                  columns.ForeignKey(model => model.TIMIBId, (List<SelectListItem>)ViewBag.vbTIMIS, "Value", "Text").EditorTemplateName("TIMIB").Width(130);
+                                  columns.ForeignKey(model => model.TIMIAId, (List<SelectListItem>)ViewBag.vbTIMIS, "Value", "Text").EditorTemplateName("TIMIA").Width(130);
+                                  columns.Bound(model => model.StenosisPercentage).Width(142);
+                                  columns.ForeignKey(model => model.StentTypeId, (List<SelectListItem>)ViewBag.vbStentTypes, "Value", "Text").EditorTemplateName("StentType").Width(160);
+                                  columns.Bound(model => model.DirectStent).HtmlAttributes(new { style = "text-align: center;" }).ClientTemplate("#if(DirectStent){#" +
+                                               "<i class=\"ion-checkmark-round\"></i>" +
+                                               "#} else {#" +
+                                               "<i class=\"ion-minus-round\"></i>" +
+                                               "# } #").Width(90);
+                                  columns.ForeignKey(model => model.DrugElutionTypeId, (List<SelectListItem>)ViewBag.vbDrugElutionTypes, "Value", "Text").EditorTemplateName("DrugElutionType").Width(178);
+                                  columns.Bound(model => model.StentBallonSize).Format("{0:n2}").Width(120);
+                                  columns.Bound(model => model.Stentlength).Format("{0:n2}").Width(120);
+                                  columns.Command(commands =>
+                                  {
+                                      commands.Destroy().Text("Remove");
+                                  }).Title("Commands").Width(110);
+                              })
+                              .ToolBar(toolbar =>
+                              {
+                                  toolbar.Create().Text("New");
+                              })
+                              .Editable(editable => editable.Mode(GridEditMode.InCell))
+                                  .DataSource(dataSource => dataSource
+                                      .Ajax()
+                                      .Batch(true)
+                                      .PageSize(5)
+                                      .Read(read => read.Action("ReadCardiologicalPCISegments", "CardiologicalPCISegment", new { id = @Model.CardiologicalPCIId }))
+                                      .Model(model =>
+                                      {
+                                          model.Id(p => p.CardiologicalPCISegmentId);
+                                      }
+                                      )
+                                  )
+                                  .Scrollable()
+                                  .Resizable(resize => resize.Columns(true))
+                                  .Reorderable(reorder => reorder.Columns(true))
+                                  .Pageable()
+                                  .Sortable()
+                        .HtmlAttributes(new { style = "max-width: 650px" })
+                        )
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Comment, new { @class = "control-label" })
+                    @Html.TextAreaFor(model => model.Comment, new { @class = "k-textbox", style = "width: 100%;" })
+                    @Html.ValidationMessageFor(model => model.Comment)
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="create-fieldset">
+            <div class="col-sm-6 border-box">
+                <span id="errormssg"></span>
+            </div>
+            <div class="col-sm-6 border-box">
+                <div class="form-group align-right">
+                    <button id="rtSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> Save</button>
+                    <button id="rtCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> Cancel</button>
+                </div>
+            </div>
+        </fieldset>
+    }
+</div>
+  
+<script>
+    function myFunction() {
+        $("#ResidentNameError").empty();
+        if ($("#PatientId").val() == "") {
+            alert("Please, enter the Patinet id");
+            return false;
+        }
+        else {
+            var patientId = $("#PatientId").val();
+        }
+
+        var q = $.ajax({
+            url: '@Url.Action("PatientInfo", "Resident")',
+            dataType: "json",
+            type: "GET",
+            data: { id: patientId },
+            async: true,
+            success: function (data) {
+                dt = data.Data;
+                rt = true;
+                if (dt != null) {
+                    $("#ResidentId").val(dt[0].ResidentId);
+                    $("#PatientId").val(dt[0].PatientId);
+                    $("#ResidentFirstName").html(dt[0].ResidentFirstName);
+                    $("#ResidentLastName").html(dt[0].ResidentLastName);
+                }
+                if (dt[0].PatientId == null) {
+                    //alert("No any record with entered id. Please, enter the correct id");
+                    $("#ResidentNameError").html("No any record found with entered id. Please, enter the correct id");
+                }
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+        return false;
+    }
+
+    $(".k-textbox").addClass("input-item form-control");
+
+    $(document).ready(function () {
+                    $("#rtCancel")
+                        .click(function (e) {
+                            $(this).closest(".k-window-content").data("kendoWindow").close();
+                            return false;
+                        });
+                    $("#rtSave")
+                        .click(function (e) {
+                            var errTempl = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em"><span class="k-icon k-warning"> </span>#=message#<div class="k-callout k-callout-n"></div></div>';
+                            var validator = $("#frmCardiologicalPCI").kendoValidator({
+                                errorTemplate: errTempl
+                            }).data("kendoValidator");
+                            if (!validator.validate()) {
+                                $("#errormssg").html("<span class='fa fa-exclamation-triangle'></span> @CardioSence.Resources.General.RequiredFields");
+                                return false;
+                            }
+
+
+                            var item = new Object();
+                            item.CardiologicalPCIId = '@Model.CardiologicalPCIId';
+                            item.ResidentId = $("#ResidentId").val();
+                            item.CardiologicalPCIDate = $("#CardiologicalPCIDate").val();
+                            item.PhysicianId = $("#PhysicianId").val();
+                            item.Comment = $("#Comment").val();
+                            //item.PCIMovieURL = $("#PCIMovieURL").val();
+                            //item.PCIImageURL = $("#PCIImageURL").val();
+
+                            var segmentGrid = $("#CardiologicalPCISegment").data("kendoGrid"), parameterMap = segmentGrid.dataSource.transport.parameterMap;
+                            var currentSegmentData = segmentGrid.dataSource.data();
+                            var rSegments = [];
+                            for (var i = 0; i < currentSegmentData.length; i++) {
+                                var itm = new Object();
+                                if (currentSegmentData[i].isNew()) {
+                                    itm.CardiologicalPCISegmentId = currentSegmentData[i].CardiologicalPCISegmentId;
+                                    itm.CardiologicalPCIId = currentSegmentData[i].CardiologicalPCIId;
+                                    itm.StentId = currentSegmentData[i].StentId;
+                                    itm.SegmentId = currentSegmentData[i].SegmentId;
+                                    itm.LesionTypeId = currentSegmentData[i].LesionTypeId;
+                                    itm.Restenosis = currentSegmentData[i].Restenosis;
+                                    itm.Bifurcation = currentSegmentData[i].Bifurcation;
+                                    itm.TIMIBId = currentSegmentData[i].TIMIBId;
+                                    itm.TIMIAId = currentSegmentData[i].TIMIAId;
+                                    itm.StenosisPercentage = currentSegmentData[i].StenosisPercentage;
+                                    itm.StentTypeId = currentSegmentData[i].StentTypeId;
+                                    itm.DirectStent = currentSegmentData[i].DirectStent;
+                                    itm.DrugElutionTypeId = currentSegmentData[i].DrugElutionTypeId;
+                                    itm.StentBallonSize = currentSegmentData[i].StentBallonSize;
+                                    itm.Stentlength = currentSegmentData[i].Stentlength;
+                                    itm.RecordStatus = String(1);
+                                    rSegments.push(itm);
+                                } else if (currentSegmentData[i].dirty) {
+                                    itm.CardiologicalPCISegmentId = currentSegmentData[i].CardiologicalPCISegmentId;
+                                    itm.CardiologicalPCIId = currentSegmentData[i].CardiologicalPCIId;
+                                    itm.StentId = currentSegmentData[i].StentId;
+                                    itm.SegmentId = currentSegmentData[i].SegmentId;
+                                    itm.LesionTypeId = currentSegmentData[i].LesionTypeId;
+                                    itm.Restenosis = currentSegmentData[i].Restenosis;
+                                    itm.Bifurcation = currentSegmentData[i].Bifurcation;
+                                    itm.TIMIBId = currentSegmentData[i].TIMIBId;
+                                    itm.TIMIAId = currentSegmentData[i].TIMIAId;
+                                    itm.StenosisPercentage = currentSegmentData[i].StenosisPercentage;
+                                    itm.StentTypeId = currentSegmentData[i].StentTypeId;
+                                    itm.DirectStent = currentSegmentData[i].DirectStent;
+                                    itm.DrugElutionTypeId = currentSegmentData[i].DrugElutionTypeId;
+                                    itm.StentBallonSize = currentSegmentData[i].StentBallonSize;
+                                    itm.Stentlength = currentSegmentData[i].Stentlength;
+                                    itm.RecordStatus = String(2);
+                                    rSegments.push(itm);
+                                }
+                            }
+                            for (var i = 0; i < segmentGrid.dataSource._destroyed.length; i++) {
+                                var itm = new Object();
+                                itm.CardiologicalPCISegmentId = segmentGrid.dataSource._destroyed[i].CardiologicalPCISegmentId;
+                                itm.CardiologicalPCIId = segmentGrid.dataSource._destroyed[i].CardiologicalPCIId;
+                                itm.StentId = segmentGrid.dataSource._destroyed[i].StentId;
+                                itm.SegmentId = segmentGrid.dataSource._destroyed[i].SegmentId;
+                                itm.LesionTypeId = segmentGrid.dataSource._destroyed[i].LesionTypeId;
+                                itm.Restenosis = segmentGrid.dataSource._destroyed[i].Restenosis;
+                                itm.Bifurcation = segmentGrid.dataSource._destroyed[i].Bifurcation;
+                                itm.TIMIBId = segmentGrid.dataSource._destroyed[i].TIMIBId;
+                                itm.TIMIAId = segmentGrid.dataSource._destroyed[i].TIMIAId;
+                                itm.StenosisPercentage = segmentGrid.dataSource._destroyed[i].StenosisPercentage;
+                                itm.StentTypeId = segmentGrid.dataSource._destroyed[i].StentTypeId;
+                                itm.DirectStent = segmentGrid.dataSource._destroyed[i].DirectStent;
+                                itm.DrugElutionTypeId = segmentGrid.dataSource._destroyed[i].DrugElutionTypeId;
+                                itm.StentBallonSize = segmentGrid.dataSource._destroyed[i].StentBallonSize;
+                                itm.Stentlength = segmentGrid.dataSource._destroyed[i].Stentlength;
+                                itm.RecordStatus = String(3);
+                                rSegments.push(itm);
+                            }
+                            item.CardiologicalPCISegments = rSegments;
+
+
+                            var rt = false;
+                            var dt;
+                            var q = $.ajax({
+                                url: '@Url.Action("Save", "CardiologicalPCI")',
+                                dataType: "json",
+                                type: "POST",
+                                data: JSON.stringify({ cardiologicalPCI: item }),
+                                contentType: "application/json; charset=utf-8",
+                                async: false,
+                                success: function (data) {
+                                    dt = data;
+                                    rt = true;
+                                },
+                                error: function (xhr) {
+                                    dt = xhr;
+                                    rt = false;
+                                }
+                            });
+                            if (rt == true) {
+                                if (dt.statuscode == 1) {
+                                    $(this).closest(".k-window-content").data("kendoWindow").close();
+                                    return false;
+                                }
+                                else {
+                                    $("#errormssg").html(dt.message);
+                                    return false;
+                                }
+                            }
+                            else {
+                                //system error ocured. The popup will be closed. The view will be redirected to error page.
+                                $(this).closest(".k-window-content").data("kendoWindow").close();
+                            }
+                        });
+                });
+            </script>
+
+            <div>
+                @Html.ActionLink("Back to List", "Index")
+            </div>

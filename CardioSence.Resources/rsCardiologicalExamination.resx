@@ -1,0 +1,342 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AAmilaza" xml:space="preserve">
+    <value>Alfa-Amylase</value>
+  </data>
+  <data name="albumin" xml:space="preserve">
+    <value>Albumin</value>
+  </data>
+  <data name="ALT" xml:space="preserve">
+    <value>Alanine Aminotransferase</value>
+  </data>
+  <data name="APTT" xml:space="preserve">
+    <value>Activated Partial Thromboplastin Time</value>
+  </data>
+  <data name="ASLO" xml:space="preserve">
+    <value>Anti-Streptolysin</value>
+  </data>
+  <data name="AST" xml:space="preserve">
+    <value>Aspartate Aminotransferase</value>
+  </data>
+  <data name="Basophil" xml:space="preserve">
+    <value>Basophil</value>
+  </data>
+  <data name="BilirubinDirect" xml:space="preserve">
+    <value>Bilirubin (Direct)</value>
+  </data>
+  <data name="BilirubinTotal" xml:space="preserve">
+    <value>Bilirubin (Total)</value>
+  </data>
+  <data name="BloodGroupId" xml:space="preserve">
+    <value>Blood group number</value>
+  </data>
+  <data name="BRUStatusId" xml:space="preserve">
+    <value>Brucella Blood Agar</value>
+  </data>
+  <data name="Calcium" xml:space="preserve">
+    <value>Ca2+</value>
+  </data>
+  <data name="CardiologicalExaminationDate" xml:space="preserve">
+    <value>Examination Date</value>
+  </data>
+  <data name="CardiologicalExaminationId" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="Cholesterol" xml:space="preserve">
+    <value>Cholesterol</value>
+  </data>
+  <data name="CK" xml:space="preserve">
+    <value>Creatine Kinase</value>
+  </data>
+  <data name="CKMB" xml:space="preserve">
+    <value>Creatine Kinase MB- isoenzyme</value>
+  </data>
+  <data name="Creatinine" xml:space="preserve">
+    <value>Creatinine</value>
+  </data>
+  <data name="CRP" xml:space="preserve">
+    <value>C Reactive Protein</value>
+  </data>
+  <data name="Eosinophil" xml:space="preserve">
+    <value>Eosinophil</value>
+  </data>
+  <data name="ESR" xml:space="preserve">
+    <value>Erythrocyte Sedimentation Rate</value>
+  </data>
+  <data name="FI" xml:space="preserve">
+    <value>Frailty Index</value>
+  </data>
+  <data name="Fibrinogen" xml:space="preserve">
+    <value>Fibrinogen</value>
+  </data>
+  <data name="Glucose" xml:space="preserve">
+    <value>Glucose</value>
+  </data>
+  <data name="Hb" xml:space="preserve">
+    <value>Hemoglobin</value>
+  </data>
+  <data name="HBSStatusId" xml:space="preserve">
+    <value>HBs Antigen Test</value>
+  </data>
+  <data name="HCT" xml:space="preserve">
+    <value>Hematocrit</value>
+  </data>
+  <data name="HCVStatusId" xml:space="preserve">
+    <value>Hepatitis C Virus Blood Test</value>
+  </data>
+  <data name="HDL" xml:space="preserve">
+    <value>High-Density Lipoprotein</value>
+  </data>
+  <data name="HIVStatusId" xml:space="preserve">
+    <value>HIV</value>
+  </data>
+  <data name="INR" xml:space="preserve">
+    <value>International Normalized Ratio</value>
+  </data>
+  <data name="LDL" xml:space="preserve">
+    <value>Low-Density Lipoprotein</value>
+  </data>
+  <data name="Leukocyte" xml:space="preserve">
+    <value>Leukocyte</value>
+  </data>
+  <data name="Lymphocyte" xml:space="preserve">
+    <value>Lymphocyte</value>
+  </data>
+  <data name="MeanHbRBC" xml:space="preserve">
+    <value>Mean Hemoglobin Rate in Blood Cells</value>
+  </data>
+  <data name="Metamyelocyte" xml:space="preserve">
+    <value>Metamyelocyte</value>
+  </data>
+  <data name="Monocyte" xml:space="preserve">
+    <value>Monocyte</value>
+  </data>
+  <data name="Myelocyte" xml:space="preserve">
+    <value>Myelocyte</value>
+  </data>
+  <data name="PI" xml:space="preserve">
+    <value>Prothrombin Index</value>
+  </data>
+  <data name="Platelete" xml:space="preserve">
+    <value>Thrombocyte</value>
+  </data>
+  <data name="Potassium" xml:space="preserve">
+    <value>K+</value>
+  </data>
+  <data name="ProteinTotal" xml:space="preserve">
+    <value>Protein (Total)</value>
+  </data>
+  <data name="PT" xml:space="preserve">
+    <value>Prothrombin Time</value>
+  </data>
+  <data name="RBC" xml:space="preserve">
+    <value>Red Blood Cell</value>
+  </data>
+  <data name="ResidentId" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="RF" xml:space="preserve">
+    <value>Rheumatoid factor</value>
+  </data>
+  <data name="RhFactorId" xml:space="preserve">
+    <value>Rh Factor Number</value>
+  </data>
+  <data name="SegmentedLeukocyte" xml:space="preserve">
+    <value>Segmented Leukocyte</value>
+  </data>
+  <data name="Sodium" xml:space="preserve">
+    <value>Na+</value>
+  </data>
+  <data name="StabLeukocyte" xml:space="preserve">
+    <value>Stab Leukocyte</value>
+  </data>
+  <data name="T3" xml:space="preserve">
+    <value>Triiodothyronine</value>
+  </data>
+  <data name="T4" xml:space="preserve">
+    <value>Tetraiodothyroxine</value>
+  </data>
+  <data name="TPHAStatusId" xml:space="preserve">
+    <value>Preponema Pallidum Haemagglutination Test</value>
+  </data>
+  <data name="Triglyceride" xml:space="preserve">
+    <value>Triglyceride</value>
+  </data>
+  <data name="TroponinStatusId" xml:space="preserve">
+    <value>Troponin</value>
+  </data>
+  <data name="TTH" xml:space="preserve">
+    <value>Thyreotropic hormone</value>
+  </data>
+  <data name="Urea" xml:space="preserve">
+    <value>Urea</value>
+  </data>
+  <data name="UricAcid" xml:space="preserve">
+    <value>Uric Acid</value>
+  </data>
+  <data name="UrineCylinderStatusId" xml:space="preserve">
+    <value>Urine Cylinders</value>
+  </data>
+  <data name="UrineDensity" xml:space="preserve">
+    <value>Urine Density</value>
+  </data>
+  <data name="UrineErithrocyte" xml:space="preserve">
+    <value>Urine Erithrocyte</value>
+  </data>
+  <data name="UrineLeucocyte" xml:space="preserve">
+    <value>Urine Leucocyte</value>
+  </data>
+  <data name="UrineMicroorganismStatusId" xml:space="preserve">
+    <value>Urine Microorganisms</value>
+  </data>
+  <data name="UrineProtein" xml:space="preserve">
+    <value>Urine Protein</value>
+  </data>
+  <data name="BloodGroupName" xml:space="preserve">
+    <value>Blood group number</value>
+  </data>
+  <data name="BRUStatusName" xml:space="preserve">
+    <value>Brucella Blood Agar</value>
+  </data>
+  <data name="HBSStatusName" xml:space="preserve">
+    <value>HBs Antigen Test</value>
+  </data>
+  <data name="HCVStatusName" xml:space="preserve">
+    <value>Hepatitis C Virus Blood Test</value>
+  </data>
+  <data name="HIVStatusName" xml:space="preserve">
+    <value>HIV</value>
+  </data>
+  <data name="RhFactorName" xml:space="preserve">
+    <value>Rh Factor Number</value>
+  </data>
+  <data name="TPHAStatusName" xml:space="preserve">
+    <value>Preponema Pallidum Haemagglutination Test</value>
+  </data>
+  <data name="TroponinStatusName" xml:space="preserve">
+    <value>Troponin</value>
+  </data>
+  <data name="UrineCylinderStatusName" xml:space="preserve">
+    <value>Urine Cylinders</value>
+  </data>
+  <data name="UrineMicroorganismStatusName" xml:space="preserve">
+    <value>Urine Microorganisms</value>
+  </data>
+</root>

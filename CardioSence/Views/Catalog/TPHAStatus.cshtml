@@ -1,0 +1,35 @@
+﻿@(Html.Kendo().Grid<CardioSence.Models.TPHAStatus>()
+              .Name("TPHAStatus")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.TPHAStatusId).Width(70);
+                  columns.Bound(product => product.TPHAStatusName);
+                  columns.Command(commands =>
+                  {
+                      commands.Destroy().Text("Delete").HtmlAttributes(new { @class = "Cat_Delete_Icon" });
+                  }).Title("Commands").Width(110);
+              })
+              .ToolBar(toolbar =>
+              {
+                  toolbar.Create().Text("New");
+                  toolbar.Save().SaveText("Save").CancelText("Cancel");
+              })
+              .Editable(editable => editable.Mode(GridEditMode.InCell))
+              .DataSource(dataSource =>
+                  dataSource.Ajax()
+                    .Batch(true)
+                    .Model(model =>
+                    {
+                        model.Id(product => product.TPHAStatusId);
+                        model.Field(product => product.TPHAStatusId).Editable(false);
+                    })
+                    .Create(create => create.Action("TPHAStatusCreate", "Catalog"))
+                    .Read(read => read.Action("TPHAStatusRead", "Catalog"))
+                    .Update(update => update.Action("TPHAStatusUpdate", "Catalog"))
+                    .Destroy(destroy => destroy.Action("TPHAStatusDestroy", "Catalog"))
+              )
+              .Pageable()
+              .HtmlAttributes(new { @class = "catalog-grid" })
+              .Scrollable()
+)
+

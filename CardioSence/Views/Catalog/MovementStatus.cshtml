@@ -1,0 +1,35 @@
+﻿@(Html.Kendo().Grid<CardioSence.Models.MovementStatus>()
+              .Name("MovementStatus")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.MovementStatusId).Width(70);
+                  columns.Bound(product => product.MovementStatusName);
+                  columns.Command(commands =>
+                  {
+                      commands.Destroy().Text("Delete").HtmlAttributes(new { @class = "Cat_Delete_Icon" });
+                  }).Title("Commands").Width(110);
+              })
+              .ToolBar(toolbar =>
+              {
+                  toolbar.Create().Text("New");
+                  toolbar.Save().SaveText("Save").CancelText("Cancel");
+              })
+              .Editable(editable => editable.Mode(GridEditMode.InCell))
+              .DataSource(dataSource =>
+                  dataSource.Ajax()
+                    .Batch(true)
+                    .Model(model =>
+                    {
+                        model.Id(product => product.MovementStatusId);
+                        model.Field(product => product.MovementStatusId).Editable(false);
+                    })
+                    .Create(create => create.Action("MovementStatusCreate", "Catalog"))
+                    .Read(read => read.Action("MovementStatusRead", "Catalog"))
+                    .Update(update => update.Action("MovementStatusUpdate", "Catalog"))
+                    .Destroy(destroy => destroy.Action("MovementStatusDestroy", "Catalog"))
+              )
+              .Pageable()
+              .HtmlAttributes(new { @class = "catalog-grid" })
+              .Scrollable()
+)
+

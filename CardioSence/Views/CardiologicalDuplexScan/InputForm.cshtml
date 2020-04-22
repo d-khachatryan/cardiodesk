@@ -1,0 +1,521 @@
+﻿@model CardioSence.Models.CardiologicalDuplexScanItem
+
+@{
+    Layout = null;
+}
+
+<div class="container-maxwidth720 create-item">
+    @using (Html.BeginForm("Save", "CardiologicalDuplexScan", FormMethod.Post, new { id = "frmCardiologicalDuplexScan" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.CardiologicalDuplexScanId)
+        <fieldset class="create-fieldset">
+            <legend>Patient</legend>
+
+            @if (@Model.CardiologicalDuplexScanId == 0 && @Model.ResidentId == null)
+                {
+                <div class="col-sm-12 border-box">
+                    <span style="color:#808080; font-style:italic">Please, enter the patient id or name or birth date here for find the patient</span>
+                </div>
+                    <div class="col-sm-12 border-box">
+                        @(Html.Kendo().ComboBoxFor(model => model.ResidentId)
+                    .Name("ResidentId")
+                    .Placeholder("Select")
+                    .DataTextField("ResidentName")
+                    .DataValueField("ResidentId")
+                    .HtmlAttributes(new { style = "width:100%;" })
+                    .Filter(FilterType.Contains)
+                    .AutoBind(false)
+                    .MinLength(5)
+                    .DataSource(source =>
+                    {
+                        source.Read(read =>
+                        {
+                            read.Action("ResidentInfo", "Resident");
+                        })
+                        .ServerFiltering(true);
+                    })
+                        )
+                    </div>
+            }
+            else
+            {
+                @Html.HiddenFor(model => model.ResidentId)
+                <div class="form-group">
+                    <div class="col-md-2 col-sm-3 col-xs-4 border-box align-right inputNameLable" style="color:#000">Patient Id:</div>
+                    <div class="col-md-10 col-sm-9 col-xs-8 border-box inputNameLable">@Html.DisplayFor(model => model.PatientId)</div>
+                </div>
+                    <div class="clear"></div>
+                        <hr style="margin:5px" />
+                        <div class="form-group">
+                            <div class="col-md-2 col-sm-3  col-xs-4 border-box align-right inputNameLable" style="color:#000">Name:</div>
+                            <div class="col-md-10 col-sm-9 col-xs-8 border-box inputNameLable">
+                                @Html.DisplayFor(model => model.ResidentFirstName)
+                                @Html.DisplayFor(model => model.ResidentLastName)
+                                @Html.DisplayFor(model => model.ResidentPatronymicName)
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <hr style="margin:5px" />
+                        <div class="form-group">
+                            <div class="col-md-2 col-sm-3  col-xs-4 border-box align-right inputNameLable" style="color:#000">Birth Date:</div>
+                            <div class="col-md-10 col-sm-9 col-xs-8 border-box inputNameLable">@Html.DisplayFor(model => model.BirthDate)</div>
+                        </div>
+            }
+        </fieldset>
+        <fieldset class="create-fieldset">
+            <legend>Cardiological DuplexScan</legend>
+
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CardiologicalDuplexScanDate, new { @class = "control-label" })
+                    @Html.Kendo().DatePickerFor(model => model.CardiologicalDuplexScanDate)
+                    @Html.ValidationMessageFor(model => model.CardiologicalDuplexScanDate)
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="col-sm-12 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RCAStenosisId, htmlAttributes: new { @class = "control-label" })
+                    @(Html.Kendo().ComboBoxFor(model => model.RCAStenosisId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbStenosises)
+                                .HtmlAttributes(new { @class = "input-item" })
+                    )
+                    @Html.ValidationMessageFor(model => model.RCAStenosisId)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RCAStenosisDM, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.RCAStenosisDM)
+                    @Html.ValidationMessageFor(model => model.RCAStenosisDM)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RCAStenosisPC, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.RCAStenosisPC)
+                    @Html.ValidationMessageFor(model => model.RCAStenosisPC)
+                </div>
+            </div>
+            <div class="col-sm-12 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LSAStenosisId, htmlAttributes: new { @class = "control-label" })
+                    @(Html.Kendo().ComboBoxFor(model => model.LSAStenosisId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbStenosises)
+                                .HtmlAttributes(new { @class = "input-item" })
+                    )
+                    @Html.ValidationMessageFor(model => model.LSAStenosisId)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LSAStenosisDM, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.LSAStenosisDM)
+                    @Html.ValidationMessageFor(model => model.LSAStenosisDM)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LSAStenosisPC, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.LSAStenosisPC)
+                    @Html.ValidationMessageFor(model => model.LSAStenosisPC)
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="col-sm-12 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RCCStenosisId, htmlAttributes: new { @class = "control-label" })
+                    @(Html.Kendo().ComboBoxFor(model => model.RCCStenosisId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbStenosises)
+                                .HtmlAttributes(new { @class = "input-item" })
+                    )
+                    @Html.ValidationMessageFor(model => model.RCCStenosisId)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RCCStenosisDM, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.RCCStenosisDM)
+                    @Html.ValidationMessageFor(model => model.RCCStenosisDM)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RCCStenosisPC, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.RCCStenosisPC)
+                    @Html.ValidationMessageFor(model => model.RCCStenosisPC)
+                </div>
+            </div>
+            <div class="col-sm-12 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LCCStenosisId, htmlAttributes: new { @class = "control-label" })
+                    @(Html.Kendo().ComboBoxFor(model => model.LCCStenosisId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbStenosises)
+                                .HtmlAttributes(new { @class = "input-item" })
+                    )
+                    @Html.ValidationMessageFor(model => model.LCCStenosisId)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LCCStenosisDM, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.LCCStenosisDM)
+                    @Html.ValidationMessageFor(model => model.LCCStenosisDM)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LCCStenosisPC, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.LCCStenosisPC)
+                    @Html.ValidationMessageFor(model => model.LCCStenosisPC)
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="col-sm-12 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RCIStenosisId, htmlAttributes: new { @class = "control-label" })
+                    @(Html.Kendo().ComboBoxFor(model => model.RCIStenosisId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbStenosises)
+                                .HtmlAttributes(new { @class = "input-item" })
+                    )
+                    @Html.ValidationMessageFor(model => model.RCIStenosisId)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RCIStenosisDM, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.RCIStenosisDM)
+                    @Html.ValidationMessageFor(model => model.RCIStenosisDM)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RCIStenosisPC, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.RCIStenosisPC)
+                    @Html.ValidationMessageFor(model => model.RCIStenosisPC)
+                </div>
+            </div>
+            <div class="col-sm-12 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LCIStenosisId, htmlAttributes: new { @class = "control-label" })
+                    @(Html.Kendo().ComboBoxFor(model => model.LCIStenosisId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbStenosises)
+                                .HtmlAttributes(new { @class = "input-item" })
+                    )
+                    @Html.ValidationMessageFor(model => model.LCIStenosisId)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LCIStenosisDM, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.LCIStenosisDM)
+                    @Html.ValidationMessageFor(model => model.LCIStenosisDM)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LCIStenosisPC, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.LCIStenosisPC)
+                    @Html.ValidationMessageFor(model => model.LCIStenosisPC)
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="col-sm-12 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RCEStenosisId, htmlAttributes: new { @class = "control-label" })
+                    @(Html.Kendo().ComboBoxFor(model => model.RCEStenosisId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbStenosises)
+                                .HtmlAttributes(new { @class = "input-item" })
+                    )
+                    @Html.ValidationMessageFor(model => model.RCEStenosisId)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RCEStenosisDM, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.RCEStenosisDM)
+                    @Html.ValidationMessageFor(model => model.RCEStenosisDM)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RCEStenosisPC, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.RCEStenosisPC)
+                    @Html.ValidationMessageFor(model => model.RCEStenosisPC)
+                </div>
+            </div>
+            <div class="col-sm-12 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LCEStenosisId, htmlAttributes: new { @class = "control-label" })
+                    @(Html.Kendo().ComboBoxFor(model => model.LCEStenosisId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbStenosises)
+                                .HtmlAttributes(new { @class = "input-item" })
+                    )
+                    @Html.ValidationMessageFor(model => model.LCEStenosisId)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LCEStenosisDM, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.LCEStenosisDM)
+                    @Html.ValidationMessageFor(model => model.LCEStenosisDM)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LCEStenosisPC, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.LCEStenosisPC)
+                    @Html.ValidationMessageFor(model => model.LCEStenosisPC)
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="col-sm-12 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RVAStenosisId, htmlAttributes: new { @class = "control-label" })
+                    @(Html.Kendo().ComboBoxFor(model => model.RVAStenosisId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbStenosises)
+                                .HtmlAttributes(new { @class = "input-item" })
+                    )
+                    @Html.ValidationMessageFor(model => model.RVAStenosisId)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RVAStenosisDM, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.RVAStenosisDM)
+                    @Html.ValidationMessageFor(model => model.RVAStenosisDM)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RVAStenosisPC, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.RVAStenosisPC)
+                    @Html.ValidationMessageFor(model => model.RVAStenosisPC)
+                </div>
+            </div>
+            <div class="col-sm-12 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LVAStenosisId, htmlAttributes: new { @class = "control-label" })
+                    @(Html.Kendo().ComboBoxFor(model => model.LVAStenosisId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbStenosises)
+                                .HtmlAttributes(new { @class = "input-item" })
+                    )
+                    @Html.ValidationMessageFor(model => model.LVAStenosisId)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LVAStenosisDM, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.LVAStenosisDM)
+                    @Html.ValidationMessageFor(model => model.LVAStenosisDM)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LVAStenosisPC, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.LVAStenosisPC)
+                    @Html.ValidationMessageFor(model => model.LVAStenosisPC)
+                </div>
+            </div>
+
+        </fieldset>
+        <fieldset class="create-fieldset">
+            <div class="col-sm-6 border-box">
+                <span id="errormssg"></span>
+            </div>
+            <div class="col-sm-6 border-box">
+                <div class="form-group align-right">
+                    <button id="rtSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> Save</button>
+                    <button id="rtCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> Cancel</button>
+                </div>
+            </div>
+        </fieldset>
+    }
+</div>
+    <script>
+        function myFunction() {
+            $("#ResidentNameError").empty();
+            if ($("#PatientId").val() == "") {
+                alert("Please, enter the Patinet id");
+                return false;
+            }
+            else {
+                var patientId = $("#PatientId").val();
+            }
+
+            var q = $.ajax({
+                url: '@Url.Action("PatientInfo", "Resident")',
+                dataType: "json",
+                type: "GET",
+                data: { id: patientId },
+                async: true,
+                success: function (data) {
+                    dt = data.Data;
+                    rt = true;
+                    if (dt != null) {
+                        $("#ResidentId").val(dt[0].ResidentId);
+                        $("#PatientId").val(dt[0].PatientId);
+                        $("#ResidentFirstName").html(dt[0].ResidentFirstName);
+                        $("#ResidentLastName").html(dt[0].ResidentLastName);
+                    }
+                    if (dt[0].PatientId == null) {
+                        //alert("No any record with entered id. Please, enter the correct id");
+                        $("#ResidentNameError").html("No any record found with entered id. Please, enter the correct id");
+                    }
+                },
+                error: function (xhr) {
+                    dt = xhr;
+                    rt = false;
+                }
+            });
+            return false;
+        }
+    //$(".k-textbox").addClass("input-item form-control");
+    $(document).ready(function () {
+        $("#rtCancel")
+            .click(function (e) {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#rtSave")
+            .click(function (e) {
+                var errTempl = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em"><span class="k-icon k-warning"> </span>#=message#<div class="k-callout k-callout-n"></div></div>';
+                var validator = $("#frmCardiologicalDuplexScan").kendoValidator({
+                    errorTemplate: errTempl
+                }).data("kendoValidator");
+                //var CDTTypeID = $("#CDTTypeID").data("kendoComboBox").input;
+
+                if (!validator.validate()) {
+                    //$(elmnt).closest('.form-group').addClass('has-error');
+                    //CDTTypeID.addClass("k-invalid");
+                    $("#errormssg").html("<span class='fa fa-exclamation-triangle'></span> @CardioSence.Resources.General.RequiredFields");
+                    return false;
+                }
+
+                // $(elmnt).closest('.form-group').removeClass('has-error').addClass('has-success');
+                //CDTTypeID.removeClass("k-invalid");
+
+                var item = new Object();
+                item.CardiologicalDuplexScanId = '@Model.CardiologicalDuplexScanId';
+                item.ResidentId = $("#ResidentId").val();
+                item.CardiologicalDuplexScanDate = $("#CardiologicalDuplexScanDate").val();
+                item.RCAStenosisId = $("#RCAStenosisId").val();
+                item.RCAStenosisDM = $("#RCAStenosisDM").val();
+                item.RCAStenosisPC = $("#RCAStenosisPC").val();
+                item.LSAStenosisId = $("#LSAStenosisId").val();
+                item.LSAStenosisDM = $("#LSAStenosisDM").val();
+                item.LSAStenosisPC = $("#LSAStenosisPC").val();
+                item.RCCStenosisId = $("#RCCStenosisId").val();
+                item.RCCStenosisDM = $("#RCCStenosisDM").val();
+                item.RCCStenosisPC = $("#RCCStenosisPC").val();
+                item.LCCStenosisId = $("#LCCStenosisId").val();
+                item.LCCStenosisDM = $("#LCCStenosisDM").val();
+                item.LCCStenosisPC = $("#LCCStenosisPC").val();
+                item.RCIStenosisId = $("#RCIStenosisId").val();
+                item.RCIStenosisDM = $("#RCIStenosisDM").val();
+                item.RCIStenosisPC = $("#RCIStenosisPC").val();
+                item.LCIStenosisId = $("#LCIStenosisId").val();
+                item.LCIStenosisDM = $("#LCIStenosisDM").val();
+                item.LCIStenosisPC = $("#LCIStenosisPC").val();
+                item.RCEStenosisId = $("#RCEStenosisId").val();
+                item.RCEStenosisDM = $("#RCEStenosisDM").val();
+                item.RCEStenosisPC = $("#RCEStenosisPC").val();
+                item.LCEStenosisId = $("#LCEStenosisId").val();
+                item.LCEStenosisDM = $("#LCEStenosisDM").val();
+                item.LCEStenosisPC = $("#LCEStenosisPC").val();
+                item.RVAStenosisId = $("#RVAStenosisId").val();
+                item.RVAStenosisDM = $("#RVAStenosisDM").val();
+                item.RVAStenosisPC = $("#RVAStenosisPC").val();
+                item.LVAStenosisId = $("#LVAStenosisId").val();
+                item.LVAStenosisDM = $("#LVAStenosisDM").val();
+                item.LVAStenosisPC = $("#LVAStenosisPC").val();
+
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("Save", "CardiologicalDuplexScan")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ cardiologicalDuplexScan: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if (dt.statuscode == 1) {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                        return false;
+                    }
+                    else {
+                        $("#errormssg").html(dt.message);
+                        return false;
+                    }
+                }
+                else {
+                    //system error ocured. The popup will be closed. The view will be redirected to error page.
+                    $(this).closest(".k-window-content").data("kendoWindow").close();
+                }
+            });
+    });
+    </script>
+
+

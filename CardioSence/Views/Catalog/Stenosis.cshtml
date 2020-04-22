@@ -1,0 +1,35 @@
+﻿@(Html.Kendo().Grid<CardioSence.Models.Stenosis>()
+              .Name("Stenosis")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.StenosisId).Width(70);
+                  columns.Bound(product => product.StenosisName);
+                  columns.Command(commands =>
+                  {
+                      commands.Destroy().Text("Delete").HtmlAttributes(new { @class = "Cat_Delete_Icon" });
+                  }).Title("Commands").Width(110);
+              })
+              .ToolBar(toolbar =>
+              {
+                  toolbar.Create().Text("New");
+                  toolbar.Save().SaveText("Save").CancelText("Cancel");
+              })
+              .Editable(editable => editable.Mode(GridEditMode.InCell))
+              .DataSource(dataSource =>
+                  dataSource.Ajax()
+                    .Batch(true)
+                    .Model(model =>
+                    {
+                        model.Id(product => product.StenosisId);
+                        model.Field(product => product.StenosisId).Editable(false);
+                    })
+                    .Create(create => create.Action("StenosisCreate", "Catalog"))
+                    .Read(read => read.Action("StenosisRead", "Catalog"))
+                    .Update(update => update.Action("StenosisUpdate", "Catalog"))
+                    .Destroy(destroy => destroy.Action("StenosisDestroy", "Catalog"))
+              )
+              .Pageable()
+              .HtmlAttributes(new { @class = "catalog-grid" })
+              .Scrollable()
+)
+

@@ -1,0 +1,513 @@
+﻿@model CardioSence.Models.CardiologicalObjectiveItem
+
+@{
+    Layout = null;
+}
+
+<div class="container-maxwidth720 create-item">
+    @using (Html.BeginForm("Save", "CardiologicalObjective", FormMethod.Post, new { id = "frmCardiologicalObjective" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.CardiologicalObjectiveId)
+        <fieldset class="create-fieldset">
+            <legend>Patient</legend>
+
+            @if (@Model.CardiologicalObjectiveId == 0 && @Model.ResidentId == null)
+                {
+                <div class="col-sm-12 border-box">
+                    <span style="color:#808080; font-style:italic">Please, enter the patient id or name or birth date here for find the patient</span>
+                </div>
+                    <div class="col-sm-12 border-box">
+                        @(Html.Kendo().ComboBoxFor(model => model.ResidentId)
+                    .Name("ResidentId")
+                    .Placeholder("Select")
+                    .DataTextField("ResidentName")
+                    .DataValueField("ResidentId")
+                    .HtmlAttributes(new { style = "width:100%;" })
+                    .Filter(FilterType.Contains)
+                    .AutoBind(false)
+                    .MinLength(5)
+                    .DataSource(source =>
+                    {
+                        source.Read(read =>
+                        {
+                            read.Action("ResidentInfo", "Resident");
+                        })
+                        .ServerFiltering(true);
+                    })
+                        )
+                    </div>
+            }
+            else
+            {
+                @Html.HiddenFor(model => model.ResidentId)
+                <div class="form-group">
+                    <div class="col-md-2 col-sm-3 col-xs-4 border-box align-right inputNameLable" style="color:#000">Patient Id:</div>
+                    <div class="col-md-10 col-sm-9 col-xs-8 border-box inputNameLable">@Html.DisplayFor(model => model.PatientId)</div>
+                </div>
+                    <div class="clear"></div>
+                        <hr style="margin:5px" />
+                        <div class="form-group">
+                            <div class="col-md-2 col-sm-3  col-xs-4 border-box align-right inputNameLable" style="color:#000">Name:</div>
+                            <div class="col-md-10 col-sm-9 col-xs-8 border-box inputNameLable">
+                                @Html.DisplayFor(model => model.ResidentFirstName)
+                                @Html.DisplayFor(model => model.ResidentLastName)
+                                @Html.DisplayFor(model => model.ResidentPatronymicName)
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <hr style="margin:5px" />
+                        <div class="form-group">
+                            <div class="col-md-2 col-sm-3  col-xs-4 border-box align-right inputNameLable" style="color:#000">Birth Date:</div>
+                            <div class="col-md-10 col-sm-9 col-xs-8 border-box inputNameLable">@Html.DisplayFor(model => model.BirthDate)</div>
+                        </div>
+            }
+        </fieldset>
+
+        <fieldset class="create-fieldset">
+            <legend>Cardiological Objective</legend>
+                
+                <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CardiologicalObjectiveDate, new { @class = "control-label" })
+                        @Html.Kendo().DatePickerFor(model => model.CardiologicalObjectiveDate)
+                        @Html.ValidationMessageFor(model => model.CardiologicalObjectiveDate)
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Temperature, new { @class = "control-label" })
+                        @Html.Kendo().NumericTextBoxFor(model => model.Temperature)
+                        @Html.ValidationMessageFor(model => model.Temperature)
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Pulse, new { @class = "control-label" })
+                        @Html.Kendo().IntegerTextBoxFor(model => model.Pulse)
+                        @Html.ValidationMessageFor(model => model.Pulse)
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RNIBP, new { @class = "control-label" })
+                        @Html.Kendo().TextBoxFor(model => model.RNIBP)
+                        @Html.ValidationMessageFor(model => model.RNIBP)
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LNIBP, new { @class = "control-label" })
+                        @Html.Kendo().TextBoxFor(model => model.LNIBP)
+                        @Html.ValidationMessageFor(model => model.LNIBP)
+                    </div>
+                </div>
+
+                <div class="clear"></div>
+
+                <div class="col-sm-12 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LungId, htmlAttributes: new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.LungId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbLungs)
+                                .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.LungId)
+                    </div>
+                </div>
+                <div class="col-sm-12 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.HeartSoundTypeId, htmlAttributes: new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.HeartSoundTypeId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbHeartSoundTypes)
+                                .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.HeartSoundTypeId)
+                    </div>
+                </div>
+                <div class="col-sm-12 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.HeartMurmurTypeId, htmlAttributes: new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.HeartMurmurTypeId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbHeartMurmurTypes)
+                                .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.HeartMurmurTypeId)
+                    </div>
+                </div>
+                <div class="col-sm-12 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RCBId, htmlAttributes: new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.RCBId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbCaroticBruits)
+                                .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.RCBId)
+                    </div>
+                </div>
+                <div class="col-sm-12 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LCBId, htmlAttributes: new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.LCBId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbCaroticBruits)
+                                .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.LCBId)
+                    </div>
+                </div>
+                <div class="col-sm-12 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AbdominalStatusId, htmlAttributes: new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.AbdominalStatusId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbAbdominalStatuses)
+                                .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.AbdominalStatusId)
+                    </div>
+                </div>
+
+                <div class="clear"></div>
+
+                <div class="col-sm-12 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LiverId, htmlAttributes: new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.LiverId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbLivers)
+                                .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.LiverId)
+                    </div>
+                </div>
+                <div class="col-sm-12 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RRAId, htmlAttributes: new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.RRAId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbArteriaStatuses)
+                                .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.RRAId)
+                    </div>
+                </div>
+                <div class="col-sm-12 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LRAId, htmlAttributes: new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.LRAId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbArteriaStatuses)
+                                .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.LRAId)
+                    </div>
+                </div>
+                <div class="col-sm-12 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RADPId, htmlAttributes: new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.RADPId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbArteriaStatuses)
+                                .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.RADPId)
+                    </div>
+                </div>
+                <div class="col-sm-12 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LADPId, htmlAttributes: new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.LADPId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbArteriaStatuses)
+                                .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.LADPId)
+                    </div>
+                </div>
+                <div class="col-sm-12 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PeripherialStatusId, htmlAttributes: new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.PeripherialStatusId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbPeripherialStatuses)
+                                .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.PeripherialStatusId)
+                    </div>
+                </div>
+
+                <div class="clear"></div>
+
+                <div class="col-sm-12 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PhysicianId, htmlAttributes: new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.PhysicianId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbPhysicians)
+                                .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.PhysicianId)
+                    </div>
+                </div>
+
+
+                <div class="clear"></div>
+                <div class="col-sm-12 border-box" style="margin-top:15px;">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a data-toggle="tab" href="#tabFor_CardiologicalObjectiveDrugs">Drugs</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tabFor_CardiologicalObjectiveDrugs" class="tab-pane fade in active">
+                            @(Html.Kendo().Grid<CardioSence.Models.CardiologicalObjectiveDrug>()
+                              .Name("CardiologicalObjectiveDrug")
+                              .Columns(columns =>
+                              {
+                                  columns.Bound(model => model.CardiologicalObjectiveDrugId).Hidden();
+                                  columns.Bound(model => model.CardiologicalObjectiveId).Hidden();
+                                  columns.ForeignKey(model => model.DrugId, (List<SelectListItem>)ViewBag.vbDrugs, "Value", "Text").EditorTemplateName("Drug");
+                                  columns.ForeignKey(model => model.DrugFrequencyId, (List<SelectListItem>)ViewBag.vbDrugFrequencies, "Value", "Text").EditorTemplateName("DrugFrequency");
+                                  columns.Bound(model => model.Duration);
+                                  columns.Command(commands =>
+                                  {
+                                      commands.Destroy().Text("Remove");
+                                  }).Title("Commands").Width(110);
+                              })
+                              .ToolBar(toolbar =>
+                              {
+                                  toolbar.Create().Text("New");
+                              })
+                              .Editable(editable => editable.Mode(GridEditMode.InCell))
+                                  .DataSource(dataSource => dataSource
+                                      .Ajax()
+                                      .Batch(true)
+                                      .PageSize(5)
+                                      .Read(read => read.Action("ReadCardiologicalObjectiveDrugs", "CardiologicalObjectiveDrug", new { id = @Model.CardiologicalObjectiveId }))
+                                      .Model(model =>
+                                      {
+                                          model.Id(p => p.CardiologicalObjectiveDrugId);
+                                      }
+                                      )
+                                  )
+                                  .Scrollable()
+                                  .Resizable(resize => resize.Columns(true))
+                                  .Reorderable(reorder => reorder.Columns(true))
+                                  .Pageable()
+                                  .Sortable()
+                            )
+                        </div>
+                    </div>
+                </div>
+        </fieldset>
+        <fieldset class="create-fieldset">
+            <div class="col-sm-6 border-box">
+                <span id="errormssg"></span>
+            </div>
+            <div class="col-sm-6 border-box">
+                <div class="form-group align-right">
+                    <button id="rtSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> Save</button>
+                    <button id="rtCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> Cancel</button>
+                </div>
+            </div>
+        </fieldset>
+    }
+</div>
+
+
+    <script>
+        function myFunction() {
+            $("#ResidentNameError").empty();
+            if ($("#PatientId").val() == "") {
+                alert("Please, enter the Patinet id");
+                return false;
+            }
+            else {
+                var patientId = $("#PatientId").val();
+            }
+
+            var q = $.ajax({
+                url: '@Url.Action("PatientInfo", "Resident")',
+                dataType: "json",
+                type: "GET",
+                data: { id: patientId },
+                async: true,
+                success: function (data) {
+                    dt = data.Data;
+                    rt = true;
+                    if (dt != null) {
+                        $("#ResidentId").val(dt[0].ResidentId);
+                        $("#PatientId").val(dt[0].PatientId);
+                        $("#ResidentFirstName").html(dt[0].ResidentFirstName);
+                        $("#ResidentLastName").html(dt[0].ResidentLastName);
+                    }
+                    if (dt[0].PatientId == null) {
+                        //alert("No any record with entered id. Please, enter the correct id");
+                        $("#ResidentNameError").html("No any record found with entered id. Please, enter the correct id");
+                    }
+                },
+                error: function (xhr) {
+                    dt = xhr;
+                    rt = false;
+                }
+            });
+            return false;
+        }
+
+        $(".k-textbox").addClass("input-item form-control");
+        $(document).ready(function () {
+            $("#rtCancel")
+                .click(function (e) {
+                    $(this).closest(".k-window-content").data("kendoWindow").close();
+                    return false;
+                });
+            $("#rtSave")
+                .click(function (e) {
+
+                    var errTempl = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em"><span class="k-icon k-warning"> </span>#=message#<div class="k-callout k-callout-n"></div></div>';
+                    var validator = $("#frmCardiologicalObjective").kendoValidator({
+                        errorTemplate: errTempl
+                    }).data("kendoValidator");
+                    if (!validator.validate()) {
+                        $("#errormssg").html("<span class='fa fa-exclamation-triangle'></span> @CardioSence.Resources.General.RequiredFields");
+                        return false;
+                    }
+
+
+
+                    var item = new Object();
+                    item.CardiologicalObjectiveId = '@Model.CardiologicalObjectiveId';
+                    item.ResidentId = $("#ResidentId").val();
+                    item.CardiologicalObjectiveDate = $("#CardiologicalObjectiveDate").val();
+                    item.Temperature = $("#Temperature").val();
+                    item.Pulse = $("#Pulse").val();
+                    item.RNIBP = $("#RNIBP").val();
+                    item.LNIBP = $("#LNIBP").val();
+                    item.LungId = $("#LungId").val();
+                    item.HeartSoundTypeId = $("#HeartSoundTypeId").val();
+                    item.HeartMurmurTypeId = $("#HeartMurmurTypeId").val();
+                    item.RCBId = $("#RCBId").val();
+                    item.LCBId = $("#LCBId").val();
+                    item.AbdominalStatusId = $("#AbdominalStatusId").val();
+                    item.LiverId = $("#LiverId").val();
+                    item.RRAId = $("#RRAId").val();
+                    item.LRAId = $("#LRAId").val();
+                    item.RADPId = $("#RADPId").val();
+                    item.LADPId = $("#LADPId").val();
+                    item.PeripherialStatusId = $("#PeripherialStatusId").val();
+                    item.PhysicianId = $("#PhysicianId").val();
+
+                    var drugGrid = $("#CardiologicalObjectiveDrug").data("kendoGrid"), parameterMap = drugGrid.dataSource.transport.parameterMap;
+                    var currentDrugData = drugGrid.dataSource.data();
+                    var rDrug = [];
+                    for (var i = 0; i < currentDrugData.length; i++) {
+                        var itm = new Object();
+                        if (currentDrugData[i].isNew()) {
+                            itm.CardiologicalObjectiveDrugId = currentDrugData[i].CardiologicalObjectiveDrugId;
+                            itm.CardiologicalObjectiveId = currentDrugData[i].CardiologicalObjectiveId;
+                            itm.DrugId = currentDrugData[i].DrugId;
+                            itm.DrugFrequencyId = currentDrugData[i].DrugFrequencyId;
+                            itm.Duration = currentDrugData[i].Duration;
+                            itm.RecordStatus = String(1);
+                            rDrug.push(itm);
+                        } else if (currentDrugData[i].dirty) {
+                            itm.CardiologicalObjectiveDrugId = currentDrugData[i].CardiologicalObjectiveDrugId;
+                            itm.CardiologicalObjectiveId = currentDrugData[i].CardiologicalObjectiveId;
+                            itm.DrugId = currentDrugData[i].DrugId;
+                            itm.DrugFrequencyId = currentDrugData[i].DrugFrequencyId;
+                            itm.Duration = currentDrugData[i].Duration;
+                            itm.RecordStatus = String(2);
+                            rDrug.push(itm);
+                        }
+                    }
+                    for (var i = 0; i < drugGrid.dataSource._destroyed.length; i++) {
+                        var itm = new Object();
+                        itm.CardiologicalObjectiveDrugId = drugGrid.dataSource._destroyed[i].CardiologicalObjectiveDrugId;
+                        itm.CardiologicalObjectiveId = drugGrid.dataSource._destroyed[i].CardiologicalObjectiveId;
+                        itm.DrugId = drugGrid.dataSource._destroyed[i].DrugId;
+                        itm.DrugFrequencyId = drugGrid.dataSource._destroyed[i].DrugFrequencyId;
+                        itm.Duration = drugGrid.dataSource._destroyed[i].Duration;
+                        itm.RecordStatus = String(3);
+                        rDrug.push(itm);
+                    }
+                    item.CardiologicalObjectiveDrugs = rDrug;
+
+                    var rt = false;
+                    var dt;
+                    var q = $.ajax({
+                        url: '@Url.Action("Save", "CardiologicalObjective")',
+                        dataType: "json",
+                        type: "POST",
+                        data: JSON.stringify({ cardiologicalObjective: item }),
+                        contentType: "application/json; charset=utf-8",
+                        async: false,
+                        success: function (data) {
+                            dt = data;
+                            rt = true;
+                        },
+                        error: function (xhr) {
+                            dt = xhr;
+                            rt = false;
+                        }
+                    });
+                    if (rt == true) {
+                        if (dt.statuscode == 1) {
+                            $(this).closest(".k-window-content").data("kendoWindow").close();
+                            return false;
+                        }
+                        else {
+                            $("#errormssg").html(dt.message);
+                            return false;
+                        }
+                    }
+                    else {
+                        //system error ocured. The popup will be closed. The view will be redirected to error page.
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                    }
+                });
+        });
+    </script>

@@ -1,0 +1,710 @@
+﻿@model IEnumerable<CardioSence.Models.ResidentItem>
+
+@{
+    ViewBag.Title = "Patients";
+}
+
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("New Patient").Id("btnInsert").Click("CreateResident");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Details").Id("btnDetail").Click("ShowDetail");
+
+        items.Add().Template("<a title=\"New Patient\" class=\"ToolbarIcon\" onclick=\"return CreateResident(); \"><img src=\"../img/icons/add-user.png\" width=\"35\"/></a>");
+        items.Add().Template("<a title=\"Details\" class=\"ToolbarIcon\" onclick=\"return ShowDetail(); \"><img src=\"../img/icons/list-button.png\" width=\"35\"/></a>");
+
+        items.Add().Template("<span class='ToolbarSeparator'>|</span>");
+
+        items.Add().Template("<a title=\"History Out Patient\" class=\"ToolbarIcon\" onclick=\"return CreateCardiologicalOutPatientCase(); \"><img src=\"../img/icons/first-aid-kit.png\" width=\"35\"/></a>");
+        items.Add().Template("<a title=\"History In Hospital\" class=\"ToolbarIcon\" onclick=\"return CreateCardiologicalInHospitalCase(); \"><img src=\"../img/icons/hospital.png\" width=\"35\"/></a>");
+        items.Add().Template("<a title=\"Observation\" class=\"ToolbarIcon\" onclick=\"return CreateCardiologicalObjective(); \"><img src=\"../img/icons/examination.png\" width=\"35\"/></a>");
+
+        items.Add().Template("<span class='ToolbarSeparator'>|</span>");
+
+        items.Add().Template("<a title=\"Treadmill\" class=\"ToolbarIcon\" onclick=\"return CreateCardiologicalTreadmil(); \"><img src=\"../img/icons/treadmill.png\" width=\"35\"/></a>");
+        items.Add().Template("<a title=\"Laboratory\" class=\"ToolbarIcon\" onclick=\"return CreateCardiologicalExamination(); \"><img src=\"../img/icons/microscope.png\" width=\"35\"/></a>");
+        items.Add().Template("<a title=\"Electrocardiogram\" class=\"ToolbarIcon\" onclick=\"return CreateCardiologicalECG(); \"><img src=\"../img/icons/cardiogram.png\" width=\"35\"/></a>");
+        items.Add().Template("<a title=\"Echocardiography\" class=\"ToolbarIcon\" onclick=\"return CreateCardiologicalEchoCG(); \"><img src=\"../img/icons/echoCG.png\" width=\"35\"/></a>");
+        items.Add().Template("<a title=\"Duplex\" class=\"ToolbarIcon\" onclick=\"return CreateCardiologicalDuplexScan(); \"><img src=\"../img/icons/ultrasound.png\" width=\"35\"/></a>");
+
+        items.Add().Template("<span class='ToolbarSeparator'>|</span>");
+
+        items.Add().Template("<a title=\"Cardiopulmonary Bypass\" class=\"ToolbarIcon\" onclick=\"return CreateCardiologicalCPB(); \"><img src=\"../img/icons/syringe.png\" width=\"35\"/></a>");
+        items.Add().Template("<a title=\"Percutaneous Coronary Intervention\" class=\"ToolbarIcon\" onclick=\"return CreateCardiologicalPCI(); \"><img src=\"../img/icons/operating-room.png\" width=\"35\"/></a>");
+        items.Add().Template("<a title=\"Surgery\" class=\"ToolbarIcon\" onclick=\"return CreateCardiologicalSurgery(); \"><img src=\"../img/icons/scalpel.png\" width=\"35\"/></a>");
+        items.Add().Template("<a title=\"Coronary angiography\" class=\"ToolbarIcon\" onclick=\"return CreateCardiologicalCatheterization(); \"><img src=\"../img/icons/transfusion.png\" width=\"35\"/></a>");
+
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Case").Id("btnCreateCardiologicalCase").Click("CreateCardiologicalCase");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Catheterization").Id("btnCreateCardiologicalCatheterization").Click("CreateCardiologicalCatheterization");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("CPB").Id("btnCreateCardiologicalCPB").Click("CreateCardiologicalCPB");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("DuplexScan").Id("btnCreateCardiologicalDuplexScan").Click("CreateCardiologicalDuplexScan");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("ECG").Id("btnCreateCardiologicalECG").Click("CreateCardiologicalECG");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("EchoCG").Id("btnCreateCardiologicalEchoCG").Click("CreateCardiologicalEchoCG");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Examination").Id("btnCreateCardiologicalExamination").Click("CreateCardiologicalExamination");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Objective").Id("btnCreateCardiologicalObjective").Click("CreateCardiologicalObjective");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("PCI").Id("btnCreateCardiologicalPCI").Click("CreateCardiologicalPCI");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Surgery").Id("btnCreateCardiologicalSurgery").Click("CreateCardiologicalSurgery");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Treadmil").Id("btnCreateCardiologicalTreadmil").Click("CreateCardiologicalTreadmil");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>Search fields</h4>
+                <div class="form-group margin-5-0">
+                    <input type="text" value="" class="input-item k-textbox" placeholder="First Name" />
+                </div>
+                <div class="form-group margin-5-0">
+                    <input type="text" value="" class="input-item k-textbox" placeholder="Last Name" />
+                </div>
+                <div class="form-group margin-10-0 align-right">
+                    <button id="rtSearch" class="k-button">Search</button>
+                    <button id="rtClear" class="k-button">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@(Html.Kendo().Grid<CardioSence.Models.ResidentItem>()
+      .Name("Resident")
+      .Columns(columns =>
+      {
+          //columns.Bound(model => model.ResidentId).Width(110);
+          columns.Bound(model => model.PatientId).Width(120);
+          columns.Bound(model => model.ResidentFirstName);
+          columns.Bound(model => model.ResidentLastName);
+          columns.Bound(model => model.ResidentPatronymicName);
+          columns.Bound(model => model.BirthDate).Width(150);
+          columns.Command(commands =>
+          {
+              commands.Custom("cmdUpdateResident").Text(" ").Click("UpdateResident").HtmlAttributes(new { @class = "Update_Icon" });
+              commands.Custom("cmdDeleteResident").Text(" ").Click("DeleteResident").HtmlAttributes(new { @class = "Delete_Icon" });
+          }).Title("Commands").Width(130);
+      })
+
+      .Selectable(s => s.Mode(GridSelectionMode.Single))
+      .Events(e => e.DataBound("showCommandIcons"))
+      .Pageable(pager => pager.PageSizes(new[] { 10, 15, 25, 50, 100 }))
+      //.Pageable(pager => pager.PageSizes(new List<object> { 10, 15, 25, 50, 100, "all" }).Refresh(true))
+      .Filterable()
+      //.Groupable()
+      .Scrollable()
+      .Sortable()
+      .Resizable(resize => resize.Columns(true))
+      .Reorderable(reorder => reorder.Columns(true))
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .Read(read => read.Action("ReadResidents", "Resident"))
+          .PageSize(15)
+          .Model(model => model.Id(p => p.ResidentId)
+
+          )
+)
+)
+
+@(Html.Kendo().Window().Name("wResident")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseResident")
+              .Open("onOpenResident")
+              .Refresh("onRefreshResident"))
+)
+
+@(Html.Kendo().Window().Name("wResidentDetails")
+              .Width(800)
+              .Height(600)
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseResident")
+              .Open("onOpenResident")
+              .Refresh("onRefreshResident"))
+)
+
+<script>
+
+    function CreateResident() {
+        var window = $("#wResident").data("kendoWindow");
+        window.content("");
+        window.title("New Resident");
+        window.refresh({
+            url: "@Url.Action("CreateResident", "Resident")"
+        });
+        window.center();
+        window.maximize().open();
+        return false;
+    }
+
+    function UpdateResident(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#Resident").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var window = $("#wResident").data("kendoWindow");
+        window.content("");
+        window.title("Edit Resident");
+        window.refresh({
+            url: "@Url.Action("UpdateResident", "Resident")" + "/" + dataItem.ResidentId
+        });
+        window.center();
+        window.maximize().open();
+        return false;
+
+    }
+
+    function DeleteResident(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#Resident").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var r = confirm("Are you sure to delete the record?");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("DeleteResident", "Resident")',
+            dataType: "json",
+            type: "GET",
+            data: { id: dataItem.ResidentId },
+            async: false,
+            success: function (data) { dt = data; rt = true; },
+            error: function (xhr) { dt = xhr; rt = false; }
+        });
+        if (rt == true) {
+            if (dt != "1") {
+                alert(JSON.stringify(dt));
+            }
+            else {
+                $("#Resident").data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(dt);
+            return false;
+        }
+        return false;
+    }
+
+    function ShowDetail() {
+        var grid = $("#Resident").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("Record is not selected");
+            return false;
+        };
+        var window = $("#wResidentDetails").data("kendoWindow");
+        window.content("");
+        window.title("Details");
+        window.refresh({
+            url: "@Url.Action("ResidentDetail", "Resident")" + "/" + selectedItem.ResidentId
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function onOpenResident(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseResident(e) {
+        $("#Resident").data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefreshResident(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+</script>
+
+
+@(Html.Kendo().Window().Name("wCardiologicalCase")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalCase")
+              .Open("onOpenCardiologicalCase")
+              .Refresh("onRefreshCardiologicalCase"))
+)
+
+<script>
+    CreateCardiologicalInHospitalCase
+    function CreateCardiologicalOutPatientCase() {
+        var grid = $("#Resident").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("Record is not selected");
+            return false;
+        };
+        var window = $("#wCardiologicalCase").data("kendoWindow");
+        window.content("");
+        window.title("New Cardiological Out Patient Case");
+        window.refresh({
+            url: "@Url.Action("CreateWithResidentOutPatient", "CardiologicalCase")" + "/" + selectedItem.ResidentId
+        });
+        window.center();
+        window.maximize().open();
+        return false;
+    }
+
+    function CreateCardiologicalInHospitalCase() {
+        var grid = $("#Resident").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("Record is not selected");
+            return false;
+        };
+        var window = $("#wCardiologicalCase").data("kendoWindow");
+        window.content("");
+        window.title("New Cardiological In Hospital Case");
+        window.refresh({
+            url: "@Url.Action("CreateWithResidentInHospital", "CardiologicalCase")" + "/" + selectedItem.ResidentId
+        });
+    window.center();
+    window.maximize().open();
+    return false;
+    }
+
+    function onOpenCardiologicalCase(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseCardiologicalCase(e) {
+        //$("#CardiologicalCase").data("kendoGrid").dataSource.read();  //Էս տողը ստեղ պետք չի
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefreshCardiologicalCase(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+</script>
+
+
+
+@(Html.Kendo().Window().Name("wCardiologicalCatheterization")
+                              .Draggable().Resizable()
+                              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+                              .Visible(false).Events(events => events
+                              .Close("onCloseCardiologicalCatheterization")
+                              .Open("onOpenCardiologicalCatheterization")
+                              .Refresh("onRefreshCardiologicalCatheterization"))
+)
+
+<script>
+
+    function CreateCardiologicalCatheterization() {
+        var grid = $("#Resident").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("Record is not selected");
+            return false;
+        };
+        var window = $("#wCardiologicalCatheterization").data("kendoWindow");
+        window.content("");
+        window.title("New Cardiological Catheterization");
+        window.refresh({
+            url: "@Url.Action("CreateWithResident", "CardiologicalCatheterization")" + "/" + selectedItem.ResidentId
+        });
+        window.center();
+        window.maximize().open();
+        return false;
+    }
+
+    function onOpenCardiologicalCatheterization(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseCardiologicalCatheterization(e) {
+        //$("#CardiologicalCatheterization").data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefreshCardiologicalCatheterization(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+</script>
+
+
+
+
+@(Html.Kendo().Window().Name("wCardiologicalCPB")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalCPB")
+              .Open("onOpenCardiologicalCPB")
+              .Refresh("onRefreshCardiologicalCPB"))
+)
+
+<script>
+
+    function CreateCardiologicalCPB() {
+        var grid = $("#Resident").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("Record is not selected");
+            return false;
+        };
+        var window = $("#wCardiologicalCPB").data("kendoWindow");
+        window.content("");
+        window.title("New Cardiological CPB");
+        window.refresh({
+            url: "@Url.Action("CreateWithResident", "CardiologicalCPB")" + "/" + selectedItem.ResidentId
+        });
+        window.center();
+        window.maximize().open();
+        return false;
+    }
+
+    function onOpenCardiologicalCPB(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseCardiologicalCPB(e) {
+        //$("#CardiologicalCPB").data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefreshCardiologicalCPB(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+</script>
+
+
+
+@(Html.Kendo().Window().Name("wCardiologicalDuplexScan")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalDuplexScan")
+              .Open("onOpenCardiologicalDuplexScan")
+              .Refresh("onRefreshCardiologicalDuplexScan"))
+)
+
+<script>
+
+    function CreateCardiologicalDuplexScan() {
+        var grid = $("#Resident").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("Record is not selected");
+            return false;
+        };
+        var window = $("#wCardiologicalDuplexScan").data("kendoWindow");
+        window.content("");
+        window.title("New Cardiological DuplexScan");
+        window.refresh({
+            url: "@Url.Action("CreateWithResident", "CardiologicalDuplexScan")" + "/" + selectedItem.ResidentId
+        });
+        window.center();
+        window.maximize().open();
+        return false;
+    }
+
+    function onOpenCardiologicalDuplexScan(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseCardiologicalDuplexScan(e) {
+        //$("#CardiologicalDuplexScan").data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefreshCardiologicalDuplexScan(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+</script>
+
+@(Html.Kendo().Window().Name("wCardiologicalECG")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalECG")
+              .Open("onOpenCardiologicalECG")
+              .Refresh("onRefreshCardiologicalECG"))
+)
+
+<script>
+
+    function CreateCardiologicalECG() {
+        var grid = $("#Resident").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("Record is not selected");
+            return false;
+        };
+        var window = $("#wCardiologicalECG").data("kendoWindow");
+        window.content("");
+        window.title("New Cardiological ECG");
+        window.refresh({
+            url: "@Url.Action("CreateWithResident", "CardiologicalECG")" + "/" + selectedItem.ResidentId
+        });
+        window.center();
+        window.maximize().open();
+        return false;
+    }
+
+    function onOpenCardiologicalECG(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseCardiologicalECG(e) {
+        //$("#CardiologicalECG").data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefreshCardiologicalECG(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+</script>
+
+
+@(Html.Kendo().Window().Name("wCardiologicalEchoCG")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalEchoCG")
+              .Open("onOpenCardiologicalEchoCG")
+              .Refresh("onRefreshCardiologicalEchoCG"))
+)
+
+<script>
+    function CreateCardiologicalEchoCG() {
+        var grid = $("#Resident").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("Record is not selected");
+            return false;
+        };
+        var window = $("#wCardiologicalEchoCG").data("kendoWindow");
+        window.content("");
+        window.title("New Cardiological EchoCG");
+        window.refresh({
+            url: "@Url.Action("CreateWithResident", "CardiologicalEchoCG")" + "/" + selectedItem.ResidentId
+        });
+        window.center();
+        window.maximize().open();
+        return false;
+    }
+
+
+    function onOpenCardiologicalEchoCG(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseCardiologicalEchoCG(e) {
+        //$("#CardiologicalEchoCG").data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefreshCardiologicalEchoCG(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+</script>
+
+@(Html.Kendo().Window().Name("wCardiologicalExamination")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalExamination")
+              .Open("onOpenCardiologicalExamination")
+              .Refresh("onRefreshCardiologicalExamination"))
+)
+
+<script>
+    function CreateCardiologicalExamination() {
+        var grid = $("#Resident").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("Record is not selected");
+            return false;
+        };
+        var window = $("#wCardiologicalExamination").data("kendoWindow");
+        window.content("");
+        window.title("New Cardiological Examination");
+        window.refresh({
+            url: "@Url.Action("CreateWithResident", "CardiologicalExamination")" + "/" + selectedItem.ResidentId
+        });
+        window.center();
+        window.maximize().open();
+        return false;
+    }
+
+    function onOpenCardiologicalExamination(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseCardiologicalExamination(e) {
+        //$("#CardiologicalExamination").data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefreshCardiologicalExamination(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+</script>
+
+
+@(Html.Kendo().Window().Name("wCardiologicalObjective")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalObjective")
+              .Open("onOpenCardiologicalObjective")
+              .Refresh("onRefreshCardiologicalObjective"))
+)
+
+<script>
+
+    function CreateCardiologicalObjective() {
+        var grid = $("#Resident").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("Record is not selected");
+            return false;
+        };
+        var window = $("#wCardiologicalObjective").data("kendoWindow");
+        window.content("");
+        window.title("New Cardiological Objective");
+        window.refresh({
+            url: "@Url.Action("CreateWithResident", "CardiologicalObjective")" + "/" + selectedItem.ResidentId
+        });
+        window.center();
+        window.maximize().open();
+        return false;
+    }
+
+    function onOpenCardiologicalObjective(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseCardiologicalObjective(e) {
+        //$("#CardiologicalObjective").data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefreshCardiologicalObjective(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+</script>
+
+@(Html.Kendo().Window().Name("wCardiologicalPCI")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalPCI")
+              .Open("onOpenCardiologicalPCI")
+              .Refresh("onRefreshCardiologicalPCI"))
+)
+
+<script>
+
+    function CreateCardiologicalPCI() {
+        var grid = $("#Resident").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("Record is not selected");
+            return false;
+        };
+        var window = $("#wCardiologicalPCI").data("kendoWindow");
+        window.content("");
+        window.title("New Cardiological PCI");
+        window.refresh({
+            url: "@Url.Action("CreateWithResident", "CardiologicalPCI")" + "/" + selectedItem.ResidentId
+        });
+        window.center();
+        window.maximize().open();
+        return false;
+    }
+
+    function onOpenCardiologicalPCI(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseCardiologicalPCI(e) {
+        //$("#CardiologicalPCI").data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefreshCardiologicalPCI(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+</script>
+
+@(Html.Kendo().Window().Name("wCardiologicalSurgery")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalSurgery")
+              .Open("onOpenCardiologicalSurgery")
+              .Refresh("onRefreshCardiologicalSurgery"))
+)
+
+<script>
+    function CreateCardiologicalSurgery() {
+        var grid = $("#Resident").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("Record is not selected");
+            return false;
+        };
+        var window = $("#wCardiologicalSurgery").data("kendoWindow");
+        window.content("");
+        window.title("New Cardiological Surgery");
+        window.refresh({
+            url: "@Url.Action("CreateWithResident", "CardiologicalSurgery")" + "/" + selectedItem.ResidentId
+        });
+        window.center();
+        window.maximize().open();
+        return false;
+    }
+
+    function onOpenCardiologicalSurgery(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseCardiologicalSurgery(e) {
+        //$("#CardiologicalSurgery").data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefreshCardiologicalSurgery(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+</script>
+
+
+@(Html.Kendo().Window().Name("wCardiologicalTreadmil")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalTreadmil")
+              .Open("onOpenCardiologicalTreadmil")
+              .Refresh("onRefreshCardiologicalTreadmil"))
+)
+
+
+<script>
+    function CreateCardiologicalTreadmil() {
+        var grid = $("#Resident").data("kendoGrid");
+        var selectedItem = grid.dataItem(grid.select());
+        if (selectedItem == null) {
+            alert("Record is not selected");
+            return false;
+        };
+        var window = $("#wCardiologicalTreadmil").data("kendoWindow");
+        window.content("");
+        window.title("New Cardiological Treadmil");
+        window.refresh({
+            url: "@Url.Action("CreateWithResident", "CardiologicalTreadmil")" + "/" + selectedItem.ResidentId
+        });
+        window.center();
+        window.maximize().open();
+
+        return false;
+    }
+
+    function onOpenCardiologicalTreadmil(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseCardiologicalTreadmil(e) {
+        //$("#CardiologicalTreadmil").data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefreshCardiologicalTreadmil(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+</script>

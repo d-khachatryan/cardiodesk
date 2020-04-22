@@ -1,0 +1,212 @@
+﻿@model CardioSence.Models.CardiologicalExaminationItem
+
+@{
+    ViewBag.Title = "Laboratory";
+}
+
+<script type="text/javascript">
+
+    function Search() {
+        $("#CardiologicalExamination").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function Clear() {
+        // Էստեղ կավելացնենք ֆիլտրի դաշտերը
+        $("#CardiologicalExamination").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function getParameter() {
+        return {
+            patientId: $("#prmPatientId").val(),
+            // մյուս դաշտերը
+        };
+    }
+
+</script>
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Template("<a title=\"New Laboratory\" class=\"ToolbarIcon\" onclick=\"return Create(); \"><img src=\"../img/icons/microscope-plus.png\" width=\"35\"/></a>");
+        items.Add().Template("<a title=\"Details\" class=\"ToolbarIcon\" onclick=\"return Details(); \"><img src=\"../img/icons/list-button.png\" width=\"35\"/></a>");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Create").Id("btnCreate").Click("Create");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Detail").Id("btnDetail").Click("Detail");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>Search fields</h4>
+                <div class="form-group margin-5-0">
+                    <input type="text" value="" class="input-item k-textbox" placeholder="First Name" />
+                </div>
+                <div class="form-group margin-5-0">
+                    <input type="text" value="" class="input-item k-textbox" placeholder="Last Name" />
+                </div>
+                <div class="form-group margin-10-0 align-right">
+                    <button id="rtSearch" class="k-button">Search</button>
+                    <button id="rtClear" class="k-button">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    @(Html.Kendo().Grid<CardioSence.Models.CardiologicalExaminationItem>()
+                      .Name("CardiologicalExamination")
+                      .Events(e => e.DataBound("showCommandIcons"))
+                      .Columns(columns =>
+                      {
+                          columns.Bound(model => model.CardiologicalExaminationId).Hidden();
+                          columns.Bound(model => model.PatientId);
+                          columns.Bound(model => model.ResidentName);
+                          columns.Bound(model => model.CardiologicalExaminationDate);
+                          columns.Command(commands =>
+                          {
+                              commands.Custom("cmdUpdateCardiologicalExamination").Text(" ").Click("Update").HtmlAttributes(new { @class = "Update_Icon" });
+                              commands.Custom("cmdDeleteCardiologicalExamination").Text(" ").Click("Delete").HtmlAttributes(new { @class = "Delete_Icon" });
+                          }).Title("Commands").Width(130);
+                      })
+                      .Selectable(s => s.Mode(GridSelectionMode.Single))
+                      .Pageable()
+                      .Filterable()
+                      .Scrollable()
+                      .Groupable()
+                      .Sortable()
+                      .Resizable(resize => resize.Columns(true))
+                      .Reorderable(reorder => reorder.Columns(true))
+                      .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .Read(read => read.Action("ReadCardiologicalExaminationItem", "CardiologicalExamination").Data("getParameter"))
+                      .PageSize(15)
+                      .Sort(sort => sort.Add("CardiologicalExaminationId").Descending())
+                      .Model(model =>
+                      {
+                          model.Id(p => p.CardiologicalExaminationId);
+                      }
+                      )
+)
+    )
+
+@(Html.Kendo().Window().Name("wCardiologicalExamination")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalExamination")
+              .Open("onOpenCardiologicalExamination")
+              .Refresh("onRefreshCardiologicalExamination"))
+)
+
+    @(Html.Kendo().Window().Name("wCardiologicalExaminationDetail")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalExamination")
+              .Open("onOpenCardiologicalExamination")
+              .Refresh("onRefreshCardiologicalExamination"))
+    )
+
+    <script>
+
+        //$("#wCardiologicalExamination, #wCardiologicalExaminationDetail").kendoWindow({
+        //    width: "95%",
+        //    height: "85%"
+        //});
+
+        function Create() {
+            var window = $("#wCardiologicalExamination").data("kendoWindow");
+            window.content("");
+            window.title("New Cardiological Examination");
+            window.refresh({
+                url: "@Url.Action("Create", "CardiologicalExamination")"
+            });
+        window.center();
+        window.maximize().open();
+        return false;
+        }
+
+        function Update(e) {
+            var row = $(e.target).closest("tr");
+            var grid = $("#CardiologicalExamination").data("kendoGrid");
+            var dataItem = grid.dataItem(row);
+            var window = $("#wCardiologicalExamination").data("kendoWindow");
+            window.content("");
+            window.title("Edit Cardiological Case");
+            window.refresh({
+                url: "@Url.Action("Update", "CardiologicalExamination")" + "/" + dataItem.CardiologicalExaminationId
+            });
+        window.center();
+        window.maximize().open();
+        return false;
+        }
+
+        function Delete(e) {
+            var row = $(e.target).closest("tr");
+            var grid = $("#CardiologicalExamination").data("kendoGrid");
+            var dataItem = grid.dataItem(row);
+            var r = confirm("Are you sure to remove the record?");
+            if (r == false) {
+                return false;
+            }
+            var rt = false;
+            var dt;
+            var q = $.ajax({
+                url: '@Url.Action("DeleteCardiologicalExamination", "CardiologicalExamination")',
+                dataType: "json",
+                type: "GET",
+                data: { id: dataItem.CardiologicalExaminationId },
+                async: false,
+                success: function (data) { dt = data; rt = true; },
+                error: function (xhr) { dt = xhr; rt = false; }
+            });
+            if (rt == true) {
+                if (dt != "1") {
+                    alert(JSON.stringify(dt));
+                }
+                else {
+                    $("#CardiologicalExamination").data("kendoGrid").dataSource.read();
+                }
+            }
+            else {
+                alert(dt);
+                return false;
+            }
+            return false;
+        }
+
+        function Details() {
+            var grid = $("#CardiologicalExamination").data("kendoGrid");
+            var selectedItem = grid.dataItem(grid.select());
+            if (selectedItem == null) {
+                alert("Record is not selected");
+                return false;
+            };
+            var window = $("#wCardiologicalExaminationDetail").data("kendoWindow");
+            window.content("");
+            window.title("Details");
+            window.refresh({
+                url: "@Url.Action("Details", "CardiologicalExamination")" + "/" + selectedItem.CardiologicalExaminationId
+            });
+        window.center();
+        window.maximize().open();
+            return false;
+        }
+
+        function onOpenCardiologicalExamination(e) {
+            kendo.ui.progress(e.sender.element, true);
+        }
+        function onCloseCardiologicalExamination(e) {
+            $("#CardiologicalExamination").data("kendoGrid").dataSource.read();
+            $(".k-overlay").css("display", "none");
+        }
+        function onRefreshCardiologicalExamination(e) {
+            kendo.ui.progress(e.sender.element, false);
+        }
+    </script>
+
+    

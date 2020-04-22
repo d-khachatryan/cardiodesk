@@ -1,0 +1,98 @@
+﻿@using CardioSence.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+    Layout = "_LayoutNull.cshtml";
+}
+
+<div class="homePage">
+    <div class="homePage_back catalog-grid">
+        <div class="homePage_text create-item">
+            <h2>@ViewBag.Title</h2>
+            <h4>Use a local account to log in.</h4>
+
+            <section id="loginForm" class="loginForm row">
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+            {
+                    @Html.AntiForgeryToken()
+                    
+
+                    <div class="col-sm-12 border-box">
+                        <div class="form-group">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @*@Html.LabelFor(m => m.Email, new { @class = "control-label" })*@
+                            @Html.Kendo().TextBoxFor(m => m.Email).HtmlAttributes(new { @class = "form-control", placeholder = "Email" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-sm-12 border-box">
+                        <div class="form-group">
+                            @*@Html.LabelFor(m => m.Password, new { @class = "control-label" })*@
+                            @Html.Kendo().TextBoxFor(m => m.Password).HtmlAttributes(new { @class = "form-control", type = "password", placeholder = "Password" })
+                            @*@Html.PasswordFor(m => m.Password, new { @class = "form-control" })*@
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-sm-12 border-box">
+                        <div class="form-group">
+                            <div class="checkbox">
+                                @Html.Kendo().CheckBoxFor(m => m.RememberMe)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 border-box">
+                        <div class="form-group">
+                            <input type="submit" id="submit" value="Log in" class="k-button" />
+                        </div>
+                    </div>
+                    @*<div class="col-sm-12 border-box">
+                    <div class="form-group">
+                        <p>
+                            @Html.ActionLink("Register as a new user", "Register")
+                        </p>
+                    </div>
+                </div>*@
+                    <div class="col-sm-12 border-box">
+                        <div class="form-group">
+                            <p>
+                                @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                            </p>
+                        </div>
+                    </div>
+                }
+            </section>
+        </div>
+    </div>
+</div>
+
+
+
+@*<div class="col-md-4">
+        <section id="socialLoginForm">
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+        </section>
+    </div>*@
+@*<script>
+    
+</script>*@
+
+@section Scripts{
+@Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $("#submit")
+               .click(function (e) {
+                   var errTempl = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em"><span class="k-icon k-warning"> </span>#=message#<div class="k-callout k-callout-n"></div></div>';
+                   var validator = $("form").kendoValidator({
+                       errorTemplate: errTempl
+                   }).data("kendoValidator");
+                   if (!validator.validate()) {
+                       return false;
+                   }
+               })
+
+        var textHeight = $(".homePage_back").height()-60;
+        $(".homePage_text").css({
+            "max-height": textHeight
+        });
+    </script>
+}

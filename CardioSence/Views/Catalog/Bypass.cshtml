@@ -1,0 +1,35 @@
+﻿@(Html.Kendo().Grid<CardioSence.Models.Bypass>()
+              .Name("Bypass")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.BypassId).Width(70);
+                  columns.Bound(product => product.BypassName);
+                  columns.Command(commands =>
+                  {
+                      commands.Destroy().Text("Delete").HtmlAttributes(new { @class = "Cat_Delete_Icon" });
+                  }).Title("Commands").Width(110);
+              })
+              .ToolBar(toolbar =>
+              {
+                  toolbar.Create().Text("New");
+                  toolbar.Save().SaveText("Save").CancelText("Cancel");
+              })
+              .Editable(editable => editable.Mode(GridEditMode.InCell))
+              .DataSource(dataSource =>
+                  dataSource.Ajax()
+                    .Batch(true)
+                    .Model(model =>
+                    {
+                        model.Id(product => product.BypassId);
+                        model.Field(product => product.BypassId).Editable(false);
+                    })
+                    .Create(create => create.Action("BypassCreate", "Catalog"))
+                    .Read(read => read.Action("BypassRead", "Catalog"))
+                    .Update(update => update.Action("BypassUpdate", "Catalog"))
+                    .Destroy(destroy => destroy.Action("BypassDestroy", "Catalog"))
+              )
+              .Pageable()
+              .HtmlAttributes(new { @class = "catalog-grid" })
+              .Scrollable()
+)
+

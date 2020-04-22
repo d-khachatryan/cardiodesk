@@ -1,0 +1,290 @@
+﻿@model IEnumerable<CardioSence.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Users";
+}
+
+<script type="text/javascript">
+    $(document)
+        .ready(function () {
+            currentUserIndex = -1;
+        });
+
+</script>
+
+@(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Type(CommandType.Button).Togglable(false).Text("New User").Id("btnInsert").Click("CreateUser");
+    })
+)
+
+@(Html.Kendo().Grid<CardioSence.Models.ApplicationUser>()
+      .Name("User")
+      .Events(events => events.DataBound("onUserDataBound").DetailExpand("onUserDetailExpand"))
+      .Columns(columns =>
+      {
+          columns.Bound(model => model.Id).Hidden();
+          columns.Bound(model => model.UserName);
+          columns.Bound(model => model.FirstName);
+          columns.Bound(model => model.LastName);
+          columns.Bound(model => model.Email);
+          columns.Command(commands =>
+          {
+              commands.Custom("cmdUpdateUser").Text(" ").Click("UpdateUser").HtmlAttributes(new { @class = "Update_Icon" });
+              commands.Custom("cmdDeleteUser").Text(" ").Click("DeleteUser").HtmlAttributes(new { @class = "Delete_Icon" });
+          }).Title("Commands").Width(130);
+      })
+
+      .Selectable(s => s.Mode(GridSelectionMode.Single))
+      .Pageable()
+      .Filterable()
+      .Scrollable()
+      .Sortable()
+      //.HtmlAttributes(new { style = "height:620px;" })
+      .ClientDetailTemplateId("template")
+      .Resizable(resize => resize.Columns(true))
+      .Reorderable(reorder => reorder.Columns(true))
+      .DataSource(dataSource => dataSource
+          .Ajax()
+          .Read(read => read.Action("ReadUsers", "User"))
+          .PageSize(15)
+          .Sort(sort => sort.Add("UserName").Descending())
+          .Model(model =>
+          {
+              model.Id(p => p.Id);
+              model.Id(p => p.UserName);
+          }
+          )
+)
+)
+
+@(Html.Kendo().Window().Name("wUser")
+              .Width(650)
+              .Height(450)
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseUser")
+              .Open("onOpenUser")
+              .Refresh("onRefreshUser"))
+)
+
+<script>
+
+    function onUserDataBound(e) {
+        showCommandIcons();
+        if (currentUserIndex != -1) {
+            var row = $(this.tbody).find("tr.k-master-row:eq(" + currentUserIndex + ")");
+            this.expandRow(row);
+        }
+    }
+
+    function onUserDetailExpand(e) {
+        currentUserIndex = $(e.masterRow).index(".k-master-row");
+        var selectedItem = this.dataItem(e.masterRow);
+        UID = selectedItem.Id;
+        this.collapseRow(this.tbody.find(' > tr.k-master-row').not(e.masterRow));
+    }
+
+    function CreateUser() {
+        var window = $("#wUser").data("kendoWindow");
+        window.content("");
+        window.title("New User");
+        window.refresh({
+            url: "@Url.Action("Create", "User")"
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function UpdateUser(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#User").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var window = $("#wUser").data("kendoWindow");
+        window.content("");
+        window.title("Edit User");
+        window.refresh({
+            url: "@Url.Action("Update", "User")" + "/" + dataItem.Id
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function DeleteUser(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#User").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var r = confirm("Are you sure to remove the record?");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("Delete", "User")',
+            dataType: "json",
+            type: "GET",
+            data: {
+                id: dataItem.Id
+            },
+            async: false,
+            success: function (data) {
+                dt = data;
+                rt = true;
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+        if (rt == true) {
+            if (dt != "1") {
+                alert(JSON.stringify(dt));
+            }
+            else {
+                $("#User").data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(dt);
+            return false;
+        }
+    }
+
+    function onOpenUser(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseUser(e) {
+        $("#User").data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefreshUser(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+</script>
+
+<script id="template" type="text/kendo-tmpl">
+    @(Html.Kendo().TabStrip()
+              .Name("tabStrip_#=Id#")
+              .SelectedIndex(0)
+              .Animation(animation => animation.Open(open => open.Fade(FadeDirection.In)))
+              .Items(items =>
+              {
+              items.Add().Text("Roles").Content(@<text>
+        @(Html.Kendo().Grid<CardioSence.Models.UserRoleItem>()
+                  .Name("UserRole_#=Id#")
+                  .Events(e => e.DataBound("showCommandIcons"))
+                  .Columns(columns =>
+                  {
+                      columns.Bound(model => model.UserId).Hidden();
+                      columns.Bound(model => model.RoleId).Hidden();
+                      columns.Bound(model => model.Name);
+                      columns.Command(commands =>
+                      {
+                          commands.Custom("DeleteRole_#=Id#").Text(" ").Click("DeleteUserRole").HtmlAttributes(new { @class = "Remove_Icon" });
+                      }).Title("Commands").Width(90).HtmlAttributes(new { style = "text-align: center" });
+                  })
+                      .ToolBar(toolbar =>
+                      {
+                          toolbar.Custom().Name("CreateRole_#=Id#").Text("New Role").HtmlAttributes(new { onclick = "return CreateUserRole();" });
+                      })
+                      .DataSource(dataSource => dataSource
+                          .Ajax()
+                          .PageSize(5)
+                          .Read(read => read.Action("ReadUserRoles", "User", new { id = "#=Id#" }))
+                          .Model(model =>
+                          {
+                              model.Id(p => p.UserId);
+                              model.Id(p => p.RoleId);
+                          }
+                          )
+                      )
+                      .Scrollable()
+                      .Resizable(resize => resize.Columns(true))
+                      .Reorderable(reorder => reorder.Columns(true))
+                      .Pageable()
+                      .Sortable()
+                      .ToClientTemplate()
+        )
+            </text>);
+              })
+                .ToClientTemplate())
+</script>
+
+@(Html.Kendo().Window().Name("wUserRole")
+                  .Width(400).Height(120).Draggable().Resizable()
+                  .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+                  .Visible(false).Events(events => events
+                  .Close("onCloseUserRole")
+                  .Open("onOpenUserRole")
+                  .Refresh("onRefreshUserRole"))
+)
+
+<script>
+    function CreateUserRole() {
+        var window = $("#wUserRole").data("kendoWindow");
+        window.content("");
+        window.title("Add New Role");
+        window.refresh({
+            url: "@Url.Action("CreateUserRole", "User")" + "/" + UID
+        });
+        window.center();
+        window.open();
+        return false;
+    }
+
+    function DeleteUserRole(e) {
+        var row = $(e.target).closest("tr");
+        var gridName = "#UserRole_" + UID;
+        var grid = $(gridName).data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var r = confirm("Are you sure to remove the record?");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("DeleteUserRole", "User")',
+            dataType: "json",
+            type: "GET",
+            data: {
+                userId: dataItem.UserId,
+                roleName: dataItem.Name
+            },
+            async: false,
+            success: function (data) {
+                dt = data;
+                rt = true;
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+        if (rt == true) {
+            $("#UserRole_" + UID).data("kendoGrid").dataSource.read();
+        } else {
+            alert(dt);
+            return false;
+        }
+        return false;
+    }
+    function onOpenUserRole(e) {
+        kendo.ui.progress(e.sender.element, true);
+
+    } function onCloseUserRole(e) {
+        $("#UserRole_" + UID).data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefreshUserRole(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+</script>
+

@@ -1,0 +1,549 @@
+﻿@model CardioSence.Models.CardiologicalEchoCGItem
+
+@{
+    Layout = null;
+}
+
+<div class="container-maxwidth720 create-item">
+    @using (Html.BeginForm("Save", "CardiologicalEchoCG", FormMethod.Post, new { id = "frmCardiologicalEchoCG" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.CardiologicalEchoCGId)
+        <fieldset class="create-fieldset">
+            <legend>Patient</legend>
+
+            @if (@Model.CardiologicalEchoCGId == 0 && @Model.ResidentId == null)
+                {
+                <div class="col-sm-12 border-box">
+                    <span style="color:#808080; font-style:italic">Please, enter the patient id or name or birth date here for find the patient</span>
+                </div>
+                    <div class="col-sm-12 border-box">
+                        @(Html.Kendo().ComboBoxFor(model => model.ResidentId)
+                    .Name("ResidentId")
+                    .Placeholder("Select")
+                    .DataTextField("ResidentName")
+                    .DataValueField("ResidentId")
+                    .HtmlAttributes(new { style = "width:100%;" })
+                    .Filter(FilterType.Contains)
+                    .AutoBind(false)
+                    .MinLength(5)
+                    .DataSource(source =>
+                    {
+                        source.Read(read =>
+                        {
+                            read.Action("ResidentInfo", "Resident");
+                        })
+                        .ServerFiltering(true);
+                    })
+                        )
+                    </div>
+            }
+            else
+            {
+                @Html.HiddenFor(model => model.ResidentId)
+                <div class="form-group">
+                    <div class="col-md-2 col-sm-3 col-xs-4 border-box align-right inputNameLable" style="color:#000">ID:</div>
+                    <div class="col-md-10 col-sm-9 col-xs-8 border-box inputNameLable">@Html.DisplayFor(model => model.PatientId)</div>
+                </div>
+                    <div class="clear"></div>
+                        <hr style="margin:5px" />
+                        <div class="form-group">
+                            <div class="col-md-2 col-sm-3  col-xs-4 border-box align-right inputNameLable" style="color:#000">Name:</div>
+                            <div class="col-md-10 col-sm-9 col-xs-8 border-box inputNameLable">
+                                @Html.DisplayFor(model => model.ResidentFirstName)
+                                @Html.DisplayFor(model => model.ResidentLastName)
+                                @Html.DisplayFor(model => model.ResidentPatronymicName)
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <hr style="margin:5px" />
+                        <div class="form-group">
+                            <div class="col-md-2 col-sm-3  col-xs-4 border-box align-right inputNameLable" style="color:#000">Birth Date:</div>
+                            <div class="col-md-10 col-sm-9 col-xs-8 border-box inputNameLable">@Html.DisplayFor(model => model.BirthDate)</div>
+                        </div>
+            }
+        </fieldset>
+        <fieldset class="create-fieldset create-item">
+            <legend>Echocardiography</legend>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CardiologicalEchoCGDate, new { @class = "control-label" })
+                    @Html.Kendo().DatePickerFor(model => model.CardiologicalEchoCGDate)
+                    @Html.ValidationMessageFor(model => model.CardiologicalEchoCGDate)
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AOD, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.AOD)
+                    @Html.ValidationMessageFor(model => model.AOD)
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LAD, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.LAD)
+                    @Html.ValidationMessageFor(model => model.LAD)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RVDD, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.RVDD)
+                    @Html.ValidationMessageFor(model => model.RVDD)
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LVSD, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.LVSD)
+                    @Html.ValidationMessageFor(model => model.LVSD)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LVDD, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.LVDD)
+                    @Html.ValidationMessageFor(model => model.LVDD)
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LVPW, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.LVPW)
+                    @Html.ValidationMessageFor(model => model.LVPW)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LVSV, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.LVSV)
+                    @Html.ValidationMessageFor(model => model.LVSV)
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LVDV, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.LVDV)
+                    @Html.ValidationMessageFor(model => model.LVDV)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IVSW, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.IVSW)
+                    @Html.ValidationMessageFor(model => model.IVSW)
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SV, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.SV)
+                    @Html.ValidationMessageFor(model => model.SV)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EF, new { @class = "control-label" })
+                    @Html.Kendo().IntegerTextBoxFor(model => model.EF)
+                    @Html.ValidationMessageFor(model => model.EF)
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PAACTET, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.PAACTET)
+                    @Html.ValidationMessageFor(model => model.PAACTET)
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MenaPAP, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.MenaPAP)
+                    @Html.ValidationMessageFor(model => model.MenaPAP)
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PeakPAP, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.PeakPAP)
+                    @Html.ValidationMessageFor(model => model.PeakPAP)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PericardialAnteriorSeparation, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.PericardialAnteriorSeparation)
+                    @Html.ValidationMessageFor(model => model.PericardialAnteriorSeparation)
+                </div>
+            </div>
+
+            @*<div class="col-sm-12 col-md-4 col-lg-2 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CardiologicalEchoCGMoviePath, htmlAttributes: new { @class = "control-label" })
+                        @(Html.Kendo().Upload()
+                                    .Name("images")
+                                    .Messages(m => m.Select("Attache the file..."))
+                                    .Multiple(true)
+                                    .Async(a => a
+                                    .Save("UploadImage", "CardiologicalCatheterization", new { name = ViewBag.FileImage, path = ViewBag.Folder })
+                                    .Remove("DeleteImage", "CardiologicalCatheterization", new { name = ViewBag.FileImage, path = ViewBag.Folder })
+                                    .AutoUpload(true)
+                                    )
+                                    .Events(x => x.Select(@<text>
+                                        function(e) {
+                                        var files = e.files
+                                        var acceptedFiles = [".jpg", ".jpeg", ".png", ".pdf"]
+                                        var isAcceptedImageFormat = ($.inArray(files[0].extension, acceptedFiles)) != -1
+                                        if (!isAcceptedImageFormat) {
+                                        e.preventDefault();
+                                        alert("Image must be jpeg, png or pdf");
+                                        }
+                                        }
+                                    </text>))
+                        )
+                    </div>
+                </div>*@
+
+            <div class="clear"></div>
+
+            <div class="col-sm-12 border-box" style="margin-top:15px; max-width: 680px">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a data-toggle="tab" href="#tabFor_CardiologicalEchoCGVelocitys">Valve Velocity</a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#tabFor_CardiologicalEchoCGWalls">Wall Contractility</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tabFor_CardiologicalEchoCGVelocitys" class="tab-pane fade in active">
+                        @(Html.Kendo().Grid<CardioSence.Models.CardiologicalEchoCGVelocity>()
+                              .Name("CardiologicalEchoCGVelocity")
+                              .Columns(columns =>
+                              {
+                                  columns.Bound(model => model.CardiologicalEchoCGVelocityId).Hidden();
+                                  columns.Bound(model => model.CardiologicalEchoCGId).Hidden();
+                                  columns.ForeignKey(model => model.ValveId, (List<SelectListItem>)ViewBag.vbValves, "Value", "Text").EditorTemplateName("Valve").Width(150);
+                                  columns.Bound(model => model.Velocity).Width(150);
+                                  columns.ForeignKey(model => model.StenosisId, (List<SelectListItem>)ViewBag.vbStenosises, "Value", "Text").EditorTemplateName("Stenosis").Width(150);
+                                  columns.Bound(model => model.Area).Width(150);
+                                  columns.Bound(model => model.Gradient).Width(150);
+                                  columns.ForeignKey(model => model.InsufficiencyId, (List<SelectListItem>)ViewBag.vbInsufficiencyes, "Value", "Text").EditorTemplateName("Insufficiency").Width(120);
+                                  columns.Command(commands =>
+                                  {
+                                      commands.Destroy().Text("Remove");
+                                  }).Title("").Width(102);
+                              })
+                              .ToolBar(toolbar =>
+                              {
+                                  toolbar.Create().Text("New");
+                              })
+                              .Editable(editable => editable.Mode(GridEditMode.InCell))
+                                  .DataSource(dataSource => dataSource
+                                      .Ajax()
+                                      .Batch(true)
+                                      //.PageSize(5)
+                                      .Read(read => read.Action("ReadCardiologicalEchoCGVelocitys", "CardiologicalEchoCGVelocity", new { id = @Model.CardiologicalEchoCGId }))
+                                      .Model(model =>
+                                      {
+                                          model.Id(p => p.CardiologicalEchoCGVelocityId);
+                                      }
+                                      )
+                                  )
+                                  .Scrollable()
+                                  .Resizable(resize => resize.Columns(true))
+                                  .Reorderable(reorder => reorder.Columns(true))
+                        //.Mobile (MobileMode.Tablet)
+                        //.HtmlAttributes(new { style = "height:500px;"})
+                        //.Pageable()
+                        .Sortable()
+                        )
+                    </div>
+                    <div id="tabFor_CardiologicalEchoCGWalls" class="tab-pane fade">
+                        @(Html.Kendo().Grid<CardioSence.Models.CardiologicalEchoCGWall>()
+                              .Name("CardiologicalEchoCGWall")
+                              .Columns(columns =>
+                              {
+                                  columns.Bound(model => model.CardiologicalEchoCGWallId).Hidden();
+                                  columns.Bound(model => model.CardiologicalEchoCGId).Hidden();
+                                  columns.ForeignKey(model => model.EchoCGZoneId, (List<SelectListItem>)ViewBag.vbEchoCGZones, "Value", "Text").EditorTemplateName("EchoCGZone");
+                                  columns.ForeignKey(model => model.ContractilityId, (List<SelectListItem>)ViewBag.vbContractilityes, "Value", "Text").EditorTemplateName("Contractility");
+                                  columns.Command(commands =>
+                                  {
+                                      commands.Destroy().Text("Remove");
+                                  }).Title("").Width(102);
+                              })
+                              .ToolBar(toolbar =>
+                              {
+                                  toolbar.Create().Text("New");
+                              })
+                              .Editable(editable => editable.Mode(GridEditMode.InCell))
+                                  .DataSource(dataSource => dataSource
+                                      .Ajax()
+                                      .Batch(true)
+                                      //.PageSize(5)
+                                      .Read(read => read.Action("ReadCardiologicalEchoCGWalls", "CardiologicalEchoCGWall", new { id = @Model.CardiologicalEchoCGId }))
+                                      .Model(model =>
+                                      {
+                                          model.Id(p => p.CardiologicalEchoCGWallId);
+                                      }
+                                      )
+                                  )
+                                  .Scrollable()
+                                  .Resizable(resize => resize.Columns(true))
+                                  .Reorderable(reorder => reorder.Columns(true))
+                        //.Mobile(MobileMode.Tablet)
+                        //.Pageable()
+                        .Sortable()
+                        )
+                    </div>
+                </div>
+            </div>
+
+            <div class="clear"></div>
+            <div class="col-sm-12 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Comment, new { @class = "control-label" })
+                    @Html.TextAreaFor(model => model.Comment, new { @class = "k-textbox", style = "width: 100%;" })
+                    @Html.ValidationMessageFor(model => model.Comment)
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="create-fieldset">
+                <div class="col-sm-6 border-box">
+                    <span id="errormssg"></span>
+                </div>
+                <div class="col-sm-6 border-box">
+                    <div class="form-group align-right">
+                        <button id="rtSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> Save</button>
+                        <button id="rtCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> Cancel</button>
+                    </div>
+                </div>
+        </fieldset>
+    }
+</div>
+
+
+
+    <script>
+        function myFunction() {
+        $("#ResidentNameError").empty();
+        if ($("#PatientId").val() == "") {
+            alert("Please, enter the Patinet id");
+            return false;
+        }
+        else {
+            var patientId = $("#PatientId").val();
+        }
+
+        var q = $.ajax({
+            url: '@Url.Action("PatientInfo", "Resident")',
+            dataType: "json",
+            type: "GET",
+            data: { id: patientId },
+            async: true,
+            success: function (data) {
+                dt = data.Data;
+                rt = true;
+                if (dt != null) {
+                    $("#ResidentId").val(dt[0].ResidentId);
+                    $("#PatientId").val(dt[0].PatientId);
+                    $("#ResidentFirstName").html(dt[0].ResidentFirstName);
+                    $("#ResidentLastName").html(dt[0].ResidentLastName);
+                }
+                if (dt[0].PatientId == null) {
+                    //alert("No any record with entered id. Please, enter the correct id");
+                    $("#ResidentNameError").html("No any record found with entered id. Please, enter the correct id");
+                }
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+        return false;
+    }
+
+        $(document).ready(function () {
+            $("#rtCancel")
+                    .click(function (e) {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                        return false;
+                    });
+            $("#rtSave")
+                .click(function (e) {
+
+                    var errTempl = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em"><span class="k-icon k-warning"> </span>#=message#<div class="k-callout k-callout-n"></div></div>';
+                    var validator = $("#frmCardiologicalEchoCG").kendoValidator({
+                        errorTemplate: errTempl
+                    }).data("kendoValidator");
+                    //var CDTTypeID = $("#CDTTypeID").data("kendoComboBox").input;
+
+                    if (!validator.validate()) {
+                        //$(elmnt).closest('.form-group').addClass('has-error');
+                        //CDTTypeID.addClass("k-invalid");
+                        $("#errormssg").html("<span class='fa fa-exclamation-triangle'></span> @CardioSence.Resources.General.RequiredFields");
+                        return false;
+                    }
+
+
+
+                    var item = new Object();
+                    item.CardiologicalEchoCGId = '@Model.CardiologicalEchoCGId';
+                    item.ResidentId = $("#ResidentId").val();
+                    item.CardiologicalEchoCGDate = $("#CardiologicalEchoCGDate").val();
+                    item.AOD = $("#AOD").val();
+                    item.LAD = $("#LAD").val();
+                    item.RVDD = $("#RVDD").val();
+                    item.LVSD = $("#LVSD").val();
+                    item.LVDD = $("#LVDD").val();
+                    item.LVPW = $("#LVPW").val();
+                    item.LVSV = $("#LVSV").val();
+                    item.LVDV = $("#LVDV").val();
+                    item.IVSW = $("#IVSW").val();
+                    item.SV = $("#SV").val();
+                    item.EF = $("#EF").val();
+                    item.PAACTET = $("#PAACTET").val();
+                    item.MenaPAP = $("#MenaPAP").val();
+                    item.PeakPAP = $("#PeakPAP").val();
+                    item.PericardialAnteriorSeparation = $("#PericardialAnteriorSeparation").val();
+                    item.Comment = $("#Comment").val();
+                    //item.CardiologicalEchoCGMoviePath = $("#CardiologicalEchoCGMoviePath").val();
+
+                    var velocityGrid = $("#CardiologicalEchoCGVelocity").data("kendoGrid"), parameterMap = velocityGrid.dataSource.transport.parameterMap;
+                    var currentVelocityData = velocityGrid.dataSource.data();
+                    var rVelocity = [];
+                    for (var i = 0; i < currentVelocityData.length; i++) {
+                        var itm = new Object();
+                        if (currentVelocityData[i].isNew()) {
+                            itm.CardiologicalEchoCGVelocityId = currentVelocityData[i].CardiologicalEchoCGVelocityId;
+                            itm.CardiologicalEchoCGId = currentVelocityData[i].CardiologicalEchoCGId;
+                            itm.ValveId = currentVelocityData[i].ValveId;
+                            itm.Velocity = currentVelocityData[i].Velocity;
+                            itm.StenosisId = currentVelocityData[i].StenosisId;
+                            itm.Area = currentVelocityData[i].Area;
+                            itm.Gradient = currentVelocityData[i].Gradient;
+                            itm.InsufficiencyId = currentVelocityData[i].InsufficiencyId;
+                            itm.RecordStatus = String(1);
+                            rVelocity.push(itm);
+                        } else if (currentVelocityData[i].dirty) {
+                            itm.CardiologicalEchoCGVelocityId = currentVelocityData[i].CardiologicalEchoCGVelocityId;
+                            itm.CardiologicalEchoCGId = currentVelocityData[i].CardiologicalEchoCGId;
+                            itm.ValveId = currentVelocityData[i].ValveId;
+                            itm.Velocity = currentVelocityData[i].Velocity;
+                            itm.StenosisId = currentVelocityData[i].StenosisId;
+                            itm.Area = currentVelocityData[i].Area;
+                            itm.Gradient = currentVelocityData[i].Gradient;
+                            itm.InsufficiencyId = currentVelocityData[i].InsufficiencyId;
+                            itm.RecordStatus = String(2);
+                            rVelocity.push(itm);
+                        }
+                    }
+                    for (var i = 0; i < velocityGrid.dataSource._destroyed.length; i++) {
+                        var itm = new Object();
+                        itm.CardiologicalEchoCGVelocityId = velocityGrid.dataSource._destroyed[i].CardiologicalEchoCGVelocityId;
+                        itm.CardiologicalEchoCGId = velocityGrid.dataSource._destroyed[i].CardiologicalEchoCGId;
+                        itm.ValveId = velocityGrid.dataSource._destroyed[i].ValveId;
+                        itm.Velocity = velocityGrid.dataSource._destroyed[i].Velocity;
+                        itm.StenosisId = velocityGrid.dataSource._destroyed[i].StenosisId;
+                        itm.Area = velocityGrid.dataSource._destroyed[i].Area;
+                        itm.Gradient = velocityGrid.dataSource._destroyed[i].Gradient;
+                        itm.InsufficiencyId = velocityGrid.dataSource._destroyed[i].InsufficiencyId;
+                        itm.RecordStatus = String(3);
+                        rVelocity.push(itm);
+                    }
+                    item.CardiologicalEchoCGVelocitys = rVelocity;
+
+                    var wallGrid = $("#CardiologicalEchoCGWall").data("kendoGrid"), parameterMap = wallGrid.dataSource.transport.parameterMap;
+                    var currentWallGridData = wallGrid.dataSource.data();
+                    var rWall = [];
+                    for (var i = 0; i < currentWallGridData.length; i++) {
+                        var itm = new Object();
+                        if (currentWallGridData[i].isNew()) {
+                            itm.CardiologicalEchoCGWallId = currentWallGridData[i].CardiologicalEchoCGWallId;
+                            itm.CardiologicalEchoCGId = currentWallGridData[i].CardiologicalEchoCGId;
+                            itm.EchoCGZoneId = currentWallGridData[i].EchoCGZoneId;
+                            itm.ContractilityId = currentWallGridData[i].ContractilityId;
+                            itm.RecordStatus = String(1);
+                            rWall.push(itm);
+                        } else if (currentWallGridData[i].dirty) {
+                            itm.CardiologicalEchoCGWallId = currentWallGridData[i].CardiologicalEchoCGWallId;
+                            itm.CardiologicalEchoCGId = currentWallGridData[i].CardiologicalEchoCGId;
+                            itm.EchoCGZoneId = currentWallGridData[i].EchoCGZoneId;
+                            itm.ContractilityId = currentWallGridData[i].ContractilityId;
+                            itm.RecordStatus = String(2);
+                            rWall.push(itm);
+                        }
+                    }
+                    for (var i = 0; i < wallGrid.dataSource._destroyed.length; i++) {
+                        var itm = new Object();
+                        itm.CardiologicalEchoCGWallId = wallGrid.dataSource._destroyed[i].CardiologicalEchoCGWallId;
+                        itm.CardiologicalEchoCGId = wallGrid.dataSource._destroyed[i].CardiologicalEchoCGId;
+                        itm.EchoCGZoneId = wallGrid.dataSource._destroyed[i].EchoCGZoneId;
+                        itm.ContractilityId = wallGrid.dataSource._destroyed[i].ContractilityId;
+                        itm.RecordStatus = String(3);
+                        rWall.push(itm);
+                    }
+                    item.CardiologicalEchoCGWalls = rWall;
+
+
+                    var rt = false;
+                    var dt;
+                    var q = $.ajax({
+                        url: '@Url.Action("Save", "CardiologicalEchoCG")',
+                        dataType: "json",
+                        type: "POST",
+                        data: JSON.stringify({ cardiologicalEchoCG: item }),
+                        contentType: "application/json; charset=utf-8",
+                        async: false,
+                        success: function (data) {
+                            dt = data;
+                            rt = true;
+                        },
+                        error: function (xhr) {
+                            dt = xhr;
+                            rt = false;
+                        }
+                    });
+                    if (rt == true) {
+                        if (dt.statuscode == 1) {
+                            $(this).closest(".k-window-content").data("kendoWindow").close();
+                            return false;
+                        }
+                        else {
+                            $("#errormssg").html(dt.message);
+                            return false;
+                        }
+                    }
+                    else {
+                        //system error ocured. The popup will be closed. The view will be redirected to error page.
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                    }
+                });
+        });
+    </script>
+

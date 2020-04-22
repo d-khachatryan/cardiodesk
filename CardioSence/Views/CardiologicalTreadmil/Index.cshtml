@@ -1,0 +1,215 @@
+﻿@model CardioSence.Models.CardiologicalTreadmilItem
+
+@{
+    ViewBag.Title = "Treadmil";
+}
+
+<script type="text/javascript">
+
+    function Search() {
+        $("#CardiologicalTreadmil").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function Clear() {
+        // Էստեղ կավելացնենք ֆիլտրի դաշտերը
+        $("#CardiologicalTreadmil").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function getParameter() {
+        return {
+            patientId: $("#prmPatientId").val(),
+            // մյուս դաշտերը
+        };
+    }
+
+</script>
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Template("<a title=\"New Treadmil\" class=\"ToolbarIcon\" onclick=\"return Create(); \"><img src=\"../img/icons/treadmill-plus.png\" width=\"35\"/></a>");
+        items.Add().Template("<a title=\"Details\" class=\"ToolbarIcon\" onclick=\"return Detail(); \"><img src=\"../img/icons/list-button.png\" width=\"35\"/></a>");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Create").Id("btnCreate").Click("Create");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Detail").Id("btnDetail").Click("Detail");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>Search fields</h4>
+                <div class="form-group margin-5-0">
+                    <input type="text" value="" class="input-item k-textbox" placeholder="First Name" />
+                </div>
+                <div class="form-group margin-5-0">
+                    <input type="text" value="" class="input-item k-textbox" placeholder="Last Name" />
+                </div>
+                <div class="form-group margin-10-0 align-right">
+                    <button id="rtSearch" class="k-button">Search</button>
+                    <button id="rtClear" class="k-button">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    @(Html.Kendo().Grid<CardioSence.Models.CardiologicalTreadmilItem>()
+                      .Name("CardiologicalTreadmil")
+                      .Events(e => e.DataBound("showCommandIcons"))
+                      .Columns(columns =>
+                      {
+                          columns.Bound(model => model.CardiologicalTreadmilId).Hidden();
+                          columns.Bound(model => model.PatientId);
+                          columns.Bound(model => model.ResidentName);
+                          columns.Bound(model => model.CardiologicalTreadmilDate);
+                          columns.Bound(model => model.TreadmilProtocolName);
+                          columns.Bound(model => model.TreadmilResultName);
+                          columns.Command(commands =>
+                          {
+                              commands.Custom("cmdUpdateCardiologicalTreadmil").Text(" ").Click("Update").HtmlAttributes(new { @class = "Update_Icon" });
+                              commands.Custom("cmdDeleteCardiologicalTreadmil").Text(" ").Click("Delete").HtmlAttributes(new { @class = "Delete_Icon" });
+                          }).Title("Commands").Width(130);
+                      })
+                      .Selectable(s => s.Mode(GridSelectionMode.Single))
+                      .Pageable()
+                      .Filterable()
+                      .Scrollable()
+                      .Groupable()
+                      .Sortable()
+                      .Resizable(resize => resize.Columns(true))
+                      .Reorderable(reorder => reorder.Columns(true))
+                      .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .Read(read => read.Action("ReadCardiologicalTreadmilItem", "CardiologicalTreadmil").Data("getParameter"))
+                      .PageSize(15)
+                      .Sort(sort => sort.Add("CardiologicalTreadmilId").Descending())
+                      .Model(model =>
+                      {
+                          model.Id(p => p.CardiologicalTreadmilId);
+                      }
+                      )
+)
+    )
+
+@(Html.Kendo().Window().Name("wCardiologicalTreadmil")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalTreadmil")
+              .Open("onOpenCardiologicalTreadmil")
+              .Refresh("onRefreshCardiologicalTreadmil"))
+)
+
+    @*@(Html.Kendo().Window().Name("wCardiologicalTreadmilDetail")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalTreadmil")
+              .Open("onOpenCardiologicalTreadmil")
+              .Refresh("onRefreshCardiologicalTreadmil"))
+    )*@
+
+    <script>
+        //if (screen.width < 820) {
+        //    $("#wCardiologicalTreadmil, #wCardiologicalTreadmilDetail").kendoWindow({
+        //        width: "100%",
+        //        height: "100%"
+        //    });
+        //}
+        //else {
+        //    $("#wCardiologicalTreadmil, #wCardiologicalTreadmilDetail").kendoWindow({
+        //        width: "100%",
+        //        height: "100%"
+        //    });
+        //}
+
+        //$("#wCardiologicalTreadmil, #wCardiologicalTreadmilDetail").kendoWindow({
+        //    width: "95%",
+        //    height: "85%"
+        //});
+
+        function Create() {
+            var window = $("#wCardiologicalTreadmil").data("kendoWindow");
+            window.content("");
+            window.title("New Cardiological Treadmil");
+            window.refresh({
+                url: "@Url.Action("Create", "CardiologicalTreadmil")"
+            });
+        window.center();
+        window.maximize().open();
+
+        return false;
+        }
+
+        function Update(e) {
+            var row = $(e.target).closest("tr");
+            var grid = $("#CardiologicalTreadmil").data("kendoGrid");
+            var dataItem = grid.dataItem(row);
+            var window = $("#wCardiologicalTreadmil").data("kendoWindow");
+            window.content("");
+            window.title("Edit Cardiological Case");
+            window.refresh({
+                url: "@Url.Action("Update", "CardiologicalTreadmil")" + "/" + dataItem.CardiologicalTreadmilId
+            });
+        window.center();
+        window.maximize().open();
+        return false;
+        }
+
+        function Delete(e) {
+            var row = $(e.target).closest("tr");
+            var grid = $("#CardiologicalTreadmil").data("kendoGrid");
+            var dataItem = grid.dataItem(row);
+            var r = confirm("Are you sure to remove the record?");
+            if (r == false) {
+                return false;
+            }
+            var rt = false;
+            var dt;
+            var q = $.ajax({
+                url: '@Url.Action("DeleteCardiologicalTreadmil", "CardiologicalTreadmil")',
+                dataType: "json",
+                type: "GET",
+                data: { id: dataItem.CardiologicalTreadmilId },
+                async: false,
+                success: function (data) { dt = data; rt = true; },
+                error: function (xhr) { dt = xhr; rt = false; }
+            });
+            if (rt == true) {
+                if (dt != "1") {
+                    alert(JSON.stringify(dt));
+                }
+                else {
+                    $("#CardiologicalTreadmil").data("kendoGrid").dataSource.read();
+                }
+            }
+            else {
+                alert(dt);
+                return false;
+            }
+            return false;
+        }
+
+        function Detail() {
+            // Ավելացնել կոդ
+            return false;
+        }
+
+        function onOpenCardiologicalTreadmil(e) {
+            kendo.ui.progress(e.sender.element, true);
+        }
+        function onCloseCardiologicalTreadmil(e) {
+            $("#CardiologicalTreadmil").data("kendoGrid").dataSource.read();
+            $(".k-overlay").css("display", "none");
+        }
+        function onRefreshCardiologicalTreadmil(e) {
+            kendo.ui.progress(e.sender.element, false);
+        }
+
+    </script>
+
+   

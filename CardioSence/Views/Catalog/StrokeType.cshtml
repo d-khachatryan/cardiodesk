@@ -1,0 +1,35 @@
+﻿@(Html.Kendo().Grid<CardioSence.Models.StrokeType>()
+              .Name("StrokeType")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.StrokeTypeId).Width(70);
+                  columns.Bound(product => product.StrokeTypeName);
+                  columns.Command(commands =>
+                  {
+                      commands.Destroy().Text("Delete").HtmlAttributes(new { @class = "Cat_Delete_Icon" });
+                  }).Title("Commands").Width(110);
+              })
+              .ToolBar(toolbar =>
+              {
+                  toolbar.Create().Text("New");
+                  toolbar.Save().SaveText("Save").CancelText("Cancel");
+              })
+              .Editable(editable => editable.Mode(GridEditMode.InCell))
+              .DataSource(dataSource =>
+                  dataSource.Ajax()
+                    .Batch(true)
+                    .Model(model =>
+                    {
+                        model.Id(product => product.StrokeTypeId);
+                        model.Field(product => product.StrokeTypeId).Editable(false);
+                    })
+                    .Create(create => create.Action("StrokeTypeCreate", "Catalog"))
+                    .Read(read => read.Action("StrokeTypeRead", "Catalog"))
+                    .Update(update => update.Action("StrokeTypeUpdate", "Catalog"))
+                    .Destroy(destroy => destroy.Action("StrokeTypeDestroy", "Catalog"))
+              )
+              .Pageable()
+              .HtmlAttributes(new { @class = "catalog-grid" })
+              .Scrollable()
+)
+

@@ -1,0 +1,35 @@
+﻿@(Html.Kendo().Grid<CardioSence.Models.BloodGroup>()
+              .Name("BloodGroup")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.BloodGroupId).Width(70);
+                  columns.Bound(product => product.BloodGroupName);
+                  columns.Command(commands =>
+                  {
+                      commands.Destroy().Text("Delete").HtmlAttributes(new { @class = "Cat_Delete_Icon" });
+                  }).Title("Commands").Width(110);
+              })
+              .ToolBar(toolbar =>
+              {
+                  toolbar.Create().Text("New");
+                  toolbar.Save().SaveText("Save").CancelText("Cancel");
+              })
+              .Editable(editable => editable.Mode(GridEditMode.InCell))
+              .DataSource(dataSource =>
+                  dataSource.Ajax()
+                    .Batch(true)
+                    .Model(model =>
+                    {
+                        model.Id(product => product.BloodGroupId);
+                        model.Field(product => product.BloodGroupId).Editable(false);
+                    })
+                    .Create(create => create.Action("BloodGroupCreate", "Catalog"))
+                    .Read(read => read.Action("BloodGroupRead", "Catalog"))
+                    .Update(update => update.Action("BloodGroupUpdate", "Catalog"))
+                    .Destroy(destroy => destroy.Action("BloodGroupDestroy", "Catalog"))
+              )
+              .Pageable()
+              .HtmlAttributes(new { @class = "catalog-grid" })
+              .Scrollable()
+)
+

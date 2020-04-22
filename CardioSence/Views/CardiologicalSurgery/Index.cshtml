@@ -1,0 +1,328 @@
+﻿@model CardioSence.Models.CardiologicalSurgeryItem
+
+@{
+    ViewBag.Title = "Surgery";
+}
+
+<script type="text/javascript">
+
+    function Search() {
+        $("#CardiologicalSurgery").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function Clear() {
+        // Էստեղ կավելացնենք ֆիլտրի դաշտերը
+        $("#CardiologicalSurgery").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function getParameter() {
+        return {
+            patientId: $("#prmPatientId").val(),
+            // մյուս դաշտերը
+        };
+    }
+
+</script>
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+    .Name("ToolBar")
+    .Items(items =>
+    {
+        items.Add().Template("<a title=\"New Surgery\" class=\"ToolbarIcon\" onclick=\"return Create(); \"><img src=\"../img/icons/scalpel-plus.png\" width=\"35\"/></a>");
+        items.Add().Template("<a title=\"Details\" class=\"ToolbarIcon\" onclick=\"return Detail(); \"><img src=\"../img/icons/list-button.png\" width=\"35\"/></a>");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Create").Id("btnCreate").Click("Create");
+        //items.Add().Type(CommandType.Button).Togglable(false).Text("Detail").Id("btnDetail").Click("Detail");
+    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>Search fields</h4>
+                <div class="form-group margin-5-0">
+                    <input type="text" value="" class="input-item k-textbox" placeholder="First Name" />
+                </div>
+                <div class="form-group margin-5-0">
+                    <input type="text" value="" class="input-item k-textbox" placeholder="Last Name" />
+                </div>
+                <div class="form-group margin-10-0 align-right">
+                    <button id="rtSearch" class="k-button">Search</button>
+                    <button id="rtClear" class="k-button">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    @(Html.Kendo().Grid<CardioSence.Models.CardiologicalSurgeryItem>()
+                      .Name("CardiologicalSurgery")
+                      .Events(e => e.DataBound("showCommandIcons"))
+                      .Columns(columns =>
+                      {
+                          columns.Bound(model => model.CardiologicalSurgeryId).Hidden();
+                          columns.Bound(model => model.PatientId).Width(100);
+                          columns.Bound(model => model.ResidentName);
+                          columns.Bound(model => model.CardiologicalSurgeryDate);
+                          columns.Bound(model => model.DiseaseStatusName);
+                          columns.Bound(model => model.SkinIncisionStartTime);
+                          columns.Bound(model => model.SkinIncisionCloseTime);
+                          columns.Bound(model => model.DeathDate);
+                          columns.Command(commands =>
+                          {
+                              commands.Custom("cmdUpdateCardiologicalSurgery").Text(" ").Click("Update").HtmlAttributes(new { @class = "Update_Icon" });
+                              commands.Custom("cmdDeleteCardiologicalSurgery").Text(" ").Click("Delete").HtmlAttributes(new { @class = "Delete_Icon" });
+                          }).Title("Commands").Width(130);
+                      })
+                      .Selectable(s => s.Mode(GridSelectionMode.Single))
+                      .Pageable()
+                      .Filterable()
+                      .Scrollable()
+                      .Sortable()
+                      .ClientDetailTemplateId("template")
+                      .Resizable(resize => resize.Columns(true))
+                      .Reorderable(reorder => reorder.Columns(true))
+                      .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .Read(read => read.Action("ReadCardiologicalSurgeryItem", "CardiologicalSurgery").Data("getParameter"))
+                      .PageSize(15)
+                      .Sort(sort => sort.Add("CardiologicalSurgeryId").Descending())
+                      .Model(model =>
+                      {
+                          model.Id(p => p.CardiologicalSurgeryId);
+                      }
+                      )
+)
+    )
+
+@(Html.Kendo().Window().Name("wCardiologicalSurgery")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalSurgery")
+              .Open("onOpenCardiologicalSurgery")
+              .Refresh("onRefreshCardiologicalSurgery"))
+)
+
+    @(Html.Kendo().Window().Name("wCardiologicalSurgeryDetail")
+              .Draggable().Resizable()
+              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+              .Visible(false).Events(events => events
+              .Close("onCloseCardiologicalSurgery")
+              .Open("onOpenCardiologicalSurgery")
+              .Refresh("onRefreshCardiologicalSurgery"))
+    )
+
+    <script>
+
+        //$("#wCardiologicalSurgery, wCardiologicalSurgeryDetail").kendoWindow({
+        //    width: "95%",
+        //    height: "85%"
+        //});
+
+        function Create() {
+            var window = $("#wCardiologicalSurgery").data("kendoWindow");
+            window.content("");
+            window.title("New Record");
+            window.refresh({
+                url: "@Url.Action("Create", "CardiologicalSurgery")"
+            });
+        window.center();
+        window.maximize().open();
+        return false;
+        }
+
+        function Update(e) {
+            var row = $(e.target).closest("tr");
+            var grid = $("#CardiologicalSurgery").data("kendoGrid");
+            var dataItem = grid.dataItem(row);
+            var window = $("#wCardiologicalSurgery").data("kendoWindow");
+            window.content("");
+            window.title("Edit Cardiological Surgery");
+            window.refresh({
+                url: "@Url.Action("Update", "CardiologicalSurgery")" + "/" + dataItem.CardiologicalSurgeryId
+            });
+        window.center();
+        window.maximize().open();
+        return false;
+        }
+
+        function Delete(e) {
+            var row = $(e.target).closest("tr");
+            var grid = $("#CardiologicalSurgery").data("kendoGrid");
+            var dataItem = grid.dataItem(row);
+            var r = confirm("Are you sure to remove the record?");
+            if (r == false) {
+                return false;
+            }
+            var rt = false;
+            var dt;
+            var q = $.ajax({
+                url: '@Url.Action("DeleteCardiologicalSurgery", "CardiologicalSurgery")',
+                dataType: "json",
+                type: "GET",
+                data: { id: dataItem.CardiologicalSurgeryId },
+                async: false,
+                success: function (data) { dt = data; rt = true; },
+                error: function (xhr) { dt = xhr; rt = false; }
+            });
+            if (rt == true) {
+                if (dt != "1") {
+                    alert(JSON.stringify(dt));
+                }
+                else {
+                    $("#CardiologicalSurgery").data("kendoGrid").dataSource.read();
+                }
+            }
+            else {
+                alert(dt);
+                return false;
+            }
+            return false;
+        }
+
+        function Detail() {
+            // Ավելացնել կոդ
+            return false;
+        }
+
+        function onOpenCardiologicalSurgery(e) {
+            kendo.ui.progress(e.sender.element, true);
+        }
+        function onCloseCardiologicalSurgery(e) {
+            $("#CardiologicalSurgery").data("kendoGrid").dataSource.read();
+            $(".k-overlay").css("display", "none");
+        }
+        function onRefreshCardiologicalSurgery(e) {
+            kendo.ui.progress(e.sender.element, false);
+        }
+
+    </script>
+
+    <script id="template" type="text/kendo-tmpl">
+        @(Html.Kendo().TabStrip()
+          .Name("tabStrip_#=CardiologicalSurgeryId#")
+          .SelectedIndex(0)
+          .Animation(animation => animation.Open(open => open.Fade(FadeDirection.In)))
+          .Items(items =>
+          {
+          items.Add().Text("Complication").Content(@<text>
+        @(Html.Kendo().Grid<CardioSence.Models.CardiologicalSurgeryComplicationItem>()
+              .Name("Complication_#=CardiologicalSurgeryId#")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.CardiologicalSurgeryComplicationId).Hidden();
+                  columns.Bound(product => product.ComplicationName);
+              })
+             .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(5)
+                      .Read(read => read.Action("ReadCardiologicalSurgeryComplicationItems", "CardiologicalSurgeryComplication", new { id = "#=CardiologicalSurgeryId#" }))
+                      .Model(model =>
+                      {
+                          model.Id(p => p.CardiologicalSurgeryComplicationId);
+                      }
+                      )
+                  )
+                  .Scrollable()
+                  .Resizable(resize => resize.Columns(true))
+                  .Reorderable(reorder => reorder.Columns(true))
+                  .Pageable()
+                  .Sortable()
+                  .ToClientTemplate()
+        )
+        </text>);
+          items.Add().Text("Drug").Content(@<text>
+        @(Html.Kendo().Grid<CardioSence.Models.CardiologicalSurgeryDrugItem>()
+              .Name("Drug_#=CardiologicalSurgeryId#")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.CardiologicalSurgeryDrugId).Hidden();
+                  columns.Bound(product => product.DrugName);
+                  columns.Bound(product => product.DrugFrequencyName);
+                  columns.Bound(product => product.Duration);
+              })
+             .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(5)
+                      .Read(read => read.Action("ReadCardiologicalSurgeryDrugItems", "CardiologicalSurgeryDrug", new { id = "#=CardiologicalSurgeryId#" }))
+                      .Model(model =>
+                      {
+                          model.Id(p => p.CardiologicalSurgeryDrugId);
+                      }
+                      )
+                  )
+                  .Scrollable()
+                  .Resizable(resize => resize.Columns(true))
+                  .Reorderable(reorder => reorder.Columns(true))
+                  .Pageable()
+                  .Sortable()
+                  .ToClientTemplate()
+        )
+        </text>);
+          items.Add().Text("Procedure").Content(@<text>
+        @(Html.Kendo().Grid<CardioSence.Models.CardiologicalSurgeryProcedureItem>()
+              .Name("Procedure_#=CardiologicalSurgeryId#")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.CardiologicalSurgeryProcedureId).Hidden();
+                  columns.Bound(product => product.MedicalProcedureName);
+                  columns.Bound(product => product.Comment);
+              })
+             .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(5)
+                      .Read(read => read.Action("ReadCardiologicalSurgeryProcedureItems", "CardiologicalSurgeryProcedure", new { id = "#=CardiologicalSurgeryId#" }))
+                      .Model(model =>
+                      {
+                          model.Id(p => p.CardiologicalSurgeryProcedureId);
+                      }
+                      )
+                  )
+                  .Scrollable()
+                  .Resizable(resize => resize.Columns(true))
+                  .Reorderable(reorder => reorder.Columns(true))
+                  .Pageable()
+                  .Sortable()
+                  .ToClientTemplate()
+        )
+        </text>);
+
+              items.Add().Text("Valve").Content(@<text>
+        @(Html.Kendo().Grid<CardioSence.Models.CardiologicalSurgeryValveItem>()
+              .Name("Valve_#=CardiologicalSurgeryId#")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.CardiologicalSurgeryValveId).Hidden();
+                  columns.Bound(product => product.ImplantName);
+                  columns.Bound(product => product.ImplantSizeName);
+                  columns.Bound(product => product.ProthesisName);
+                  columns.Bound(product => product.ValveSurgeryTypeName);
+                  columns.Bound(product => product.ValveTypeName);
+                  columns.Bound(product => product.Comment);
+              })
+             .DataSource(dataSource => dataSource
+                      .Ajax()
+                      .PageSize(5)
+                      .Read(read => read.Action("ReadCardiologicalSurgeryValveItems", "CardiologicalSurgeryValve", new { id = "#=CardiologicalSurgeryId#" }))
+                      .Model(model =>
+                      {
+                          model.Id(p => p.CardiologicalSurgeryValveId);
+                      }
+                      )
+                  )
+                  .Scrollable()
+                  .Resizable(resize => resize.Columns(true))
+                  .Reorderable(reorder => reorder.Columns(true))
+                  .Pageable()
+                  .Sortable()
+                  .ToClientTemplate()
+        )
+            </text>);
+          })
+            .ToClientTemplate())
+    </script>
+
+

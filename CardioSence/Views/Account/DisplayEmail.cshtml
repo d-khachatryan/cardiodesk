@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Check Email";
+    Layout = "_LayoutNull.cshtml";
+}
+
+<div class="homePage">
+    <div class="homePage_back catalog-grid">
+        <div class="homePage_text create-item">
+            <section class="loginForm">
+                <hgroup class="title">
+                    <h1>@ViewBag.Title</h1>
+                </hgroup>
+                <div>
+                    <p>
+                        Please check your email to activate your account for the first time.
+                    </p>
+                </div>
+                <div style="margin-top:20px;">
+                        <a href="@Url.Action("Login", "Account")" class="k-button" style="padding:.37em 7px">Return to Login</a>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,347 @@
+﻿@model CardioSence.Models.CardiologicalExaminationItem
+
+@{
+    Layout = null;
+}
+
+<div class="container-maxwidth720 create-item">
+    <div class="col-sm-12 border-box" style="margin-top:15px; max-width: 680px">
+        <table class="table table-striped">
+            <tr class="success">
+                @*<td>@Html.DisplayNameFor(model => model.ResidentName)</td>*@
+                <td>
+                    @Html.DisplayFor(model => model.ResidentFirstName)
+                    @Html.DisplayFor(model => model.ResidentPatronymicName)
+                    @Html.DisplayFor(model => model.ResidentLastName)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.CardiologicalExaminationDate): 
+                    @Html.DisplayFor(model => model.CardiologicalExaminationDate)
+                </td>
+            </tr>
+        </table>
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#tabFor_GeneralBloodCount">General Blood Count</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#tabFor_ThyroidGlandTests">Thyroid gland tests</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#tabFor_RheumatoidFactors">Rheumatoid factors</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#tabFor_AntibodiesInfectionDiseases">Antibodies for Infection Diseases</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#tabFor_BiochemicalAnalysisBlood">Biochemical analysis of the blood</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#tabFor_Electrolites">Electrolites</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#tabFor_MarkersMyocardialInfarction">Markers for Myocardial Infarction</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#tabFor_LipidProflie">Lipid Proflie</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#tabFor_CoagulationTests">Coagulation tests</a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#tabFor_UrineTests">Urine Tests</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="tabFor_GeneralBloodCount" class="tab-pane fade in active">
+                <table class="table table-striped detailsTable">
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.BloodGroupName)</td>
+                        <td>@Html.DisplayFor(model => model.BloodGroupName)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.RhFactorName)</td>
+                        <td>@Html.DisplayFor(model => model.RhFactorName)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Hb)</td>
+                        <td>@Html.DisplayFor(model => model.Hb)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.RBC)</td>
+                        <td>@Html.DisplayFor(model => model.RBC)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.FI)</td>
+                        <td>@Html.DisplayFor(model => model.FI)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.MeanHbRBC)</td>
+                        <td>@Html.DisplayFor(model => model.MeanHbRBC)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.HCT)</td>
+                        <td>@Html.DisplayFor(model => model.HCT)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Platelete)</td>
+                        <td>@Html.DisplayFor(model => model.Platelete)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Leukocyte)</td>
+                        <td>@Html.DisplayFor(model => model.Leukocyte)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Myelocyte)</td>
+                        <td>@Html.DisplayFor(model => model.Myelocyte)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Metamyelocyte)</td>
+                        <td>@Html.DisplayFor(model => model.Metamyelocyte)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.StabLeukocyte)</td>
+                        <td>@Html.DisplayFor(model => model.StabLeukocyte)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.SegmentedLeukocyte)</td>
+                        <td>@Html.DisplayFor(model => model.SegmentedLeukocyte)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Eosinophil)</td>
+                        <td>@Html.DisplayFor(model => model.Eosinophil)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Basophil)</td>
+                        <td>@Html.DisplayFor(model => model.Basophil)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Lymphocyte)</td>
+                        <td>@Html.DisplayFor(model => model.Lymphocyte)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Monocyte)</td>
+                        <td>@Html.DisplayFor(model => model.Monocyte)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.ESR)</td>
+                        <td>@Html.DisplayFor(model => model.ESR)</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="tabFor_ThyroidGlandTests" class="tab-pane fade">
+                <table class="table table-striped detailsTable">
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.T3)</td>
+                        <td>@Html.DisplayFor(model => model.T3)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.T4)</td>
+                        <td>@Html.DisplayFor(model => model.T4)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.TTH)</td>
+                        <td>@Html.DisplayFor(model => model.TTH)</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="tabFor_RheumatoidFactors" class="tab-pane fade">
+                <table class="table table-striped detailsTable">
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.CRP)</td>
+                        <td>@Html.DisplayFor(model => model.CRP)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.RF)</td>
+                        <td>@Html.DisplayFor(model => model.RF)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.ASLO)</td>
+                        <td>@Html.DisplayFor(model => model.ASLO)</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="tabFor_AntibodiesInfectionDiseases" class="tab-pane fade">
+                <table class="table table-striped detailsTable">
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.HIVStatusName)</td>
+                        <td>@Html.DisplayFor(model => model.HIVStatusName)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.HBSStatusName)</td>
+                        <td>@Html.DisplayFor(model => model.HBSStatusName)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.HCVStatusName)</td>
+                        <td>@Html.DisplayFor(model => model.HCVStatusName)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.TPHAStatusName)</td>
+                        <td>@Html.DisplayFor(model => model.TPHAStatusName)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.BRUStatusName)</td>
+                        <td>@Html.DisplayFor(model => model.BRUStatusName)</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="tabFor_BiochemicalAnalysisBlood" class="tab-pane fade">
+                <table class="table table-striped detailsTable">
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.ProteinTotal)</td>
+                        <td>@Html.DisplayFor(model => model.ProteinTotal)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.albumin)</td>
+                        <td>@Html.DisplayFor(model => model.albumin)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Urea)</td>
+                        <td>@Html.DisplayFor(model => model.Urea)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Creatinine)</td>
+                        <td>@Html.DisplayFor(model => model.Creatinine)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.UricAcid)</td>
+                        <td>@Html.DisplayFor(model => model.UricAcid)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Glucose)</td>
+                        <td>@Html.DisplayFor(model => model.Glucose)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.BilirubinTotal)</td>
+                        <td>@Html.DisplayFor(model => model.BilirubinTotal)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.BilirubinDirect)</td>
+                        <td>@Html.DisplayFor(model => model.BilirubinDirect)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.ALT)</td>
+                        <td>@Html.DisplayFor(model => model.ALT)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.AST)</td>
+                        <td>@Html.DisplayFor(model => model.AST)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.AAmilaza)</td>
+                        <td>@Html.DisplayFor(model => model.AAmilaza)</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="tabFor_Electrolites" class="tab-pane fade">
+                <table class="table table-striped detailsTable">
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Potassium)</td>
+                        <td>@Html.DisplayFor(model => model.Potassium)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Sodium)</td>
+                        <td>@Html.DisplayFor(model => model.Sodium)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Calcium)</td>
+                        <td>@Html.DisplayFor(model => model.Calcium)</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="tabFor_MarkersMyocardialInfarction" class="tab-pane fade">
+                <table class="table table-striped detailsTable">
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.CK)</td>
+                        <td>@Html.DisplayFor(model => model.CK)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.CKMB)</td>
+                        <td>@Html.DisplayFor(model => model.CKMB)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.TroponinStatusName)</td>
+                        <td>@Html.DisplayFor(model => model.TroponinStatusName)</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="tabFor_LipidProflie" class="tab-pane fade">
+                <table class="table table-striped detailsTable">
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Cholesterol)</td>
+                        <td>@Html.DisplayFor(model => model.Cholesterol)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Triglyceride)</td>
+                        <td>@Html.DisplayFor(model => model.Triglyceride)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.HDL)</td>
+                        <td>@Html.DisplayFor(model => model.HDL)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.LDL)</td>
+                        <td>@Html.DisplayFor(model => model.LDL)</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="tabFor_CoagulationTests" class="tab-pane fade">
+                <table class="table table-striped detailsTable">
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.PT)</td>
+                        <td>@Html.DisplayFor(model => model.PT)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.INR)</td>
+                        <td>@Html.DisplayFor(model => model.INR)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.PI)</td>
+                        <td>@Html.DisplayFor(model => model.PI)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.APTT)</td>
+                        <td>@Html.DisplayFor(model => model.APTT)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Fibrinogen)</td>
+                        <td>@Html.DisplayFor(model => model.Fibrinogen)</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="tabFor_UrineTests" class="tab-pane fade">
+                <table class="table table-striped detailsTable">
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.UrineProtein)</td>
+                        <td>@Html.DisplayFor(model => model.UrineProtein)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.UrineLeucocyte)</td>
+                        <td>@Html.DisplayFor(model => model.UrineLeucocyte)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.UrineErithrocyte)</td>
+                        <td>@Html.DisplayFor(model => model.UrineErithrocyte)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.UrineDensity)</td>
+                        <td>@Html.DisplayFor(model => model.UrineDensity)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.UrineCylinderStatusName)</td>
+                        <td>@Html.DisplayFor(model => model.UrineCylinderStatusName)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.UrineMicroorganismStatusName)</td>
+                        <td>@Html.DisplayFor(model => model.UrineMicroorganismStatusName)</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

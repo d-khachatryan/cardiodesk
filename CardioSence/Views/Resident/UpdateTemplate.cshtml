@@ -1,0 +1,305 @@
+﻿@model CardioSence.Models.Resident
+
+@{
+    ViewBag.Title = "Create Resident";
+}
+
+@using (Html.BeginForm("UpdateResident", "Resident", FormMethod.Post, new { id = "residentForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="create-item">
+        @Html.HiddenFor(model => model.ResidentId)
+        <fieldset class="create-fieldset">
+            <legend>Patient</legend>
+            <div class="container-maxwidth1170">
+                <div class="col-sm-12 col-md-4 col-lg-2 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PatientId, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.PatientId)
+                        @Html.ValidationMessageFor(model => model.PatientId, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-2 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PassportNumber, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.PassportNumber)
+                        @Html.ValidationMessageFor(model => model.PassportNumber, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-2 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Age, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Age)
+                        @Html.ValidationMessageFor(model => model.Age, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="col-sm-12 col-md-4 col-lg-2 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ResidentFirstName, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.ResidentFirstName)
+                        @Html.ValidationMessageFor(model => model.ResidentFirstName, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-2 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ResidentLastName, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.ResidentLastName)
+                        @Html.ValidationMessageFor(model => model.ResidentLastName, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-2 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ResidentPatronymicName, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.ResidentPatronymicName)
+                        @Html.ValidationMessageFor(model => model.ResidentPatronymicName, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-2 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.BirthDate, new { @class = "control-label" })
+                        @(Html.Kendo().DatePickerFor(model => model.BirthDate)
+                                .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.BirthDate, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-2 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.GenderId, new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.GenderId)
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .Placeholder("-- Select --")
+                            .Filter(FilterType.StartsWith)
+                            .BindTo(ViewBag.vbGenders)
+                            .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.GenderId, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <h3>Address</h3>
+                <div class="col-sm-12 col-md-6 col-lg-2 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CountryId, new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.CountryId)
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .Placeholder("-- Select --")
+                            .Filter(FilterType.StartsWith)
+                            .BindTo(ViewBag.vbCountries)
+                            .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.CountryId, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-2 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RegionId, new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.RegionId)
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .Placeholder("-- Select --")
+                            .Filter(FilterType.StartsWith)
+                            .BindTo(ViewBag.vbRegions)
+                            .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.RegionId, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-2 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CommunityId, new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.CommunityId)
+                            .DataTextField("Text")
+                            .DataValueField("Value")
+                            .Placeholder("-- Select --")
+                            .Filter(FilterType.StartsWith)
+                            .BindTo(ViewBag.vbCommunitys)
+                            .HtmlAttributes(new { @class = "input-item" })
+                        )
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-4 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Location, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Location)
+                        @Html.ValidationMessageFor(model => model.Location, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <h3>Contacts</h3>
+                <div class="col-sm-12 col-md-4 col-lg-2 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.HomePhone, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.HomePhone)
+                        @Html.ValidationMessageFor(model => model.HomePhone, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-2 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.WorkPhone, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.WorkPhone)
+                        @Html.ValidationMessageFor(model => model.WorkPhone, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <h3>Relative</h3>
+                <div class="col-sm-12 col-md-4 col-lg-2 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RelativeName, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.RelativeName)
+                        @Html.ValidationMessageFor(model => model.RelativeName, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-2 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RelativeStatusId, new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.RelativeStatusId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbRelativeStatuses)
+                                .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.RelativeStatusId, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-2 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RelativePhone, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.RelativePhone)
+                        @Html.ValidationMessageFor(model => model.RelativePhone, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <h3>Others</h3>
+                <div class="col-sm-12 col-md-3 col-lg-2 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ChildrenCount, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.ChildrenCount)
+                        @Html.ValidationMessageFor(model => model.ChildrenCount, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ProfessionId, new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.ProfessionId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbProfessions)
+                                .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.ProfessionId, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <h3>Referral</h3>
+                <div class="col-sm-12 col-md-3 col-lg-4 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ReferralPhysicianId, new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.ReferralPhysicianId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbReferralPhysicians)
+                                .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.ReferralPhysicianId, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-8 border-box">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ReferralOrganizationId, new { @class = "control-label" })
+                        @(Html.Kendo().ComboBoxFor(model => model.ReferralOrganizationId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbReferralOrganizations)
+                                .HtmlAttributes(new { @class = "input-item" })
+                        )
+                        @Html.ValidationMessageFor(model => model.ReferralOrganizationId, String.Empty, new { @class = "vldmsg" })
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </fieldset>
+        <fieldset class="create-fieldset">
+            <div class="container-maxwidth1170">
+                <div class="col-sm-12 col-md-12 col-lg-12 border-box">
+                    <div class="form-group">
+                        <label class="control-label" style="color: transparent;">.</label>
+                        <div class="input-item align-right">
+                            <input type="submit" id="cmdSave" value="Save" class="btn btn-default" />
+                            <a href="@Url.Action("Index", "Resident")" class="btn btn-default forLoad">Exit</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </fieldset>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryvalForms")
+}
+@*<script>
+        $(function () {
+            $("form").kendoValidator();
+        });
+        $("#rtCancel")
+                .click(function () {
+                    if ($(this).closest(".k-window-content").data("kendoWindow"))
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                });
+        $("#rtSave")
+                    .click(function (e) {
+                        var item = new Object();
+                        item.ResidentId = '@Model.ResidentId';
+                        item.ResidentFirstName = $("#ResidentFirstName").val();
+                        item.ResidentLastName = $("#ResidentLastName").val();
+                        item.ResidentPatronymicName = $("#ResidentPatronymicName").val();
+                        //item.BirthDate = $("#BirthDate").val();
+                        //item.Genderid = $("#Genderid").val();
+
+                        var rt = false;
+                        var dt;
+                        var q = $.ajax({
+                            url: '@Url.Action("SaveResident", "Resident")',
+                            dataType: "json",
+                            type: "POST",
+                            data: JSON.stringify({ resident: item }),
+                            contentType: "application/json; charset=utf-8",
+                            async: false,
+                            success: function (data) {
+                                dt = data;
+                                rt = true;
+                            },
+                            error: function (xhr) {
+                                dt = xhr;
+                                rt = false;
+                            }
+                        });
+                        if (rt == true) {
+                            if (dt != "1") {
+                                alert(JSON.stringify(dt));
+                            }
+                            else {
+                                if ($(this).closest(".k-window-content").data("kendoWindow"))
+                                    $(this).closest(".k-window-content").data("kendoWindow").close();
+                            }
+                        }
+                        else {
+                            alert(dt);
+                            return false;
+                        }
+                    });
+    </script>*@

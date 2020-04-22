@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ArterialBypass" xml:space="preserve">
+    <value>Bypass (arterial)</value>
+  </data>
+  <data name="CardiologicalCatheterizationDate" xml:space="preserve">
+    <value>Catheterization Date</value>
+  </data>
+  <data name="CardiologicalCatheterizationId" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="CardiologicalCatheterizationSegmentId" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="CatheterizationImageURL" xml:space="preserve">
+    <value>Catheterization Image Path</value>
+  </data>
+  <data name="CatheterizationMovieURL" xml:space="preserve">
+    <value>Catheterization Movie Path</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="Cx1" xml:space="preserve">
+    <value>Proximal Cx</value>
+  </data>
+  <data name="Cx1Stenosis" xml:space="preserve">
+    <value>Proximal Cx stenosis</value>
+  </data>
+  <data name="Cx2" xml:space="preserve">
+    <value>Middele Cx</value>
+  </data>
+  <data name="Cx2Stenosis" xml:space="preserve">
+    <value>Middle Cx stenosis</value>
+  </data>
+  <data name="Cx3" xml:space="preserve">
+    <value>Distal Cx</value>
+  </data>
+  <data name="Cx3Stenosis" xml:space="preserve">
+    <value>Distal Cx stenosis</value>
+  </data>
+  <data name="Diag1" xml:space="preserve">
+    <value>First diagonal</value>
+  </data>
+  <data name="Diag1Stenosis" xml:space="preserve">
+    <value>First diagonal stenosis</value>
+  </data>
+  <data name="Diag2" xml:space="preserve">
+    <value>Second diagonal</value>
+  </data>
+  <data name="Diag2Stenosis" xml:space="preserve">
+    <value>Second diagonal stenosis</value>
+  </data>
+  <data name="DominanceTypeId" xml:space="preserve">
+    <value>Dominance Type</value>
+  </data>
+  <data name="DominanceTypeName" xml:space="preserve">
+    <value>Dominance Type</value>
+  </data>
+  <data name="LAD1" xml:space="preserve">
+    <value>Proximal LAD</value>
+  </data>
+  <data name="LAD1Stenosis" xml:space="preserve">
+    <value>Proximal LAD stenosis</value>
+  </data>
+  <data name="LAD2" xml:space="preserve">
+    <value>Middle LAD</value>
+  </data>
+  <data name="LAD2Stenosis" xml:space="preserve">
+    <value>Middle LAD stenosis</value>
+  </data>
+  <data name="LAD3" xml:space="preserve">
+    <value>Distal LAD</value>
+  </data>
+  <data name="LAD3Stenosis" xml:space="preserve">
+    <value>Distal LAD stenosis</value>
+  </data>
+  <data name="LM" xml:space="preserve">
+    <value>Left Main</value>
+  </data>
+  <data name="LMStenosis" xml:space="preserve">
+    <value>Left Main stenosis</value>
+  </data>
+  <data name="LVEDP" xml:space="preserve">
+    <value>Left Ventricle End-Diastolic Pressure</value>
+  </data>
+  <data name="LVEDV" xml:space="preserve">
+    <value>Left Ventricle End-Diastolic Volume</value>
+  </data>
+  <data name="LVEF" xml:space="preserve">
+    <value>Left Ventricle Ejection Fraction</value>
+  </data>
+  <data name="LVESV" xml:space="preserve">
+    <value>Left Ventricle End-Systolic Volume</value>
+  </data>
+  <data name="LVGraphy" xml:space="preserve">
+    <value>Left Ventriculography</value>
+  </data>
+  <data name="OM1" xml:space="preserve">
+    <value>First OM (obtuse marginal)</value>
+  </data>
+  <data name="OM1Stenosis" xml:space="preserve">
+    <value>First OM stenosis</value>
+  </data>
+  <data name="OM2" xml:space="preserve">
+    <value>Second OM</value>
+  </data>
+  <data name="OM2Stenosis" xml:space="preserve">
+    <value>Second OM stenosis</value>
+  </data>
+  <data name="OM3" xml:space="preserve">
+    <value>Third OM</value>
+  </data>
+  <data name="OM3Stenosis" xml:space="preserve">
+    <value>Third OM stenosis</value>
+  </data>
+  <data name="OM4" xml:space="preserve">
+    <value>Forth OM</value>
+  </data>
+  <data name="OM4Stenosis" xml:space="preserve">
+    <value>Forth OM stenosis</value>
+  </data>
+  <data name="PDA" xml:space="preserve">
+    <value>Posterior Descendant Artery</value>
+  </data>
+  <data name="PDAStenosis" xml:space="preserve">
+    <value>PDA stenosis</value>
+  </data>
+  <data name="PhysicianId" xml:space="preserve">
+    <value>Physician</value>
+  </data>
+  <data name="PhysicianName" xml:space="preserve">
+    <value>Physician</value>
+  </data>
+  <data name="PL1" xml:space="preserve">
+    <value>First Posterolateral</value>
+  </data>
+  <data name="PL1Stenosis" xml:space="preserve">
+    <value>First PL stenosis</value>
+  </data>
+  <data name="PL2" xml:space="preserve">
+    <value>Second Posterolateral</value>
+  </data>
+  <data name="PL2Stenosis" xml:space="preserve">
+    <value>Second PL stenosis</value>
+  </data>
+  <data name="RCA1" xml:space="preserve">
+    <value>Proximal RCA (right coronary artery)</value>
+  </data>
+  <data name="RCA1Stenosis" xml:space="preserve">
+    <value>Proximal RCA stenosis</value>
+  </data>
+  <data name="RCA2" xml:space="preserve">
+    <value>Middle RCA</value>
+  </data>
+  <data name="RCA2Stenosis" xml:space="preserve">
+    <value>Middle RCA stenosis</value>
+  </data>
+  <data name="RCA3" xml:space="preserve">
+    <value>Distal RCA</value>
+  </data>
+  <data name="RCA3Stenosis" xml:space="preserve">
+    <value>Distal RCA stenosis</value>
+  </data>
+  <data name="ResidentId" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="Rm" xml:space="preserve">
+    <value>Ramus Intermedianus</value>
+  </data>
+  <data name="RmStenosis" xml:space="preserve">
+    <value>Rm stenosis</value>
+  </data>
+  <data name="SegmentId" xml:space="preserve">
+    <value>Segment</value>
+  </data>
+  <data name="SegmentName" xml:space="preserve">
+    <value>Segment</value>
+  </data>
+  <data name="StenosisSize" xml:space="preserve">
+    <value>Size of Stenosis</value>
+  </data>
+  <data name="VenousBypass" xml:space="preserve">
+    <value>Bypass (venous)</value>
+  </data>
+</root>

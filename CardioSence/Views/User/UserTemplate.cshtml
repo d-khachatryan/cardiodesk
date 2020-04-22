@@ -1,0 +1,134 @@
+﻿@model CardioSence.Models.UserItem
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("SaveUser", "User", FormMethod.Post, new { id = "frmUser" }))
+{
+    <div class="create-item">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        <div class="col-sm-12 border-box">
+            <div class="form-group margin-5-0">
+                @Html.LabelFor(model => model.UserName, new { @class = "control-label" })
+                @Html.Kendo().TextBoxFor(model => model.UserName)
+                @Html.ValidationMessageFor(model => model.UserName, null, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-sm-12 border-box">
+            <div class="form-group margin-5-0">
+                @Html.LabelFor(model => model.FirstName, new { @class = "control-label" })
+                @Html.Kendo().TextBoxFor(model => model.FirstName)
+                @Html.ValidationMessageFor(model => model.FirstName, null, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-sm-12 border-box">
+            <div class="form-group margin-5-0">
+                @Html.LabelFor(model => model.LastName, new { @class = "control-label" })
+                @Html.Kendo().TextBoxFor(model => model.LastName)
+                @Html.ValidationMessageFor(model => model.LastName, null, new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="col-sm-12 border-box">
+            <div class="form-group margin-5-0">
+                @Html.LabelFor(model => model.Email, new { @class = "control-label" })
+                @Html.Kendo().TextBoxFor(model => model.Email)
+                @Html.ValidationMessageFor(model => model.Email, null, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @if (String.IsNullOrEmpty(Model.Id))
+        {
+            <div class="col-sm-12 border-box">
+                <div class="form-group margin-5-0">
+                    @Html.LabelFor(model => model.Password, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.Password).HtmlAttributes(new { type = "password" })
+                    @Html.ValidationMessageFor(model => model.Password, null, new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-12 border-box">
+                <div class="form-group margin-5-0">
+                    @Html.LabelFor(model => model.ConfirmPassword, new { @class = "control-label" })
+                    @Html.Kendo().TextBoxFor(model => model.ConfirmPassword).HtmlAttributes(new { type = "password" })
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="col-xs-12 align-right margin-10-0 border-box">
+        <button id="cmdSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> Save</button>
+        <button id="cmdCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> Exit</button>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        $("#cmdCancel")
+            .click(function () {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#cmdSave")
+            .click(function (e) {
+                var errTempl = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em"><span class="k-icon k-warning"> </span>#=message#<div class="k-callout k-callout-n"></div></div>';
+                var validator = $("#frmUser").kendoValidator({
+                    errorTemplate: errTempl
+                }).data("kendoValidator");
+                if (!validator.validate()) {
+                    return false;
+                }
+
+                var item = new Object();
+                item.Id = '@Model.Id';
+                item.UserName = $("#UserName").val();
+                item.Email = $("#Email").val();
+                item.FirstName = $("#FirstName").val();
+                item.LastName = $("#LastName").val();
+                item.Password = $("#Password").val();
+                item.ConfirmPassword = $("#ConfirmPassword").val();
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("SaveUser", "User")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ user: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if (dt.statuscode == 1) {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                        return false;
+                    }
+                    else {
+                        //$("#errormssg").html(dt.message);
+                        alert(dt.message);
+                        return false;
+                    }
+                }
+                else {
+                    $(this).closest(".k-window-content").data("kendoWindow").close();
+                }
+            });
+    });
+</script>

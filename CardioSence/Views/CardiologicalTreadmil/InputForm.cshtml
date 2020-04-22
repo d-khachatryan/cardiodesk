@@ -1,0 +1,259 @@
+﻿@model CardioSence.Models.CardiologicalTreadmilItem
+
+@{
+    Layout = null;
+}
+
+<div class="container-maxwidth720 create-item">
+    @using (Html.BeginForm("Save", "CardiologicalTreadmil", FormMethod.Post, new { id = "frmCardiologicalTreadmil" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.CardiologicalTreadmilId)
+
+        <fieldset class="create-fieldset">
+            <legend>Patient</legend>
+
+            @if (@Model.CardiologicalTreadmilId == 0 && @Model.ResidentId == null)
+                {
+                <div class="col-sm-12 border-box">
+                    <span style="color:#808080; font-style:italic">Please, enter the patient id or name or birth date here for find the patient</span>
+                </div>
+                    <div class="col-sm-12 border-box">
+                        @(Html.Kendo().ComboBoxFor(model => model.ResidentId)
+                    .Name("ResidentId")
+                    .Placeholder("Select")
+                    .DataTextField("ResidentName")
+                    .DataValueField("ResidentId")
+                    .HtmlAttributes(new { style = "width:100%;" })
+                    .Filter(FilterType.Contains)
+                    .AutoBind(false)
+                    .MinLength(5)
+                    .DataSource(source =>
+                    {
+                        source.Read(read =>
+                        {
+                            read.Action("ResidentInfo", "Resident");
+                        })
+                        .ServerFiltering(true);
+                    })
+                        )
+                    </div>
+            }
+            else
+            {
+                @Html.HiddenFor(model => model.ResidentId)
+                <div class="form-group">
+                    <div class="col-md-2 col-sm-3 col-xs-4 border-box align-right inputNameLable" style="color:#000">Patient Id:</div>
+                    <div class="col-md-10 col-sm-9 col-xs-8 border-box inputNameLable">@Html.DisplayFor(model => model.PatientId)</div>
+                </div>
+                    <div class="clear"></div>
+                        <hr style="margin:5px" />
+                        <div class="form-group">
+                            <div class="col-md-2 col-sm-3  col-xs-4 border-box align-right inputNameLable" style="color:#000">Name:</div>
+                            <div class="col-md-10 col-sm-9 col-xs-8 border-box inputNameLable">
+                                @Html.DisplayFor(model => model.ResidentFirstName)
+                                @Html.DisplayFor(model => model.ResidentLastName)
+                                @Html.DisplayFor(model => model.ResidentPatronymicName)
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <hr style="margin:5px" />
+                        <div class="form-group">
+                            <div class="col-md-2 col-sm-3  col-xs-4 border-box align-right inputNameLable" style="color:#000">Birth Date:</div>
+                            <div class="col-md-10 col-sm-9 col-xs-8 border-box inputNameLable">@Html.DisplayFor(model => model.BirthDate)</div>
+                        </div>
+            }
+        </fieldset>
+
+        <fieldset class="create-fieldset">
+            <legend>Cardiological Treadmil</legend>
+
+            @*<div class="col-sm-12 col-md-6 border-box margin-5-0">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ResidentId, new { @class = "control-label" })
+                        @Html.Kendo().IntegerTextBoxFor(model => model.ResidentId).Format("#")
+                        @Html.ValidationMessageFor(model => model.ResidentId)
+                    </div>
+                </div>
+
+                <div class="clear"></div>*@
+
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CardiologicalTreadmilDate, new { @class = "control-label" })
+                    @Html.Kendo().DatePickerFor(model => model.CardiologicalTreadmilDate)
+                    @Html.ValidationMessageFor(model => model.CardiologicalTreadmilDate)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.METSAchieved, new { @class = "control-label" })
+                    @Html.Kendo().NumericTextBoxFor(model => model.METSAchieved)
+                    @Html.ValidationMessageFor(model => model.METSAchieved)
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="col-sm-12 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TreadmilProtocolId, htmlAttributes: new { @class = "control-label" })
+                    @(Html.Kendo().ComboBoxFor(model => model.TreadmilProtocolId)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbTreadmilProtocols)
+                                .HtmlAttributes(new { @class = "input-item" })
+                    )
+                    @Html.ValidationMessageFor(model => model.TreadmilProtocolId)
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="col-sm-12 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TreadmilResultid, htmlAttributes: new { @class = "control-label" })
+                    @(Html.Kendo().ComboBoxFor(model => model.TreadmilResultid)
+                                .DataTextField("Text")
+                                .DataValueField("Value")
+                                .Placeholder("-- Select --")
+                                .Filter(FilterType.StartsWith)
+                                .BindTo(ViewBag.vbTreadmilResults)
+                                .HtmlAttributes(new { @class = "input-item" })
+                    )
+                    @Html.ValidationMessageFor(model => model.TreadmilResultid)
+                </div>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="col-sm-12 border-box margin-5-0">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Comment, new { @class = "control-label" })
+                    @Html.TextAreaFor(model => model.Comment, new { @class = "k-textbox", style = "width: 100%;" })
+                    @Html.ValidationMessageFor(model => model.Comment)
+                </div>
+            </div>
+            <div class="clear"></div>
+        </fieldset>
+        <fieldset class="create-fieldset">
+            <div class="col-sm-6 border-box">
+                <span id="errormssg"></span>
+            </div>
+            <div class="col-sm-6 border-box">
+                <div class="form-group align-right">
+                    <button id="rtSave" class="k-button"><i class="glyphicon glyphicon-floppy-disk"></i> Save</button>
+                    <button id="rtCancel" class="k-button"><i class="glyphicon glyphicon-off"></i> Cancel</button>
+                </div>
+            </div>
+
+        </fieldset>
+    }
+</div>
+<script>
+    function myFunction() {
+        $("#ResidentNameError").empty();
+        if ($("#PatientId").val() == "") {
+            alert("Please, enter the Patinet id");
+            return false;
+        }
+        else {
+            var patientId = $("#PatientId").val();
+        }
+
+        var q = $.ajax({
+            url: '@Url.Action("PatientInfo", "Resident")',
+            dataType: "json",
+            type: "GET",
+            data: { id: patientId },
+            async: true,
+            success: function (data) {
+                dt = data.Data;
+                rt = true;
+                if (dt != null) {
+                    $("#ResidentId").val(dt[0].ResidentId);
+                    $("#PatientId").val(dt[0].PatientId);
+                    $("#ResidentFirstName").html(dt[0].ResidentFirstName);
+                    $("#ResidentLastName").html(dt[0].ResidentLastName);
+                }
+                if (dt[0].PatientId == null) {
+                    //alert("No any record with entered id. Please, enter the correct id");
+                    $("#ResidentNameError").html("No any record found with entered id. Please, enter the correct id");
+                }
+            },
+            error: function (xhr) {
+                dt = xhr;
+                rt = false;
+            }
+        });
+        return false;
+    }
+
+
+    $(".k-textbox").addClass("input-item form-control");
+    $(document).ready(function () {
+        $("#rtCancel")
+            .click(function (e) {
+                $(this).closest(".k-window-content").data("kendoWindow").close();
+                return false;
+            });
+        $("#rtSave")
+            .click(function (e) {
+                var errTempl = '<div class="k-widget k-tooltip k-tooltip-validation" style="margin:0.5em"><span class="k-icon k-warning"> </span>#=message#<div class="k-callout k-callout-n"></div></div>';
+                var validator = $("#frmCardiologicalTreadmil").kendoValidator({
+                    errorTemplate: errTempl
+                }).data("kendoValidator");
+
+                if (!validator.validate()) {
+                    $("#errormssg").html("<span class='fa fa-exclamation-triangle'></span> @CardioSence.Resources.General.RequiredFields");
+                    return false;
+                }
+
+
+                var item = new Object();
+                item.CardiologicalTreadmilId = '@Model.CardiologicalTreadmilId';
+                item.ResidentId = $("#ResidentId").val();
+                item.CardiologicalTreadmilDate = $("#CardiologicalTreadmilDate").val();
+                item.TreadmilProtocolId = $("#TreadmilProtocolId").val();
+                item.METSAchieved = $("#METSAchieved").val();
+                item.TreadmilResultid = $("#TreadmilResultid").val();
+                item.Comment = $("#Comment").val();
+
+                var rt = false;
+                var dt;
+                var q = $.ajax({
+                    url: '@Url.Action("Save", "CardiologicalTreadmil")',
+                    dataType: "json",
+                    type: "POST",
+                    data: JSON.stringify({ cardiologicalTreadmil: item }),
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    success: function (data) {
+                        dt = data;
+                        rt = true;
+                    },
+                    error: function (xhr) {
+                        dt = xhr;
+                        rt = false;
+                    }
+                });
+                if (rt == true) {
+                    if (dt.statuscode == 1) {
+                        $(this).closest(".k-window-content").data("kendoWindow").close();
+                        return false;
+                    }
+                    else {
+                        $("#errormssg").html(dt.message);
+                        return false;
+                    }
+                }
+                else {
+                    //system error ocured. The popup will be closed. The view will be redirected to error page.
+                    $(this).closest(".k-window-content").data("kendoWindow").close();
+                }
+            });
+    });
+</script>
+

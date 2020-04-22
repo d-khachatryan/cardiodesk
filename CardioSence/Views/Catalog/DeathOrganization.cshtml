@@ -1,0 +1,35 @@
+﻿@(Html.Kendo().Grid<CardioSence.Models.DeathOrganization>()
+              .Name("DeathOrganization")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.DeathOrganizationId).Width(70);
+                  columns.Bound(product => product.DeathOrganizationName);
+                  columns.Command(commands =>
+                  {
+                      commands.Destroy().Text("Delete").HtmlAttributes(new { @class = "Cat_Delete_Icon" });
+                  }).Title("Commands").Width(110);
+              })
+              .ToolBar(toolbar =>
+              {
+                  toolbar.Create().Text("New");
+                  toolbar.Save().SaveText("Save").CancelText("Cancel");
+              })
+              .Editable(editable => editable.Mode(GridEditMode.InCell))
+              .DataSource(dataSource =>
+                  dataSource.Ajax()
+                    .Batch(true)
+                    .Model(model =>
+                    {
+                        model.Id(product => product.DeathOrganizationId);
+                        model.Field(product => product.DeathOrganizationId).Editable(false);
+                    })
+                    .Create(create => create.Action("DeathOrganizationCreate", "Catalog"))
+                    .Read(read => read.Action("DeathOrganizationRead", "Catalog"))
+                    .Update(update => update.Action("DeathOrganizationUpdate", "Catalog"))
+                    .Destroy(destroy => destroy.Action("DeathOrganizationDestroy", "Catalog"))
+              )
+              .Pageable()
+              .HtmlAttributes(new { @class = "catalog-grid" })
+              .Scrollable()
+)
+

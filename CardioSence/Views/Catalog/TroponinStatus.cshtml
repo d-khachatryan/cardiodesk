@@ -1,0 +1,35 @@
+﻿@(Html.Kendo().Grid<CardioSence.Models.TroponinStatus>()
+              .Name("TroponinStatus")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.TroponinStatusId).Width(70);
+                  columns.Bound(product => product.TroponinStatusName);
+                  columns.Command(commands =>
+                  {
+                      commands.Destroy().Text("Delete").HtmlAttributes(new { @class = "Cat_Delete_Icon" });
+                  }).Title("Commands").Width(110);
+              })
+              .ToolBar(toolbar =>
+              {
+                  toolbar.Create().Text("New");
+                  toolbar.Save().SaveText("Save").CancelText("Cancel");
+              })
+              .Editable(editable => editable.Mode(GridEditMode.InCell))
+              .DataSource(dataSource =>
+                  dataSource.Ajax()
+                    .Batch(true)
+                    .Model(model =>
+                    {
+                        model.Id(product => product.TroponinStatusId);
+                        model.Field(product => product.TroponinStatusId).Editable(false);
+                    })
+                    .Create(create => create.Action("TroponinStatusCreate", "Catalog"))
+                    .Read(read => read.Action("TroponinStatusRead", "Catalog"))
+                    .Update(update => update.Action("TroponinStatusUpdate", "Catalog"))
+                    .Destroy(destroy => destroy.Action("TroponinStatusDestroy", "Catalog"))
+              )
+              .Pageable()
+              .HtmlAttributes(new { @class = "catalog-grid" })
+              .Scrollable()
+)
+

@@ -1,0 +1,35 @@
+﻿@(Html.Kendo().Grid<CardioSence.Models.GastrointestinalDisease>()
+              .Name("GastrointestinalDisease")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.GastrointestinalDiseaseId).Width(70);
+                  columns.Bound(product => product.GastrointestinalDiseaseName);
+                  columns.Command(commands =>
+                  {
+                      commands.Destroy().Text("Delete").HtmlAttributes(new { @class = "Cat_Delete_Icon" });
+                  }).Title("Commands").Width(110);
+              })
+              .ToolBar(toolbar =>
+              {
+                  toolbar.Create().Text("New");
+                  toolbar.Save().SaveText("Save").CancelText("Cancel");
+              })
+              .Editable(editable => editable.Mode(GridEditMode.InCell))
+              .DataSource(dataSource =>
+                  dataSource.Ajax()
+                    .Batch(true)
+                    .Model(model =>
+                    {
+                        model.Id(product => product.GastrointestinalDiseaseId);
+                        model.Field(product => product.GastrointestinalDiseaseId).Editable(false);
+                    })
+                    .Create(create => create.Action("GastrointestinalDiseaseCreate", "Catalog"))
+                    .Read(read => read.Action("GastrointestinalDiseaseRead", "Catalog"))
+                    .Update(update => update.Action("GastrointestinalDiseaseUpdate", "Catalog"))
+                    .Destroy(destroy => destroy.Action("GastrointestinalDiseaseDestroy", "Catalog"))
+              )
+              .Pageable()
+              .HtmlAttributes(new { @class = "catalog-grid" })
+              .Scrollable()
+)
+

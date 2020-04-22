@@ -1,0 +1,261 @@
+﻿@model CardioSence.Models.CardiologicalCatheterizationItem
+
+@{
+    ViewBag.Title = "Coronary angiography";
+}
+
+<script type="text/javascript">
+
+    function Search() {
+        $("#CardiologicalCatheterization").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function Clear() {
+        // Էստեղ կավելացնենք ֆիլտրի դաշտերը
+        $("#CardiologicalCatheterization").data("kendoGrid").dataSource.read();
+        return false;
+    }
+
+    function getParameter() {
+        return {
+            patientId: $("#prmPatientId").val(),
+            // մյուս դաշտերը
+        };
+    }
+
+</script>
+<div class="for-Toolbar">
+    @(Html.Kendo().ToolBar()
+                    .Name("ToolBar")
+                    .Items(items =>
+                    {
+                        items.Add().Template("<a title=\"New Catheterization\" class=\"ToolbarIcon\" onclick=\"return Create(); \"><img src=\"../img/icons/transfusion-plus.png\" width=\"35\"/></a>");
+                        items.Add().Template("<a title=\"Details\" class=\"ToolbarIcon\" onclick=\"return Detail(); \"><img src=\"../img/icons/list-button.png\" width=\"35\"/></a>");
+                        //items.Add().Type(CommandType.Button).Togglable(false).Text("Create").Id("btnCreate").Click("Create");
+                        //items.Add().Type(CommandType.Button).Togglable(false).Text("Detail").Id("btnDetail").Click("Detail");
+                    })
+    )
+    @* Search Panel - Right Slide *@
+    <div class="right-slidePanel">
+        <div class="slidePanel-Content">
+            <div class="slidePanel-btn">
+            </div>
+            <div class="slidePanel-Content-fields create-item">
+                <h4>Search fields</h4>
+                <div class="form-group margin-5-0">
+                    <input type="text" value="" class="input-item k-textbox" placeholder="First Name" />
+                </div>
+                <div class="form-group margin-5-0">
+                    <input type="text" value="" class="input-item k-textbox" placeholder="Last Name" />
+                </div>
+                <div class="form-group margin-10-0 align-right">
+                    <button id="rtSearch" class="k-button">Search</button>
+                    <button id="rtClear" class="k-button">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@(Html.Kendo().Grid<CardioSence.Models.CardiologicalCatheterizationItem>()
+                                      .Name("CardiologicalCatheterization")
+                                      .Events(e => e.DataBound("showCommandIcons"))
+                                      .Columns(columns =>
+                                      {
+                                          columns.Bound(model => model.CardiologicalCatheterizationId).Hidden();
+                                          columns.Bound(model => model.PatientId);
+                                          columns.Bound(model => model.ResidentName);
+                                          columns.Bound(model => model.CardiologicalCatheterizationDate);
+                                          columns.Bound(model => model.LM).HtmlAttributes(new { style = "text-align: center;" })
+                                          .ClientTemplate("#if(LM){#" +
+                                                               "<i class=\"ion-checkmark-round\"></i>" +
+                                                               "#} else {#" +
+                                                               "<i class=\"ion-minus-round\"></i>" +
+                                                               "# } #");
+                                          columns.Command(commands =>
+                                          {
+                                              commands.Custom("cmdUpdateCardiologicalCatheterization").Text(" ").Click("Update").HtmlAttributes(new { @class = "Update_Icon" });
+                                              commands.Custom("cmdDeleteCardiologicalCatheterization").Text(" ").Click("Delete").HtmlAttributes(new { @class = "Delete_Icon" });
+                                          }).Title("Commands").Width(130);
+                                      })
+                                      .Selectable(s => s.Mode(GridSelectionMode.Single))
+                                      .Pageable()
+                                      .Filterable()
+                                      .Scrollable()
+                                      .Groupable()
+                                      .Sortable()
+                                      .ClientDetailTemplateId("template")
+                                      .Resizable(resize => resize.Columns(true))
+                                      .Reorderable(reorder => reorder.Columns(true))
+                                      .DataSource(dataSource => dataSource
+                                      .Ajax()
+                                      .Read(read => read.Action("ReadCardiologicalCatheterizationItem", "CardiologicalCatheterization").Data("getParameter"))
+                                      .PageSize(15)
+                                      .Sort(sort => sort.Add("CardiologicalCatheterizationId").Descending())
+                                      .Model(model =>
+                                      {
+                                          model.Id(p => p.CardiologicalCatheterizationId);
+                                      }
+                                      )
+                )
+)
+@(Html.Kendo().Window().Name("wCardiologicalCatheterization")
+                              .Draggable().Resizable()
+                              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+                              .Visible(false).Events(events => events
+                              .Close("onCloseCardiologicalCatheterization")
+                              .Open("onOpenCardiologicalCatheterization")
+                              .Refresh("onRefreshCardiologicalCatheterization"))
+)
+
+@(Html.Kendo().Window().Name("wCardiologicalCatheterizationDetail")
+                              .Draggable().Resizable()
+                              .Content("").Modal(true).Actions(actions => actions.Pin().Close())
+                              .Visible(false).Events(events => events
+                              .Close("onCloseCardiologicalCatheterization")
+                              .Open("onOpenCardiologicalCatheterization")
+                              .Refresh("onRefreshCardiologicalCatheterization"))
+)
+
+<script>
+
+    //$("#wCardiologicalCatheterization, #wCardiologicalCatheterizationDetail").kendoWindow({
+    //    width: "95%",
+    //    height: "85%"
+    //});
+
+    function Create() {
+        var window = $("#wCardiologicalCatheterization").data("kendoWindow");
+        window.content("");
+        window.title("New Cardiological Catheterization");
+        window.refresh({
+            url: "@Url.Action("Create", "CardiologicalCatheterization")"
+        });
+        window.center();
+        window.maximize().open();
+        return false;
+    }
+
+    function Update(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#CardiologicalCatheterization").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var window = $("#wCardiologicalCatheterization").data("kendoWindow");
+        window.content("");
+        window.title("Edit Cardiological Catheterization");
+        window.refresh({
+            url: "@Url.Action("Update", "CardiologicalCatheterization")" + "/" + dataItem.CardiologicalCatheterizationId
+        });
+        window.center();
+        window.maximize().open();
+        return false;
+    }
+
+
+    function Detail() {
+        // Ավելացնել կոդ
+        return false;
+    }
+
+    function Delete(e) {
+        var row = $(e.target).closest("tr");
+        var grid = $("#CardiologicalCatheterization").data("kendoGrid");
+        var dataItem = grid.dataItem(row);
+        var r = confirm("Are you sure to remove the record?");
+        if (r == false) {
+            return false;
+        }
+        var rt = false;
+        var dt;
+        var q = $.ajax({
+            url: '@Url.Action("DeleteCardiologicalCatheterization", "CardiologicalCatheterization")',
+            dataType: "json",
+            type: "GET",
+            data: { id: dataItem.CardiologicalCatheterizationId },
+            async: false,
+            success: function (data) { dt = data; rt = true; },
+            error: function (xhr) { dt = xhr; rt = false; }
+        });
+        if (rt == true) {
+            if (dt != "1") {
+                alert(JSON.stringify(dt));
+            }
+            else {
+                $("#CardiologicalCatheterization").data("kendoGrid").dataSource.read();
+            }
+        }
+        else {
+            alert(dt);
+            return false;
+        }
+        return false;
+    }
+
+    function onOpenCardiologicalCatheterization(e) {
+        kendo.ui.progress(e.sender.element, true);
+    }
+    function onCloseCardiologicalCatheterization(e) {
+        $("#CardiologicalCatheterization").data("kendoGrid").dataSource.read();
+        $(".k-overlay").css("display", "none");
+    }
+    function onRefreshCardiologicalCatheterization(e) {
+        kendo.ui.progress(e.sender.element, false);
+    }
+
+</script>
+
+<script id="template" type="text/kendo-tmpl">
+    @(Html.Kendo().TabStrip()
+                          .Name("tabStrip_#=CardiologicalCatheterizationId#")
+                          .SelectedIndex(0)
+                          .Animation(animation => animation.Open(open => open.Fade(FadeDirection.In)))
+                          .Items(items =>
+                          {
+                          items.Add().Text("Segments").Content(@<text>
+        @(Html.Kendo().Grid<CardioSence.Models.CardiologicalCatheterizationSegmentItem>()
+                    .Name("Segment_#=CardiologicalCatheterizationId#")
+                    .Columns(columns =>
+                    {
+                        columns.Bound(product => product.CardiologicalCatheterizationSegmentId).Hidden();
+                        columns.Bound(product => product.SegmentName);
+                        columns.Bound(product => product.ArterialBypass).HtmlAttributes(new { style = "text-align: center;" })
+                        .ClientTemplate(
+                                "\\#if(ArterialBypass){\\#" +
+                                "<i class=\"ion-checkmark-round\"></i>" +
+                                "\\#} else {\\#" +
+                                "<i class=\"ion-minus-round\"></i>" +
+                                "\\# } \\#"
+                            )
+                            ;
+                        columns.Bound(product => product.VenousBypass).HtmlAttributes(new { style = "text-align: center;" })
+                        .ClientTemplate(
+                                "\\#if(VenousBypass){\\#" +
+                                "<i class=\"ion-checkmark-round\"></i>" +
+                                "\\#} else {\\#" +
+                                "<i class=\"ion-minus-round\"></i>" +
+                                "\\# } \\#"
+                                )
+                        ;
+                        columns.Bound(product => product.StenosisSize);
+                    })
+        .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(5)
+        .Read(read => read.Action("ReadCardiologicalCatheterizationSegmentItems", "CardiologicalCatheterizationSegment", new { id = "#=CardiologicalCatheterizationId#" }))
+        .Model(model =>
+        {
+            model.Id(p => p.CardiologicalCatheterizationSegmentId);
+        }
+        )
+        )
+        .Scrollable()
+        .Resizable(resize => resize.Columns(true))
+        .Reorderable(reorder => reorder.Columns(true))
+        .Pageable()
+        .Sortable()
+        .ToClientTemplate()
+        )
+                        </text>);
+                          })
+            .ToClientTemplate())
+</script>

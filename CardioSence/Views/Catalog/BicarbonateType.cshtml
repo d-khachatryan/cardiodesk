@@ -1,0 +1,35 @@
+﻿@(Html.Kendo().Grid<CardioSence.Models.BicarbonateType>()
+              .Name("BicarbonateType")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.BicarbonateTypeId).Width(70);
+                  columns.Bound(product => product.BicarbonateTypeName);
+                  columns.Command(commands =>
+                  {
+                      commands.Destroy().Text("Delete").HtmlAttributes(new { @class = "Cat_Delete_Icon" });
+                  }).Title("Commands").Width(110);
+              })
+              .ToolBar(toolbar =>
+              {
+                  toolbar.Create().Text("New");
+                  toolbar.Save().SaveText("Save").CancelText("Cancel");
+              })
+              .Editable(editable => editable.Mode(GridEditMode.InCell))
+              .DataSource(dataSource =>
+                  dataSource.Ajax()
+                    .Batch(true)
+                    .Model(model =>
+                    {
+                        model.Id(product => product.BicarbonateTypeId);
+                        model.Field(product => product.BicarbonateTypeId).Editable(false);
+                    })
+                    .Create(create => create.Action("BicarbonateTypeCreate", "Catalog"))
+                    .Read(read => read.Action("BicarbonateTypeRead", "Catalog"))
+                    .Update(update => update.Action("BicarbonateTypeUpdate", "Catalog"))
+                    .Destroy(destroy => destroy.Action("BicarbonateTypeDestroy", "Catalog"))
+              )
+              .Pageable()
+              .HtmlAttributes(new { @class = "catalog-grid" })
+              .Scrollable()
+)
+

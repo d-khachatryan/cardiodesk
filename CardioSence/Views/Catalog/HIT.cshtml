@@ -1,0 +1,35 @@
+﻿@(Html.Kendo().Grid<CardioSence.Models.HIT>()
+              .Name("HIT")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.HITId).Width(70);
+                  columns.Bound(product => product.HITName);
+                  columns.Command(commands =>
+                  {
+                      commands.Destroy().Text("Delete").HtmlAttributes(new { @class = "Cat_Delete_Icon" });
+                  }).Title("Commands").Width(110);
+              })
+              .ToolBar(toolbar =>
+              {
+                  toolbar.Create().Text("New");
+                  toolbar.Save().SaveText("Save").CancelText("Cancel");
+              })
+              .Editable(editable => editable.Mode(GridEditMode.InCell))
+              .DataSource(dataSource =>
+                  dataSource.Ajax()
+                    .Batch(true)
+                    .Model(model =>
+                    {
+                        model.Id(product => product.HITId);
+                        model.Field(product => product.HITId).Editable(false);
+                    })
+                    .Create(create => create.Action("HITCreate", "Catalog"))
+                    .Read(read => read.Action("HITRead", "Catalog"))
+                    .Update(update => update.Action("HITUpdate", "Catalog"))
+                    .Destroy(destroy => destroy.Action("HITDestroy", "Catalog"))
+              )
+              .Pageable()
+              .HtmlAttributes(new { @class = "catalog-grid" })
+              .Scrollable()
+)
+

@@ -1,0 +1,113 @@
+﻿@model CardioSence.Models.ResidentItem
+
+@{
+    Layout = null;
+}
+
+<div class="create-item">
+    <fieldset class="create-fieldset">
+        <legend>
+            @Html.DisplayFor(model => model.ResidentLastName)
+            @Html.DisplayFor(model => model.ResidentPatronymicName)
+            @Html.DisplayFor(model => model.ResidentFirstName)
+        </legend>
+        <h3>Personal</h3>
+        <table class="table table-striped">
+            <tr class="success">
+                <td>@Html.DisplayNameFor(model => model.PatientId)</td>
+                <td>@Html.DisplayFor(model => model.PatientId)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.PassportNumber)</td>
+                <td>@Html.DisplayFor(model => model.PassportNumber)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Age)</td>
+                <td>@Html.DisplayFor(model => model.Age)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.BirthDate)</td>
+                <td>@Html.DisplayFor(model => model.BirthDate)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.GenderName)</td>
+                <td>@Html.DisplayFor(model => model.GenderName)</td>
+            </tr>
+        </table>
+
+        <h3>Address</h3>
+        <table class="table table-striped">
+            <tr>
+                <td>Address</td>
+                <td class="td-second-table">
+                    <table class="table table-striped">
+                        <tr>
+                            <td>@Html.DisplayNameFor(model => model.CountryName)</td>
+                            <td>@Html.DisplayNameFor(model => model.RegionName)</td>
+                            <td>@Html.DisplayNameFor(model => model.CommunityName)</td>
+                            <td>@Html.DisplayNameFor(model => model.Location)</td>
+                        </tr>
+                        <tr>
+                            <td>@Html.DisplayFor(model => model.CountryName)</td>
+                            <td>@Html.DisplayFor(model => model.RegionName)</td>
+                            <td>@Html.DisplayFor(model => model.CommunityName)</td>
+                            <td>@Html.DisplayFor(model => model.Location)</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <h3>Contacts</h3>
+        <table class="table table-striped">
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.HomePhone)</td>
+                <td>@Html.DisplayFor(model => model.HomePhone)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.WorkPhone)</td>
+                <td>@Html.DisplayFor(model => model.WorkPhone)</td>
+            </tr>
+        </table>
+
+        <h3>Relative</h3>
+        <table class="table table-striped">
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.RelativeName)</td>
+                <td>@Html.DisplayFor(model => model.RelativeName)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.RelativeStatusId)</td>
+                <td>@Html.DisplayFor(model => model.RelativeStatusId)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.RelativePhone)</td>
+                <td>@Html.DisplayFor(model => model.RelativePhone)</td>
+            </tr>
+        </table>
+
+        <h3>Others</h3>
+        <table class="table table-striped">
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.ChildrenCount)</td>
+                <td>@Html.DisplayFor(model => model.ChildrenCount)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.ProfessionName)</td>
+                <td>@Html.DisplayFor(model => model.ProfessionName)</td>
+            </tr>
+        </table>
+
+        <h3>Referral</h3>
+        <table class="table table-striped">
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.ReferralPhysicianName)</td>
+                <td>@Html.DisplayFor(model => model.ReferralPhysicianName)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.ReferralOrganizationName)</td>
+                <td>@Html.DisplayFor(model => model.ReferralOrganizationName)</td>
+            </tr>
+        </table>
+    </fieldset>
+</div>

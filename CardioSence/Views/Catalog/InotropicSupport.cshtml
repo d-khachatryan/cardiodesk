@@ -1,0 +1,35 @@
+﻿@(Html.Kendo().Grid<CardioSence.Models.InotropicSupport>()
+              .Name("InotropicSupport")
+              .Columns(columns =>
+              {
+                  columns.Bound(product => product.InotropicSupportId).Width(70);
+                  columns.Bound(product => product.InotropicSupportName);
+                  columns.Command(commands =>
+                  {
+                      commands.Destroy().Text("Delete").HtmlAttributes(new { @class = "Cat_Delete_Icon" });
+                  }).Title("Commands").Width(110);
+              })
+              .ToolBar(toolbar =>
+              {
+                  toolbar.Create().Text("New");
+                  toolbar.Save().SaveText("Save").CancelText("Cancel");
+              })
+              .Editable(editable => editable.Mode(GridEditMode.InCell))
+              .DataSource(dataSource =>
+                  dataSource.Ajax()
+                    .Batch(true)
+                    .Model(model =>
+                    {
+                        model.Id(product => product.InotropicSupportId);
+                        model.Field(product => product.InotropicSupportId).Editable(false);
+                    })
+                    .Create(create => create.Action("InotropicSupportCreate", "Catalog"))
+                    .Read(read => read.Action("InotropicSupportRead", "Catalog"))
+                    .Update(update => update.Action("InotropicSupportUpdate", "Catalog"))
+                    .Destroy(destroy => destroy.Action("InotropicSupportDestroy", "Catalog"))
+              )
+              .Pageable()
+              .HtmlAttributes(new { @class = "catalog-grid" })
+              .Scrollable()
+)
+
